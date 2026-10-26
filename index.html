@@ -18,6 +18,7 @@
   --accent: #0B7A62; --accent-2: #12A37F; --accent-ink: #FFFFFF; --accent-soft: #DCF1EA;
   --board: #0C1A17; --board-2: #12251F; --board-ink: #E8F2EE; --board-muted: #9AB3AB; --board-line: #23382F;
   --signal: #F4A62A; --danger: #B42318; --danger-soft: #FBE7E4;
+  --room-wall: #EEF5F1; --room-floor: #DFEAE4; --room-line: #C6D7CF; --room-desk: #FFFFFF; --room-chair: #B9CDC4; --fig-a: #2E6E5E; --fig-b: #C98A3A; --fig-c: #6F8A82; --fig-d: #4F7FA6; --fig-head: #D9B896;
   --band: #E6F2EC; --band-2: #F4FAF7; --band-ink: #0E211D; --band-muted: #3F5A52; --band-line: #C4DBD1; --band-signal: #A8530A; --band-accent: #0B7A62;
   --font-display: "Bricolage Grotesque", "Alexandria", system-ui, sans-serif;
   --font-human: "Instrument Serif", Georgia, "Times New Roman", serif;
@@ -33,6 +34,7 @@
     --accent: #3CC29F; --accent-2: #5FD8B6; --accent-ink: #052019; --accent-soft: #143A30;
     --board: #060E0C; --board-2: #0D1A17; --board-ink: #E6EFEB; --board-muted: #8FA79F; --board-line: #1D302A;
     --signal: #F6B54C; --danger: #F07167; --danger-soft: #3A1714;
+    --room-wall: #10201C; --room-floor: #0B1714; --room-line: #2A4038; --room-desk: #182B26; --room-chair: #2C443C; --fig-a: #4FB79A; --fig-b: #D9A257; --fig-c: #8AA39B; --fig-d: #6E9CC4; --fig-head: #C9A88A;
     --band: #0C1A17; --band-2: #12251F; --band-ink: #E8F2EE; --band-muted: #9AB3AB; --band-line: #23382F; --band-signal: #F6B54C; --band-accent: #5FD8B6;
     color-scheme: dark;
   }
@@ -42,6 +44,7 @@
   --accent: #3CC29F; --accent-2: #5FD8B6; --accent-ink: #052019; --accent-soft: #143A30;
   --board: #060E0C; --board-2: #0D1A17; --board-ink: #E6EFEB; --board-muted: #8FA79F; --board-line: #1D302A;
   --signal: #F6B54C; --danger: #F07167; --danger-soft: #3A1714;
+  --room-wall: #10201C; --room-floor: #0B1714; --room-line: #2A4038; --room-desk: #182B26; --room-chair: #2C443C; --fig-a: #4FB79A; --fig-b: #D9A257; --fig-c: #8AA39B; --fig-d: #6E9CC4; --fig-head: #C9A88A;
   --band: #0C1A17; --band-2: #12251F; --band-ink: #E8F2EE; --band-muted: #9AB3AB; --band-line: #23382F; --band-signal: #F6B54C; --band-accent: #5FD8B6;
   color-scheme: dark;
 }
@@ -255,6 +258,53 @@ html[dir="rtl"] .bar i { transform-origin: right center; }
 .typing .a b { color: var(--band-ink); }
 .typing .ok { justify-self: start; background: var(--accent); color: var(--accent-ink); border-radius: 10px; padding: 8px 14px; font-weight: 700; }
 
+
+
+/* Waiting-room illustration (linked to the toggle) */
+.room { position: relative; margin-bottom: 22px; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); background: var(--room-wall); }
+.room-svg { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 440; max-width: 100%; }
+.r-wall { fill: var(--room-wall); } .r-floor { fill: var(--room-floor); } .r-line { fill: var(--room-line); }
+.r-door rect { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 3; } .r-knob { fill: var(--room-line); }
+.r-clock circle { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 4; } .r-clock path { stroke: var(--ink); }
+.chair rect { fill: var(--room-chair); }
+.head { fill: var(--fig-head); }
+.r-desk rect { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 3; }
+.r-recep rect { fill: var(--fig-a); }
+.r-paper rect { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 2; } .r-paper path { stroke: var(--room-line); }
+.r-sticky { fill: color-mix(in srgb, var(--signal) 70%, var(--room-desk)); }
+.r-phonebody { fill: var(--danger); } .r-waves { stroke: var(--danger); }
+.bubble circle { fill: var(--surface); stroke: var(--danger); stroke-width: 3; } .bubble text { fill: var(--danger); font: 700 22px var(--font-display); }
+.r-screen > rect:first-child { fill: var(--board); } .r-mount { fill: var(--room-line); }
+.scr-big { fill: var(--signal); font: 700 74px var(--font-mono); } .scr-small { fill: var(--board-ink); font: 700 26px var(--font-mono); } .scr-small.dim { fill: var(--board-muted); }
+.scr-div { fill: var(--board-line); } .scr-dot { fill: var(--accent-2); }
+.r-phone rect { fill: var(--board); } .r-phone circle { fill: var(--signal); }
+.r-plant path { fill: var(--accent-2); } .r-pot { fill: var(--accent); }
+.r-laptop > rect { fill: var(--board); } .r-laptop .l1 { fill: var(--signal); } .r-laptop .l2 { fill: var(--board-muted); }
+.r-logo { fill: var(--accent); opacity: .5; }
+.room .st { transition: opacity .7s var(--ease-out); }
+.room .st.good { opacity: 0; }
+.morning[data-mode="with"] .room .st.bad { opacity: 0; }
+.morning[data-mode="with"] .room .st.good { opacity: 1; }
+.room-cap { display: grid; padding: 14px 20px; background: var(--surface); border-top: 1px solid var(--line); }
+.room-cap .cap { grid-area: 1 / 1; display: flex; gap: 10px; align-items: baseline; transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
+.room-cap .cap b { font-size: 1.05rem; flex: none; }
+.room-cap .cap.bad b { color: var(--danger); } .room-cap .cap.good b { color: var(--accent); }
+.room-cap .cap.good { opacity: 0; transform: translateY(6px); }
+.morning[data-mode="with"] .room-cap .cap.bad { opacity: 0; transform: translateY(-6px); }
+.morning[data-mode="with"] .room-cap .cap.good { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .r-ring { animation: ring 1.1s ease-in-out infinite; transform-origin: 255px 228px; transform-box: view-box; }
+  @keyframes ring { 0%, 50%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(-9deg); } 20%, 40% { transform: rotate(9deg); } }
+  .r-waves { animation: wave 1.1s ease-out infinite; }
+  @keyframes wave { 0% { opacity: 1; } 100% { opacity: .1; } }
+  .bubble { animation: bob 2.4s ease-in-out infinite; transform-box: fill-box; }
+  .bubble.b2 { animation-delay: .5s; } .bubble.b3 { animation-delay: 1s; }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+  .scr-dot { animation: live 1.8s ease-in-out infinite; } @keyframes live { 50% { opacity: .25; } }
+  .r-plant path { animation: sway 5s ease-in-out infinite; transform-origin: 80px 214px; transform-box: view-box; }
+  @keyframes sway { 50% { transform: rotate(3deg); } }
+  .r-phone circle { animation: live 2.4s ease-in-out infinite; }
+}
 
 /* Feature index */
 .fidx { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 22px; }
@@ -488,6 +538,58 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         <button type="button" id="mode-with" aria-pressed="false" data-i18n="mWith">Avec Medica</button>
       </div>
       <span class="hint"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="mHint">Basculez pour voir votre journée avec Medica</span></span>
+    </div>
+    <div class="room reveal">
+      <svg class="room-svg" viewBox="0 0 1200 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="p-seat" viewBox="0 0 72 80" width="72" height="80"><circle cx="34" cy="16" r="15" class="head"/><rect x="15" y="33" width="40" height="40" rx="17" fill="currentColor"/><rect x="22" y="60" width="44" height="12" rx="6" fill="currentColor"/></symbol>
+          <symbol id="p-stand" viewBox="0 0 52 160" width="52" height="160"><circle cx="26" cy="17" r="16" class="head"/><rect x="6" y="37" width="40" height="78" rx="20" fill="currentColor"/><rect x="11" y="104" width="12" height="52" rx="6" fill="currentColor"/><rect x="29" y="104" width="12" height="52" rx="6" fill="currentColor"/></symbol>
+        </defs>
+        <rect class="r-wall" x="0" y="0" width="1200" height="360"/>
+        <rect class="r-floor" x="0" y="360" width="1200" height="80"/>
+        <rect class="r-line" x="0" y="358" width="1200" height="3"/>
+        <g class="r-door"><rect x="1070" y="150" width="96" height="210" rx="6"/><circle cx="1152" cy="260" r="5" class="r-knob"/></g>
+        <g class="r-clock"><circle cx="390" cy="96" r="30"/><path d="M390 96V76M390 96l13 7" fill="none" stroke-linecap="round" stroke-width="4"/></g>
+        <g class="chair"><rect x="430" y="250" width="12" height="60" rx="6"/><rect x="430" y="300" width="72" height="12" rx="6"/><rect x="436" y="312" width="6" height="48" rx="3"/><rect x="490" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="530" y="250" width="12" height="60" rx="6"/><rect x="530" y="300" width="72" height="12" rx="6"/><rect x="536" y="312" width="6" height="48" rx="3"/><rect x="590" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="630" y="250" width="12" height="60" rx="6"/><rect x="630" y="300" width="72" height="12" rx="6"/><rect x="636" y="312" width="6" height="48" rx="3"/><rect x="690" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="730" y="250" width="12" height="60" rx="6"/><rect x="730" y="300" width="72" height="12" rx="6"/><rect x="736" y="312" width="6" height="48" rx="3"/><rect x="790" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="830" y="250" width="12" height="60" rx="6"/><rect x="830" y="300" width="72" height="12" rx="6"/><rect x="836" y="312" width="6" height="48" rx="3"/><rect x="890" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="930" y="250" width="12" height="60" rx="6"/><rect x="930" y="300" width="72" height="12" rx="6"/><rect x="936" y="312" width="6" height="48" rx="3"/><rect x="990" y="312" width="6" height="48" rx="3"/></g>
+        <g class="st bad">
+          <g class="r-paper" transform="rotate(-6 640 110)"><rect x="580" y="70" width="120" height="84" rx="4"/><path d="M596 92h80M596 108h64M596 124h72" stroke-width="5" stroke-linecap="round"/></g>
+          <g class="r-paper" transform="rotate(5 800 130)"><rect x="760" y="96" width="90" height="70" rx="4"/><path d="M774 116h56M774 132h40" stroke-width="5" stroke-linecap="round"/></g>
+          <use href="#p-seat" x="430" y="240" style="color:var(--fig-a)"/><use href="#p-seat" x="530" y="240" style="color:var(--fig-b)"/><use href="#p-seat" x="630" y="240" style="color:var(--fig-c)"/><use href="#p-seat" x="730" y="240" style="color:var(--fig-d)"/><use href="#p-seat" x="830" y="240" style="color:var(--fig-a)"/><use href="#p-seat" x="930" y="240" style="color:var(--fig-b)"/>
+          <use href="#p-stand" x="355" y="212" style="color:var(--fig-b)"/><use href="#p-stand" x="470" y="212" style="color:var(--fig-c)"/><use href="#p-stand" x="680" y="212" style="color:var(--fig-a)"/><use href="#p-stand" x="880" y="212" style="color:var(--fig-d)"/><use href="#p-stand" x="1000" y="212" style="color:var(--fig-b)"/>
+          <g class="bubble b1"><circle cx="402" cy="170" r="20"/><text x="402" y="178" text-anchor="middle">?</text></g>
+          <g class="bubble b2"><circle cx="928" cy="178" r="20"/><text x="928" y="186" text-anchor="middle">!</text></g>
+          <g class="bubble b3"><circle cx="520" cy="182" r="18"/><text x="520" y="189" text-anchor="middle">?</text></g>
+        </g>
+        <g class="st good">
+          <rect class="r-mount" x="696" y="64" width="8" height="18" rx="3"/>
+          <g class="r-screen"><rect x="560" y="80" width="280" height="140" rx="16"/>
+            <text class="scr-big" x="650" y="182" text-anchor="middle">05</text>
+            <rect class="scr-div" x="728" y="100" width="2" height="100"/>
+            <text class="scr-small" x="785" y="128" text-anchor="middle">06</text>
+            <text class="scr-small dim" x="785" y="164" text-anchor="middle">07</text>
+            <text class="scr-small dim" x="785" y="200" text-anchor="middle">08</text>
+            <circle class="scr-dot" cx="590" cy="104" r="6"/>
+          </g>
+          <use href="#p-seat" x="430" y="240" style="color:var(--fig-a)"/><use href="#p-seat" x="630" y="240" style="color:var(--fig-b)"/><use href="#p-seat" x="830" y="240" style="color:var(--fig-c)"/>
+          <g class="r-phone"><rect x="676" y="282" width="14" height="22" rx="3"/><circle cx="683" cy="292" r="3"/></g>
+        </g>
+        <g class="r-recep"><circle cx="155" cy="192" r="19" class="head"/><rect x="120" y="211" width="70" height="44" rx="22"/></g>
+        <g class="st bad">
+          <g class="r-paper"><rect x="60" y="214" width="70" height="26" rx="3" transform="rotate(-8 95 227)"/><rect x="70" y="206" width="66" height="26" rx="3" transform="rotate(6 103 219)"/></g>
+          <g class="r-ring"><rect x="232" y="216" width="46" height="24" rx="8" class="r-phonebody"/><path d="M226 204q-8 10 0 20M284 204q8 10 0 20M218 198q-14 16 0 32M292 198q14 16 0 32" fill="none" stroke-width="3" stroke-linecap="round" class="r-waves"/></g>
+        </g>
+        <g class="st good">
+          <g class="r-plant"><path d="M74 214c-10-22 2-34 10-38 2 14 0 26-10 38zM80 214c4-24 20-30 28-30-4 14-12 24-28 30z"/><rect x="66" y="212" width="28" height="28" rx="6" class="r-pot"/></g>
+          <g class="r-laptop"><rect x="214" y="186" width="92" height="56" rx="6"/><rect x="224" y="198" width="40" height="7" rx="3" class="l1"/><rect x="224" y="212" width="62" height="7" rx="3" class="l2"/><rect x="224" y="226" width="52" height="7" rx="3" class="l2"/><rect x="204" y="240" width="112" height="6" rx="3"/></g>
+        </g>
+        <g class="r-desk"><rect x="28" y="240" width="320" height="18" rx="8"/><rect x="44" y="258" width="288" height="102" rx="6"/></g>
+        <g class="st bad"><rect x="70" y="282" width="26" height="26" rx="3" class="r-sticky" transform="rotate(-6 83 295)"/><rect x="104" y="290" width="26" height="26" rx="3" class="r-sticky" transform="rotate(5 117 303)"/><rect x="260" y="286" width="26" height="26" rx="3" class="r-sticky" transform="rotate(-3 273 299)"/></g>
+        <g class="st good"><rect x="160" y="290" width="56" height="8" rx="4" class="r-logo"/></g>
+      </svg>
+      <div class="room-cap">
+        <p class="cap bad"><b class="mono">08:30</b> <span data-i18n="roomBad">11 personnes pour 6 chaises. Le téléphone sonne, les questions fusent.</span></p>
+        <p class="cap good"><b class="mono">08:30</b> <span data-i18n="roomGood">Ticket 05 en consultation. 3 patients attendent, les autres arrivent à leur heure.</span></p>
+      </div>
     </div>
     <div class="scenes">
       <article class="scene reveal"><div class="scene-inner">
@@ -984,6 +1086,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fmSend: "أرسل فكرتي", fmPreview: "معاينة: هذا النموذج غير مربوط بخادمنا بعد. لا تُرسَل المعلومات.",
       fmDoneT: "شكرًا، وصلتنا فكرتكم", fmDoneP: "نقرؤها هذا الأسبوع ونصنّفها مع أفكار تخصّصكم. صوّتوا أيضًا على أفكار خارطة الطريق.", fmAgain: "اقتراح فكرة أخرى",
       faTitle: "كل ما خطّطنا له، في لمحة", faLede: "ما يصل عند الإطلاق، وما يليه مباشرة، وما يأتي بعد ذلك.", faNow: "عند الإطلاق", faSoon: "قريبًا", faLater: "لاحقًا", themeDark: "الوضع الداكن", themeLight: "الوضع الفاتح", fa_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور", fa_now1: "تذكرة ووقت مرور لكل مريض", fa_now2: "الدور مباشرة على هاتف المريض", fa_now3: "شاشة النداء لقاعة الانتظار", fa_now4: "الحجز عبر رابط أو رمز QR أو صفحة ويب قابلة للتثبيت، بدون كلمة سر", fa_now5: "الحجز لطفل أو لأحد الوالدين", fa_now6: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال", fa_now7: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب", fa_now8: "لا حجز مزدوج أبدًا", fa_now9: "إضافة مريض بدون موعد في 3 نقرات", fa_now10: "«الطبيب متأخّر»: إعلام المرضى تلقائيًا", fa_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة: إشعار أو SMS أو واتساب", fa_now12: "ملاحظات فحص منظّمة خاصة بالطبيب (بعد المصادقة القانونية)", fa_now13: "تحديد الموعد القادم في نهاية الفحص", fa_now14: "متابعة الغيابات مريضًا بمريض", fa_now15: "ورقة اليوم للطباعة، والتذكرة متاحة دون اتصال", fa_now16: "دفع الاشتراك عبر الإنترنت بـ CIB / الذهبية", fa_now17: "أطباء موثَّقون برقم التسجيل في مجلس أخلاقيات الطب", fa_now18: "العربية والفرنسية والإنجليزية", fa_now19: "صفحة العيادة وشعارها وملصق QR للاستقبال", fa_now20: "لوحة القيادة: المرضى، الغيابات، الحجوزات عبر الإنترنت", fa_now21: "شاشة «اليوم» للاستقبال، وتطبيق أندرويد للطبيب", fa_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات", fa_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت", fa_soon0: "تطبيق المرضى على أندرويد مع الإشعارات", fa_soon1: "آراء موثَّقة بعد زيارة حقيقية", fa_soon2: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»", fa_soon3: "«وتيرتكم»: اقتراح مددكم الحقيقية", fa_later0: "مهام تلقائية يقترحها المساعد", fa_later1: "تطبيقات iOS", fa_later2: "عيادات متعدّدة الفروع", fa_later3: "البحث عن الأطباء في تطبيق المرضى",
+      roomBad: "11 شخصًا لـ6 كراسٍ. الهاتف يرنّ، والأسئلة لا تتوقّف.", roomGood: "التذكرة 05 في الفحص. 3 مرضى ينتظرون، والآخرون يصلون في وقتهم.",
       faqEyebrow: "أسئلة شائعة", faqTitle: "ما يسألنا عنه الأطباء.",
       q1: "هل يجب على مرضاي تثبيت تطبيق؟", a1: "لا. يحجزون عبر رابط أو رمز QR دون تثبيت أي شيء. ومن يفضّل التطبيق يستعمل تطبيق ميديكا لتذاكره ومواعيده وتذكيراته.",
       q2: "وماذا عن المرضى الذين يواصلون الاتصال؟", a2: "هذا طبيعي. يسجّلهم الاستقبال في نفس الجدول خلال ثوانٍ. يبقى لديكم جدول واحد مهما كان مصدر الموعد.",
@@ -1055,6 +1158,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fmSend: "Send my idea", fmPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
       fmDoneT: "Thank you, your idea is in", fmDoneP: "We'll read it this week and sort it with others from your specialty. Vote for roadmap ideas too.", fmAgain: "Suggest another idea",
       faTitle: "Everything we have planned, at a glance", faLede: "What arrives at launch, what follows right after, and what comes next.", faNow: "At launch", faSoon: "Coming soon", faLater: "Next", themeDark: "Dark theme", themeLight: "Light theme", fa_now0: "Live queue: appointments and walk-ins in the same line", fa_now1: "A ticket and a visit time for every patient", fa_now2: "Live position on the patient's phone", fa_now3: "Call screen for the waiting room", fa_now4: "Booking by link, QR code or installable web page, no password", fa_now5: "Book for a child or a parent", fa_now6: "\"My appointments\": cancel or move without calling", fa_now7: "Visit types by specialty, durations set by each doctor", fa_now8: "No double booking, ever", fa_now9: "Walk-ins added in 3 taps", fa_now10: "\"Doctor running late\": patients told automatically", fa_now11: "Automatic reminders the day before, 1 hour and 15 minutes before: push, SMS or WhatsApp", fa_now12: "Structured consultation notes, doctor-only (after legal review)", fa_now13: "Next appointment set at the end of each visit", fa_now14: "No-show tracking, patient by patient", fa_now15: "Printable day sheet, ticket available offline", fa_now16: "Subscription paid online by CIB / Edahabia", fa_now17: "Doctors verified by their Medical Council number", fa_now18: "Arabic, French and English", fa_now19: "Practice page, logo and QR poster for the desk", fa_now20: "Dashboard: patients seen, no-shows, online bookings", fa_now21: "\"Today\" screen for reception, Android app for the doctor", fa_now22: "Free reception accounts, roles and change history", fa_now23: "Export your patients and appointments any time", fa_soon0: "Patient Android app with notifications", fa_soon1: "Verified reviews after a real visit", fa_soon2: "Assistant Medica (add-on) and \"How do I…?\" help", fa_soon3: "\"Your pace\": your real durations suggested", fa_later0: "Automations suggested by the assistant", fa_later1: "iOS apps", fa_later2: "Multi-site clinics", fa_later3: "Doctor search in the patient app",
+      roomBad: "11 people for 6 chairs. The phone rings, the questions keep coming.", roomGood: "Ticket 05 in consultation. 3 patients waiting, the others arrive on time.",
       faqEyebrow: "FAQ", faqTitle: "What doctors ask us.",
       q1: "Do my patients have to install an app?", a1: "No. They book by link or QR code without installing anything. Patients who prefer an app use the Medica app for tickets, appointments and reminders.",
       q2: "What about patients who keep calling?", a2: "That's normal. Reception adds them to the same agenda in seconds. You keep one schedule, wherever the booking came from.",
@@ -1150,6 +1254,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     mw.setAttribute("aria-pressed", String(m === "without")); mwi.setAttribute("aria-pressed", String(m === "with"));
     morning.querySelectorAll(".face.bad").forEach(function (f) { f.setAttribute("aria-hidden", String(m === "with")); });
     morning.querySelectorAll(".face.good").forEach(function (f) { f.setAttribute("aria-hidden", String(m !== "with")); });
+    morning.querySelector(".cap.bad").setAttribute("aria-hidden", String(m === "with"));
+    morning.querySelector(".cap.good").setAttribute("aria-hidden", String(m !== "with"));
   }
   mw.addEventListener("click", function () { setMode("without"); });
   mwi.addEventListener("click", function () { setMode("with"); });
