@@ -18,6 +18,7 @@
   --accent: #0B7A62; --accent-2: #12A37F; --accent-ink: #FFFFFF; --accent-soft: #DCF1EA;
   --board: #0C1A17; --board-2: #12251F; --board-ink: #E8F2EE; --board-muted: #9AB3AB; --board-line: #23382F;
   --signal: #F4A62A; --danger: #B42318; --danger-soft: #FBE7E4;
+  --band: #E6F2EC; --band-2: #F4FAF7; --band-ink: #0E211D; --band-muted: #3F5A52; --band-line: #C4DBD1; --band-signal: #A8530A; --band-accent: #0B7A62;
   --font-display: "Bricolage Grotesque", "Alexandria", system-ui, sans-serif;
   --font-human: "Instrument Serif", Georgia, "Times New Roman", serif;
   --font-body: "Figtree", "Readex Pro", system-ui, sans-serif;
@@ -32,6 +33,7 @@
     --accent: #3CC29F; --accent-2: #5FD8B6; --accent-ink: #052019; --accent-soft: #143A30;
     --board: #060E0C; --board-2: #0D1A17; --board-ink: #E6EFEB; --board-muted: #8FA79F; --board-line: #1D302A;
     --signal: #F6B54C; --danger: #F07167; --danger-soft: #3A1714;
+    --band: #0C1A17; --band-2: #12251F; --band-ink: #E8F2EE; --band-muted: #9AB3AB; --band-line: #23382F; --band-signal: #F6B54C; --band-accent: #5FD8B6;
     color-scheme: dark;
   }
 }
@@ -40,6 +42,7 @@
   --accent: #3CC29F; --accent-2: #5FD8B6; --accent-ink: #052019; --accent-soft: #143A30;
   --board: #060E0C; --board-2: #0D1A17; --board-ink: #E6EFEB; --board-muted: #8FA79F; --board-line: #1D302A;
   --signal: #F6B54C; --danger: #F07167; --danger-soft: #3A1714;
+  --band: #0C1A17; --band-2: #12251F; --band-ink: #E8F2EE; --band-muted: #9AB3AB; --band-line: #23382F; --band-signal: #F6B54C; --band-accent: #5FD8B6;
   color-scheme: dark;
 }
 html[lang="ar"] {
@@ -81,41 +84,46 @@ section { padding-block: clamp(64px, 9vw, 120px); }
 html[dir="rtl"] .btn .arrow { transform: scaleX(-1); }
 
 /* Header */
-header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: color-mix(in srgb, var(--board) 88%, transparent); backdrop-filter: blur(14px); color: var(--board-ink); border-bottom: 1px solid var(--board-line); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: color-mix(in srgb, var(--band) 88%, transparent); backdrop-filter: blur(14px); color: var(--band-ink); border-bottom: 1px solid var(--band-line); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 66px; }
-.brand { display: flex; align-items: center; gap: 10px; font: 800 1.35rem/1 var(--font-display); color: var(--board-ink); text-decoration: none; }
+.brand { display: flex; align-items: center; gap: 10px; font: 800 1.35rem/1 var(--font-display); color: var(--band-ink); text-decoration: none; }
 .navlinks { display: flex; gap: 22px; }
-.navlinks a { color: var(--board-muted); text-decoration: none; font-weight: 600; font-size: .95rem; }
-.navlinks a:hover { color: var(--board-ink); }
+.navlinks a { color: var(--band-muted); text-decoration: none; font-weight: 600; font-size: .95rem; }
+.navlinks a:hover { color: var(--band-ink); }
 .top-actions { display: flex; align-items: center; gap: 10px; }
-.lang { display: inline-flex; border: 1px solid var(--board-line); border-radius: 999px; padding: 3px; }
-.lang button { border: 0; background: transparent; color: var(--board-muted); font: 600 .86rem/1 var(--font-body); padding: 8px 11px; border-radius: 999px; cursor: pointer; min-width: 38px; min-height: 36px; }
-.lang button[aria-pressed="true"] { background: var(--board-ink); color: var(--board); }
+.lang { display: inline-flex; border: 1px solid var(--band-line); border-radius: 999px; padding: 3px; }
+.lang button { border: 0; background: transparent; color: var(--band-muted); font: 600 .86rem/1 var(--font-body); padding: 8px 11px; border-radius: 999px; cursor: pointer; min-width: 38px; min-height: 36px; }
+.lang button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
 .lang button[data-lang="ar"] { font-family: "Readex Pro", sans-serif; }
+.theme-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--band-line); background: transparent; color: var(--band-ink); cursor: pointer; }
+.theme-btn:hover { background: color-mix(in srgb, var(--band-ink) 8%, transparent); }
+.theme-btn .moon { display: none; }
+:root[data-theme="dark"] .theme-btn .sun { display: none; }
+:root[data-theme="dark"] .theme-btn .moon { display: block; }
 @media (max-width: 960px) { .navlinks { display: none; } }
 @media (max-width: 620px) { .top .btn { display: none; } }
 
 /* HERO */
-.hero { position: relative; overflow: hidden; background: radial-gradient(1200px 520px at 80% -10%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 60%), radial-gradient(700px 400px at 0% 110%, color-mix(in srgb, var(--signal) 14%, transparent), transparent 60%), var(--board); color: var(--board-ink); padding-block: clamp(56px, 9vw, 112px) clamp(64px, 9vw, 120px); }
-.paths { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--accent-2); opacity: .32; pointer-events: none; }
+.hero { position: relative; overflow: hidden; background: radial-gradient(1200px 520px at 80% -10%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 60%), radial-gradient(700px 400px at 0% 110%, color-mix(in srgb, var(--signal) 14%, transparent), transparent 60%), var(--band); color: var(--band-ink); padding-block: clamp(56px, 9vw, 112px) clamp(64px, 9vw, 120px); }
+.paths { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--band-accent); opacity: .32; pointer-events: none; }
 .paths path { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 6 14; animation: flow 18s linear infinite; }
 .paths path:nth-child(3n) { animation-duration: 26s; opacity: .7; }
 .paths path:nth-child(4n) { stroke: var(--signal); opacity: .5; animation-duration: 32s; }
 @keyframes flow { to { stroke-dashoffset: -400; } }
 .hero .wrap { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
 .hero-copy { display: grid; gap: 26px; min-width: 0; }
-.hero h1 { color: var(--board-ink); }
-.rot { display: inline-grid; vertical-align: bottom; color: var(--signal); }
+.hero h1 { color: var(--band-ink); }
+.rot { display: inline-grid; vertical-align: bottom; color: var(--band-signal); }
 .rot > span { grid-area: 1 / 1; transition: opacity .5s var(--ease-out), transform .6s var(--ease-out), filter .5s; }
 .rot > span[aria-hidden="true"] { opacity: 0; transform: translateY(.45em); filter: blur(6px); }
-.hero .lede { color: var(--board-muted); }
+.hero .lede { color: var(--band-muted); }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
-.hero .btn-ghost { color: var(--board-ink); }
-.pill { display: inline-flex; align-items: center; gap: 10px; width: fit-content; max-width: 100%; padding: 7px 14px 7px 8px; border-radius: 999px; background: color-mix(in srgb, var(--board-ink) 8%, transparent); border: 1px solid var(--board-line); font-size: .9rem; font-weight: 600; color: var(--board-ink); }
+.hero .btn-ghost { color: var(--band-ink); }
+.pill { display: inline-flex; align-items: center; gap: 10px; width: fit-content; max-width: 100%; padding: 7px 14px 7px 8px; border-radius: 999px; background: color-mix(in srgb, var(--band-ink) 8%, transparent); border: 1px solid var(--band-line); font-size: .9rem; font-weight: 600; color: var(--band-ink); }
 .pill b { background: var(--signal); color: #1B1205; border-radius: 999px; padding: 3px 9px; font-size: .78rem; flex: none; }
-.trust-row { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--board-muted); font-size: .92rem; }
+.trust-row { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--band-muted); font-size: .92rem; }
 .trust-row > span { display: inline-flex; align-items: center; gap: 8px; }
-.trust-row svg { color: var(--accent-2); flex: none; }
+.trust-row svg { color: var(--band-accent); flex: none; }
 @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
 
 /* Phone ticket */
@@ -160,20 +168,20 @@ html[dir="rtl"] .hint svg { transform: scaleX(-1); }
 .scene-inner { display: grid; transition: transform .8s var(--ease-out); transform-style: preserve-3d; }
 .face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--r); padding: 24px; display: grid; gap: 12px; align-content: start; }
 .face.bad { background: var(--surface); border: 1px solid var(--line); }
-.face.good { background: var(--board); color: var(--board-ink); transform: rotateY(180deg); border: 1px solid var(--board-line); }
+.face.good { background: var(--band); color: var(--band-ink); transform: rotateY(180deg); border: 1px solid var(--band-line); }
 .morning[data-mode="with"] .scene-inner { transform: rotateY(180deg); }
 .morning[data-mode="with"] .scene:nth-child(2) .scene-inner { transition-delay: .08s; }
 .morning[data-mode="with"] .scene:nth-child(3) .scene-inner { transition-delay: .16s; }
 .morning[data-mode="with"] .scene:nth-child(4) .scene-inner { transition-delay: .24s; }
 .clock { font: 700 1.6rem/1 var(--font-mono); direction: ltr; justify-self: start; }
 .face.bad .clock { color: var(--danger); }
-.face.good .clock { color: var(--signal); }
+.face.good .clock { color: var(--band-signal); }
 .face .tag { justify-self: start; font-size: .78rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
 .face.bad .tag { background: var(--danger-soft); color: var(--danger); }
-.face.good .tag { background: color-mix(in srgb, var(--accent-2) 22%, transparent); color: var(--accent-2); }
+.face.good .tag { background: color-mix(in srgb, var(--band-accent) 18%, transparent); color: var(--band-accent); }
 .face.bad p { color: var(--muted); }
-.face.good p { color: var(--board-muted); }
-.face.good h3 { color: var(--board-ink); }
+.face.good p { color: var(--band-muted); }
+.face.good h3 { color: var(--band-ink); }
 @media (max-width: 1000px) { .scenes { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .scenes { grid-template-columns: 1fr; } }
 
@@ -216,9 +224,9 @@ html[dir="rtl"] .hint svg { transform: scaleX(-1); }
 .tile:hover::before { opacity: 1; }
 .tile p { color: var(--muted); }
 .t-a { grid-column: span 4; } .t-b { grid-column: span 2; } .t-c { grid-column: span 2; } .t-d { grid-column: span 2; } .t-e { grid-column: span 2; } .t-f { grid-column: span 6; }
-.t-f { background: var(--board); color: var(--board-ink); border-color: var(--board-line); grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; }
-.t-f p { color: var(--board-muted); }
-.t-f h3 { color: var(--board-ink); }
+.t-f { background: var(--band); color: var(--band-ink); border-color: var(--band-line); grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; }
+.t-f p { color: var(--band-muted); }
+.t-f h3 { color: var(--band-ink); }
 .t-f > div { display: grid; gap: 12px; min-width: 0; }
 @media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; } .tile { grid-column: span 1 !important; } .t-a, .t-f { grid-column: span 2 !important; } .t-f { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .bento { grid-template-columns: 1fr; } .tile, .t-a, .t-f { grid-column: span 1 !important; } }
@@ -235,17 +243,36 @@ html[dir="rtl"] .bar i { transform-origin: right center; }
 .rem b { font-family: var(--font-mono); }
 .chip { font-size: .75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
 .chip.soon { background: color-mix(in srgb, var(--signal) 24%, transparent); color: var(--ink); }
-.t-f .chip.soon { color: var(--board-ink); justify-self: start; }
+.t-f .chip.soon { color: var(--band-ink); justify-self: start; }
 .langs { display: flex; gap: 10px 16px; flex-wrap: wrap; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; }
 .langs span:nth-child(1) { font-family: "Alexandria", sans-serif; }
 .badge-v { display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 8px 12px; border-radius: 12px; background: var(--accent-soft); font-weight: 700; font-size: .92rem; }
-.typing { background: var(--board-2); border: 1px solid var(--board-line); border-radius: 16px; padding: 16px; display: grid; gap: 12px; font-size: .95rem; }
-.typing .q { color: var(--board-ink); font-weight: 600; min-height: 3em; }
+.typing { background: var(--band-2); border: 1px solid var(--band-line); border-radius: 16px; padding: 16px; display: grid; gap: 12px; font-size: .95rem; }
+.typing .q { color: var(--band-ink); font-weight: 600; min-height: 3em; }
 .typing .q::after { content: "▍"; color: var(--signal); animation: blink 1s steps(1) infinite; margin-inline-start: 2px; }
 @keyframes blink { 50% { opacity: 0; } }
-.typing .a { display: grid; gap: 6px; color: var(--board-muted); }
-.typing .a b { color: var(--board-ink); }
+.typing .a { display: grid; gap: 6px; color: var(--band-muted); }
+.typing .a b { color: var(--band-ink); }
 .typing .ok { justify-self: start; background: var(--accent); color: var(--accent-ink); border-radius: 10px; padding: 8px 14px; font-weight: 700; }
+
+
+/* Feature index */
+.fidx { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 22px; }
+.fidx-head { display: grid; gap: 6px; }
+.fidx-head p { color: var(--muted); }
+.fidx-cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 24px; }
+.fcol { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.fcol ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.fcol li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; font-size: .97rem; }
+.fcol li::before { content: ""; width: 18px; height: 18px; margin-top: 3px; border-radius: 6px; background: var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4.5 9.5l3 3 6-6.5' fill='none' stroke='%230B7A62' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; }
+.fa-soon li::before { background: color-mix(in srgb, var(--signal) 26%, transparent); }
+.fa-later li::before { background: var(--sunk); }
+.fa-soon li, .fa-later li { color: var(--muted); }
+.fbadge { justify-self: start; font-size: .8rem; font-weight: 700; padding: 5px 12px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
+.fa-soon .fbadge { background: color-mix(in srgb, var(--signal) 30%, transparent); color: var(--ink); }
+.fa-later .fbadge { background: var(--sunk); color: var(--ink); }
+.fa-now ul { grid-template-columns: 1fr; }
+@media (max-width: 900px) { .fidx-cols { grid-template-columns: 1fr; } }
 
 /* Scroll-driven reveal (pure CSS; content stays visible where unsupported) */
 @supports (animation-timeline: view()) {
@@ -345,14 +372,14 @@ details[open] summary::after { transform: rotate(45deg); }
 details p { padding-bottom: 16px; color: var(--muted); }
 
 /* Final */
-.final { position: relative; overflow: hidden; background: var(--board); color: var(--board-ink); }
+.final { position: relative; overflow: hidden; background: var(--band); color: var(--band-ink); }
 .final .paths { opacity: .22; }
 .final .wrap { position: relative; display: grid; gap: 24px; justify-items: center; text-align: center; }
-.final h2 { color: var(--board-ink); max-width: 18ch; font-size: clamp(2.2rem, 5vw, 3.8rem); }
-.final p { max-width: 58ch; color: var(--board-muted); }
+.final h2 { color: var(--band-ink); max-width: 18ch; font-size: clamp(2.2rem, 5vw, 3.8rem); }
+.final p { max-width: 58ch; color: var(--band-muted); }
 .contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
-.contact code { font: 600 1.05rem var(--font-mono); background: color-mix(in srgb, var(--board-ink) 10%, transparent); padding: 12px 16px; border-radius: 12px; user-select: all; direction: ltr; }
-.final .btn-ghost { color: var(--board-ink); }
+.contact code { font: 600 1.05rem var(--font-mono); background: color-mix(in srgb, var(--band-ink) 10%, transparent); padding: 12px 16px; border-radius: 12px; user-select: all; direction: ltr; }
+.final .btn-ghost { color: var(--band-ink); }
 footer { padding-block: 28px; color: var(--muted); font-size: .92rem; }
 footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
@@ -383,6 +410,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         <button type="button" id="lang-ar" data-lang="ar" aria-pressed="false">ع</button>
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
+      <button type="button" class="theme-btn" id="theme-toggle" aria-label="Thème sombre" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
       <a class="btn btn-primary" href="#contact" data-i18n="navCta">Essai gratuit</a>
     </div>
   </div>
@@ -579,6 +607,49 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
           <span class="ok" data-i18n="b6ok">Confirmer</span>
         </div>
       </article>
+    </div>
+    <div class="fidx reveal">
+      <div class="fidx-head"><h3 data-i18n="faTitle">Tout ce que nous avons prévu, en un coup d'œil</h3><p data-i18n="faLede">Ce qui arrive au lancement, ce qui suit juste après, et ce qui vient ensuite.</p></div>
+      <div class="fidx-cols">
+        <div class="fcol fa-now"><span class="fbadge" data-i18n="faNow">Au lancement</span><ul>
+          <li data-i18n="fa_now0">File d'attente en direct : rendez-vous et sans rendez-vous dans la même file</li>
+          <li data-i18n="fa_now1">Un ticket et une heure de passage pour chaque patient</li>
+          <li data-i18n="fa_now2">La position en direct sur le téléphone du patient</li>
+          <li data-i18n="fa_now3">Réservation par lien, QR code ou page web installable, sans mot de passe</li>
+          <li data-i18n="fa_now4">Réservation pour un enfant ou un parent</li>
+          <li data-i18n="fa_now5">« Mes rendez-vous » : annuler ou déplacer sans appeler</li>
+          <li data-i18n="fa_now6">Types de visite par spécialité, durées réglées par chaque médecin</li>
+          <li data-i18n="fa_now7">Aucune double réservation possible</li>
+          <li data-i18n="fa_now8">Patient sans rendez-vous ajouté en 3 gestes</li>
+          <li data-i18n="fa_now9">« Le docteur a du retard » : patients prévenus en un geste</li>
+          <li data-i18n="fa_now10">Rappels la veille, 1 h et 15 min avant, et WhatsApp en un clic</li>
+          <li data-i18n="fa_now11">Suivi des absences, patient par patient</li>
+          <li data-i18n="fa_now12">Médecins vérifiés par leur numéro d'inscription à l'Ordre</li>
+          <li data-i18n="fa_now13">Arabe, français et anglais</li>
+          <li data-i18n="fa_now14">Page du cabinet, logo et affiche QR pour l'accueil</li>
+          <li data-i18n="fa_now15">Tableau de bord : patients vus, absences, réservations en ligne</li>
+          <li data-i18n="fa_now16">Écran « Aujourd'hui » pour la réception, application Android pour le médecin</li>
+          <li data-i18n="fa_now17">Comptes réception gratuits, rôles et historique des changements</li>
+          <li data-i18n="fa_now18">Vos patients et rendez-vous exportables à tout moment</li>
+        </ul></div>
+        <div class="fcol fa-soon"><span class="fbadge" data-i18n="faSoon">Bientôt</span><ul>
+          <li data-i18n="fa_soon0">Application patients Android avec notifications</li>
+          <li data-i18n="fa_soon1">Avis vérifiés après une vraie visite</li>
+          <li data-i18n="fa_soon2">Rappels SMS automatiques, par crédits prépayés</li>
+          <li data-i18n="fa_soon3">Assistant Medica (option) et aide « Comment faire… ? »</li>
+          <li data-i18n="fa_soon4">« Votre rythme » : vos durées réelles proposées</li>
+          <li data-i18n="fa_soon5">Écran d'appel pour la salle d'attente</li>
+          <li data-i18n="fa_soon6">Feuille du jour imprimable, ticket disponible hors connexion</li>
+        </ul></div>
+        <div class="fcol fa-later"><span class="fbadge" data-i18n="faLater">Ensuite</span><ul>
+          <li data-i18n="fa_later0">Automatisations proposées par l'assistant</li>
+          <li data-i18n="fa_later1">Applications iOS</li>
+          <li data-i18n="fa_later2">Rappels WhatsApp automatiques</li>
+          <li data-i18n="fa_later3">Notes de consultation structurées, après validation juridique</li>
+          <li data-i18n="fa_later4">Paiement en ligne CIB / Edahabia</li>
+          <li data-i18n="fa_later5">Cliniques multi-sites</li>
+        </ul></div>
+      </div>
     </div>
   </div>
 </section>
@@ -827,7 +898,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
     <path d="M-50 540 C 280 460, 420 320, 680 300 S 1060 180, 1260 150"/>
   </svg>
   <div class="wrap">
-    <p class="eyebrow" style="color:var(--signal)" data-i18n="finEyebrow">Alger · Oran · Constantine · Annaba</p>
+    <p class="eyebrow" style="color:var(--band-signal)" data-i18n="finEyebrow">Alger · Oran · Constantine · Annaba</p>
     <h2><span data-i18n="finTitle1">Lundi matin, votre salle peut être</span> <em class="h" data-i18n="finTitle2">calme.</em></h2>
     <p data-i18n="finText">Écrivez-nous pour une démonstration de 10 minutes. Nous configurons votre cabinet avec vous, et vos 14 jours gratuits commencent à votre premier vrai rendez-vous.</p>
     <div class="contact">
@@ -912,6 +983,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات لدراسة طلبي، وللتواصل معي إن طلبت ذلك.",
       fmSend: "أرسل فكرتي", fmPreview: "معاينة: هذا النموذج غير مربوط بخادمنا بعد. لا تُرسَل المعلومات.",
       fmDoneT: "شكرًا، وصلتنا فكرتكم", fmDoneP: "نقرؤها هذا الأسبوع ونصنّفها مع أفكار تخصّصكم. صوّتوا أيضًا على أفكار خارطة الطريق.", fmAgain: "اقتراح فكرة أخرى",
+      faTitle: "كل ما خطّطنا له، في لمحة", faLede: "ما يصل عند الإطلاق، وما يليه مباشرة، وما يأتي بعد ذلك.", faNow: "عند الإطلاق", faSoon: "قريبًا", faLater: "لاحقًا", themeDark: "الوضع الداكن", themeLight: "الوضع الفاتح", fa_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور", fa_now1: "تذكرة ووقت مرور لكل مريض", fa_now2: "الدور مباشرة على هاتف المريض", fa_now3: "الحجز عبر رابط أو رمز QR أو صفحة ويب قابلة للتثبيت، بدون كلمة سر", fa_now4: "الحجز لطفل أو لأحد الوالدين", fa_now5: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال", fa_now6: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب", fa_now7: "لا حجز مزدوج أبدًا", fa_now8: "إضافة مريض بدون موعد في 3 نقرات", fa_now9: "«الطبيب متأخّر»: إعلام المرضى بنقرة", fa_now10: "تذكير قبل يوم، وقبل ساعة، وقبل 15 دقيقة، وواتساب بنقرة", fa_now11: "متابعة الغيابات مريضًا بمريض", fa_now12: "أطباء موثَّقون برقم التسجيل في مجلس أخلاقيات الطب", fa_now13: "العربية والفرنسية والإنجليزية", fa_now14: "صفحة العيادة وشعارها وملصق QR للاستقبال", fa_now15: "لوحة القيادة: المرضى، الغيابات، الحجوزات عبر الإنترنت", fa_now16: "شاشة «اليوم» للاستقبال، وتطبيق أندرويد للطبيب", fa_now17: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات", fa_now18: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت", fa_soon0: "تطبيق المرضى على أندرويد مع الإشعارات", fa_soon1: "آراء موثَّقة بعد زيارة حقيقية", fa_soon2: "تذكيرات SMS تلقائية برصيد مسبق الدفع", fa_soon3: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»", fa_soon4: "«وتيرتكم»: اقتراح مددكم الحقيقية", fa_soon5: "شاشة النداء لقاعة الانتظار", fa_soon6: "ورقة اليوم للطباعة، والتذكرة متاحة دون اتصال", fa_later0: "مهام تلقائية يقترحها المساعد", fa_later1: "تطبيقات iOS", fa_later2: "تذكيرات واتساب تلقائية", fa_later3: "ملاحظات فحص منظّمة، بعد المصادقة القانونية", fa_later4: "الدفع الإلكتروني CIB / الذهبية", fa_later5: "عيادات متعدّدة الفروع",
       faqEyebrow: "أسئلة شائعة", faqTitle: "ما يسألنا عنه الأطباء.",
       q1: "هل يجب على مرضاي تثبيت تطبيق؟", a1: "لا. يحجزون عبر رابط أو رمز QR دون تثبيت أي شيء. ومن يفضّل التطبيق يستعمل تطبيق ميديكا لتذاكره ومواعيده وتذكيراته.",
       q2: "وماذا عن المرضى الذين يواصلون الاتصال؟", a2: "هذا طبيعي. يسجّلهم الاستقبال في نفس الجدول خلال ثوانٍ. يبقى لديكم جدول واحد مهما كان مصدر الموعد.",
@@ -982,6 +1054,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lConsent: "I agree that Medica may use this information to study my request and, if I asked, to contact me.",
       fmSend: "Send my idea", fmPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
       fmDoneT: "Thank you, your idea is in", fmDoneP: "We'll read it this week and sort it with others from your specialty. Vote for roadmap ideas too.", fmAgain: "Suggest another idea",
+      faTitle: "Everything we have planned, at a glance", faLede: "What arrives at launch, what follows right after, and what comes next.", faNow: "At launch", faSoon: "Coming soon", faLater: "Next", themeDark: "Dark theme", themeLight: "Light theme", fa_now0: "Live queue: appointments and walk-ins in the same line", fa_now1: "A ticket and a visit time for every patient", fa_now2: "Live position on the patient's phone", fa_now3: "Booking by link, QR code or installable web page, no password", fa_now4: "Book for a child or a parent", fa_now5: "\"My appointments\": cancel or move without calling", fa_now6: "Visit types by specialty, durations set by each doctor", fa_now7: "No double booking, ever", fa_now8: "Walk-ins added in 3 taps", fa_now9: "\"Doctor running late\": patients told in one tap", fa_now10: "Reminders the day before, 1 hour and 15 minutes before, plus one-click WhatsApp", fa_now11: "No-show tracking, patient by patient", fa_now12: "Doctors verified by their Medical Council number", fa_now13: "Arabic, French and English", fa_now14: "Practice page, logo and QR poster for the desk", fa_now15: "Dashboard: patients seen, no-shows, online bookings", fa_now16: "\"Today\" screen for reception, Android app for the doctor", fa_now17: "Free reception accounts, roles and change history", fa_now18: "Export your patients and appointments any time", fa_soon0: "Patient Android app with notifications", fa_soon1: "Verified reviews after a real visit", fa_soon2: "Automatic SMS reminders with prepaid credits", fa_soon3: "Assistant Medica (add-on) and \"How do I…?\" help", fa_soon4: "\"Your pace\": your real durations suggested", fa_soon5: "Call screen for the waiting room", fa_soon6: "Printable day sheet, ticket available offline", fa_later0: "Automations suggested by the assistant", fa_later1: "iOS apps", fa_later2: "Automatic WhatsApp reminders", fa_later3: "Structured consultation notes, after legal review", fa_later4: "Online payment (CIB / Edahabia)", fa_later5: "Multi-site clinics",
       faqEyebrow: "FAQ", faqTitle: "What doctors ask us.",
       q1: "Do my patients have to install an app?", a1: "No. They book by link or QR code without installing anything. Patients who prefer an app use the Medica app for tickets, appointments and reminders.",
       q2: "What about patients who keep calling?", a2: "That's normal. Reception adds them to the same agenda in seconds. You keep one schedule, wherever the booking came from.",
@@ -1321,6 +1394,20 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     doneBox.hidden = true; body.hidden = false; spec.focus();
   });
 
+
+  /* Theme: light by default, dark on demand (remembered) */
+  var themeBtn = document.getElementById("theme-toggle");
+  var THEME_LBL = { fr: ["Thème sombre", "Thème clair"], ar: ["الوضع الداكن", "الوضع الفاتح"], en: ["Dark theme", "Light theme"] };
+  function applyTheme(t) {
+    root.setAttribute("data-theme", t);
+    themeBtn.setAttribute("aria-pressed", String(t === "dark"));
+    themeBtn.setAttribute("aria-label", THEME_LBL[current][t === "dark" ? 1 : 0]);
+  }
+  themeBtn.addEventListener("click", function () {
+    var t = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(t); setStore("medica-theme", t);
+  });
+
   /* Language */
   function setLang(l) {
     if (!T[l]) l = "fr";
@@ -1332,6 +1419,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
     setStore("medica-lang", l);
     buildRot(); heroRender(); demoRender(); renderCalc(); renderRoadmap(); typeLoop();
+    applyTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
     if (form.dataset.tried) validate(false);
   }
   document.querySelectorAll(".lang button").forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.lang); }); });
@@ -1345,6 +1433,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   });
 
   demoReset();
+  root.setAttribute("data-theme", getStore("medica-theme") === "dark" ? "dark" : "light");
   var saved = getStore("medica-lang");
   setLang(saved && T[saved] ? saved : "fr");
 })();
