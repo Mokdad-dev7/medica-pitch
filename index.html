@@ -386,7 +386,7 @@ html[dir="rtl"] .bar i { transform-origin: right center; }
 .field > label { font-weight: 600; font-size: .95rem; }
 .req { color: var(--danger); }
 .help { color: var(--muted); font-size: .85rem; }
-input[type="text"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; min-height: 48px; }
+input[type="text"], input[type="tel"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; min-height: 48px; }
 textarea { min-height: 120px; resize: vertical; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 [aria-invalid="true"] { border-color: var(--danger) !important; }
@@ -433,6 +433,38 @@ details p { padding-bottom: 16px; color: var(--muted); }
 footer { padding-block: 28px; color: var(--muted); font-size: .92rem; }
 footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
+/* Pre-registration */
+.hero-micro { color: var(--band-muted); font-size: .9rem; margin-top: -12px; }
+.calc-pre { font-weight: 700; color: var(--accent); text-decoration: none; font-size: .98rem; justify-self: start; }
+.calc-pre:hover { text-decoration: underline; }
+.prereg-sec { background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--accent) 7%, var(--bg))); }
+.prereg { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.prereg > * { min-width: 0; }
+.prereg-copy { display: grid; gap: 20px; }
+.prereg-copy h2 { font-size: clamp(2rem, 4.4vw, 3.2rem); }
+.prereg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.prereg-list li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
+.prereg-list li::before { content: ""; width: 20px; height: 20px; margin-top: 2px; border-radius: 7px; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4.5 9.5l3 3 6-6.5' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; }
+.prereg-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 18px 20px; border-radius: 18px; background: var(--surface); border: 2px dashed color-mix(in srgb, var(--accent) 55%, transparent); }
+.prereg-price > span { flex-basis: 100%; font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.prereg-price b { font: 800 clamp(1.9rem, 4vw, 2.5rem)/1.05 var(--font-display); font-variant-numeric: tabular-nums; }
+.prereg-price s { color: var(--muted); font-variant-numeric: tabular-nums; }
+.prereg-price small { color: var(--muted); font-size: .92rem; }
+.form-micro { font-size: .88rem; color: var(--muted); }
+.prereg .form { border: 2px solid var(--accent); }
+.final-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+.sticky-cta { display: none; }
+@media (max-width: 900px) { .prereg { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .sticky-cta { display: flex; position: fixed; z-index: 60; inset-inline: 0; bottom: 0; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -12px 30px -18px rgba(0,0,0,.35);
+    transform: translateY(110%); visibility: hidden; transition: transform .3s ease, visibility .3s; }
+  .sticky-cta.show { transform: none; visibility: visible; }
+  .sticky-cta > span { font-weight: 700; font-size: .95rem; min-width: 0; }
+  .sticky-cta .btn { min-height: 44px; padding: 0 18px; flex: none; }
+  footer { padding-bottom: 84px; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
@@ -461,7 +493,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <button type="button" class="theme-btn" id="theme-toggle" aria-label="Thème sombre" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
-      <a class="btn btn-primary" href="#contact" data-i18n="navCta">Essai gratuit</a>
+      <a class="btn btn-primary" href="#preinscription" data-i18n="navCta">Pré-inscription −10 %</a>
     </div>
   </div>
 </header>
@@ -486,13 +518,14 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   </svg>
   <div class="wrap">
     <div class="hero-copy">
-      <span class="pill"><b data-i18n="heroPillB">Nouveau</b><span data-i18n="heroPill">La file d'attente en direct, sur le téléphone de vos patients</span></span>
+      <span class="pill"><b data-i18n="heroPillB">−10 %</b><span data-i18n="heroPill">Pré-inscriptions ouvertes avant le lancement</span></span>
       <h1><span data-i18n="heroTitle">Votre salle d'attente, enfin</span> <span class="rot" id="rot"><span>organisée.</span></span></h1>
       <p class="lede" data-i18n="heroLede">Rendez-vous, patients sans rendez-vous et file d'attente sur un seul écran. Vos patients réservent par lien, QR code ou application, reçoivent leur ticket et arrivent au bon moment. Votre réception respire.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#contact"><span data-i18n="heroCta1">Démarrer l'essai de 14 jours</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn btn-primary" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <a class="btn btn-ghost" href="#demo" data-i18n="heroCta2">Essayer la démo</a>
       </div>
+      <p class="hero-micro" data-i18n="heroMicro">Gratuit · 30 secondes · sans engagement</p>
       <div class="trust-row">
         <span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tr1">Médecins vérifiés</span></span>
         <span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tr2">Arabe, français, anglais</span></span>
@@ -799,6 +832,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         </div>
         <div class="price" id="calc-price">2 900 DA <small>/ mois</small></div>
         <p class="calc-note" id="calc-note">Pour un médecin, avec comptes réception illimités.</p>
+        <a class="calc-pre" id="calc-pre" href="#preinscription">Pré-inscrit : 2 610 DA / mois →</a>
       </div>
       <div class="plan reveal">
         <h3 data-i18n="incTitle">Tout est inclus</h3>
@@ -815,6 +849,72 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
     </div>
     <div class="addon reveal"><div><b data-i18n="addonT">Option Assistant Medica</b><span data-i18n="addonP">Tâches en un geste, demandes écrites et automatisations. Incluse pendant l'essai.</span></div><span class="addon-price" data-i18n="addonPrice">+600 DA / mois par cabinet</span></div>
     <p class="fine" data-i18n="priceFine">Un médecin compte quand il a des horaires réservables dans le mois ; mettez en pause un médecin vacataire à tout moment. Rappels par notification inclus ; SMS et WhatsApp automatiques par crédits prépayés. Plus de 10 médecins, plusieurs sites ou centres d'imagerie : sur devis. Paiement par virement, CCP/BaridiMob ou espèces avec facture ; la carte CIB / Edahabia arrive après certification.</p>
+  </div>
+</section>
+
+<!-- PRE-REGISTRATION -->
+<section id="preinscription" class="prereg-sec">
+  <div class="wrap">
+    <div class="prereg">
+      <div class="prereg-copy reveal">
+        <p class="eyebrow" data-i18n="prEyebrow">Pré-inscription · avant le lancement</p>
+        <h2><span data-i18n="prTitle1">Réservez votre place.</span> <em class="h" data-i18n="prTitle2">−10 % pendant 12 mois.</em></h2>
+        <p class="lede" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Vous ne payez rien aujourd'hui : la réduction s'applique automatiquement à vos 12 premiers mois payants.</p>
+        <ul class="prereg-list">
+          <li><span data-i18n="prB1"><b>−10 %</b> sur l'abonnement, mensuel ou annuel, pendant 12 mois</span></li>
+          <li><span data-i18n="prB2">Les 14 jours d'essai gratuits, en plus</span></li>
+          <li><span data-i18n="prB3">Priorité pour rejoindre nos cabinets pilotes : installation sur place et import de vos patients</span></li>
+          <li><span data-i18n="prB4">Ni paiement, ni carte, ni engagement</span></li>
+        </ul>
+        <div class="prereg-price" aria-live="polite"><span data-i18n="prPriceL">Votre tarif pré-inscrit</span><b id="pr-price">2 610 DA</b><s id="pr-was">2 900 DA</s><small id="pr-per">/ mois · 1 médecin</small></div>
+      </div>
+
+      <form class="form reveal" id="prereg-form" novalidate aria-labelledby="pr-form-title">
+        <h3 id="pr-form-title" data-i18n="prFormT">Pré-inscrire mon cabinet</h3>
+        <div id="pr-body" style="display:grid;gap:16px">
+          <div class="field">
+            <label for="p-name"><span data-i18n="plName">Nom du médecin ou du cabinet</span> <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="p-name" name="full_name" maxlength="80" autocomplete="name" required aria-describedby="e-p-name">
+            <p class="err" id="e-p-name"></p>
+          </div>
+          <div class="field">
+            <label for="p-phone"><span data-i18n="plPhone">Téléphone</span> <span class="req" aria-hidden="true">*</span></label>
+            <input type="tel" id="p-phone" name="phone" maxlength="20" autocomplete="tel" inputmode="tel" dir="ltr" placeholder="0551 23 45 67" required aria-describedby="h-p-phone e-p-phone">
+            <p class="help" id="h-p-phone" data-i18n="plPhoneH">WhatsApp de préférence. Nous l'utilisons seulement pour vous rappeler.</p>
+            <p class="err" id="e-p-phone"></p>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="p-specialty"><span data-i18n="plSpec">Spécialité</span> <span class="req" aria-hidden="true">*</span></label>
+              <select id="p-specialty" name="specialty" required aria-describedby="e-p-specialty"></select>
+              <p class="err" id="e-p-specialty"></p>
+            </div>
+            <div class="field">
+              <label for="p-docs" data-i18n="plDocs">Nombre de médecins</label>
+              <select id="p-docs" name="doctors"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">10+</option></select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="p-wilaya" data-i18n="plWilaya">Wilaya (facultatif)</label>
+            <input type="text" id="p-wilaya" name="wilaya" list="wilayas" maxlength="40" autocomplete="address-level1">
+          </div>
+          <div>
+            <label class="check"><input type="checkbox" id="p-consent" name="consent" aria-describedby="e-p-consent"><span data-i18n="plConsent">J'accepte que Medica utilise ces informations pour me recontacter au sujet du lancement.</span></label>
+            <p class="err" id="e-p-consent"></p>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="p-website">Website</label><input type="text" id="p-website" name="website" tabindex="-1" autocomplete="off"></div>
+          <button type="submit" class="btn btn-primary" id="p-submit" style="justify-self:stretch"><span id="p-submit-label" data-i18n="prSend">Réserver mes −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <p class="form-micro" data-i18n="prMicro">Nous vous appelons avant le lancement. Rien à payer aujourd'hui.</p>
+          <p class="err" id="e-p-send" role="alert"></p>
+          <p class="preview-note" id="pr-preview" hidden data-i18n="prPreview">Aperçu : ce formulaire n'est pas encore relié à notre serveur. Les envois ne sont pas transmis.</p>
+        </div>
+        <div class="done" id="pr-done" tabindex="-1" hidden role="status">
+          <h3 data-i18n="prDoneT">C'est noté, votre place est réservée</h3>
+          <p data-i18n="prDoneP">Nous vous appelons avant le lancement pour fixer votre date de démarrage. Votre −10 % est lié à ce numéro.</p>
+          <p id="pr-done-price" style="font-weight:700"></p>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -995,6 +1095,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
       <details><summary data-i18n="q5">Et si internet coupe au cabinet ?</summary><p data-i18n="a5">Medica affiche tout de suite une alerte et l'heure de la dernière synchronisation. Vous continuez sur la feuille du jour imprimée, ou sur le téléphone du médecin en 4G, puis Medica vous guide pour tout remettre à jour. Le ticket du patient reste affiché sur son téléphone même sans connexion.</p></details>
       <details><summary data-i18n="q6">L'assistant envoie-t-il mes données à une IA extérieure ?</summary><p data-i18n="a6">Non. Assistant Medica fonctionne sur nos propres serveurs. Il trouve la bonne tâche et vous la montre avant d'agir. Les noms et numéros de vos patients ne servent jamais à l'entraîner.</p></details>
       <details><summary data-i18n="q7">Puis-je reprendre mes patients actuels ?</summary><p data-i18n="a7">Oui. Importez votre fichier Excel ou CSV : Medica montre un aperçu, repère les doublons et les erreurs, et vous pouvez tout annuler. Pour nos cabinets pilotes, nous faisons l'import avec vous.</p></details>
+      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, puis −10 % s'applique automatiquement à vos 12 premiers mois payants. Vous pouvez annuler à tout moment.</p></details>
     </div>
   </div>
 </section>
@@ -1011,7 +1112,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   <div class="wrap">
     <p class="eyebrow" style="color:var(--band-signal)" data-i18n="finEyebrow">Alger · Oran · Constantine · Annaba</p>
     <h2><span data-i18n="finTitle1">Lundi matin, votre salle peut être</span> <em class="h" data-i18n="finTitle2">calme.</em></h2>
-    <p data-i18n="finText">Nous choisissons nos 5 à 8 premiers cabinets pilotes. Nous configurons votre cabinet sur place, importons vos patients avec vous et répondons sur WhatsApp. Vos 14 jours gratuits commencent à votre premier vrai rendez-vous.</p>
+    <p data-i18n="finText">Nous choisissons nos 5 à 8 premiers cabinets pilotes. Pré-inscrivez-vous pour −10 % pendant 12 mois, ou écrivez-nous pour une démonstration de 10 minutes.</p>
+    <div class="final-cta"><a class="btn btn-primary" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
     <div class="contact">
       <code id="contact-email">contact@medica.dz</code>
       <button type="button" class="btn btn-ghost" id="copy-email" data-i18n="copy">Copier l'adresse</button>
@@ -1020,6 +1122,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 </section>
 
 </main>
+
+<div class="sticky-cta" id="sticky-cta"><span data-i18n="stickyT">−10 % pendant 12 mois</span><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
 
 <footer>
   <div class="wrap">
@@ -1036,6 +1140,33 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
 (function () {
   var T = {
     ar: {
+      a8: "نتصل بكم قبل الإطلاق لتحديد موعد. لا تدفعون شيئًا حتى ذلك الحين. تبدأ أيامكم الـ14 المجانية مع أوّل موعد حقيقي، ثم يُطبَّق خصم 10% تلقائيًا على أوّل 12 شهرًا مدفوعًا. يمكنكم الإلغاء في أي وقت.",
+      q8: "ماذا يحدث بعد التسجيل المسبق؟",
+      stickyB: "سجّلوا مسبقًا",
+      stickyT: "خصم 10% لمدة 12 شهرًا",
+      prDoneP: "نتصل بكم قبل الإطلاق لتحديد موعد البدء. خصم 10% مرتبط بهذا الرقم.",
+      prDoneT: "تمّ التسجيل، مكانكم محجوز",
+      prPreview: "معاينة: هذا النموذج غير مرتبط بخادمنا بعد. لا تُرسَل البيانات.",
+      prMicro: "نتصل بكم قبل الإطلاق. لا شيء للدفع اليوم.",
+      prSend: "احجزوا خصم 10%",
+      plConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات للتواصل معي بخصوص الإطلاق.",
+      plWilaya: "الولاية (اختياري)",
+      plDocs: "عدد الأطباء",
+      plSpec: "التخصّص",
+      plPhoneH: "يُفضَّل رقم واتساب. نستعمله فقط للاتصال بكم.",
+      plPhone: "الهاتف",
+      plName: "اسم الطبيب أو العيادة",
+      prFormT: "تسجيل عيادتي مسبقًا",
+      prPriceL: "سعركم مع التسجيل المسبق",
+      prB4: "دون دفع ودون بطاقة ودون التزام",
+      prB3: "أولوية للانضمام إلى عياداتنا التجريبية: إعداد في عين المكان واستيراد مرضاكم",
+      prB2: "أيام التجربة المجانية الـ14، إضافةً إلى ذلك",
+      prB1: "<b>خصم 10%</b> على الاشتراك، شهريًا أو سنويًا، لمدة 12 شهرًا",
+      prLede: "سجّلوا عيادتكم مسبقًا في 30 ثانية. لا تدفعون شيئًا اليوم: يُطبَّق الخصم تلقائيًا على أوّل 12 شهرًا مدفوعًا.",
+      prTitle2: "خصم 10% لمدة 12 شهرًا.",
+      prTitle1: "احجزوا مكانكم.",
+      prEyebrow: "تسجيل مسبق · قبل الإطلاق",
+      heroMicro: "مجاني · 30 ثانية · دون التزام",
       a7: "نعم. استوردوا ملف Excel أو CSV: تعرض ميديكا معاينة، وتكشف التكرارات والأخطاء، ويمكنكم التراجع عن كل شيء. مع عياداتنا التجريبية، نقوم بالاستيراد معكم.",
       q7: "هل يمكنني نقل مرضاي الحاليين؟",
       fa_later7: "الاستضافة في الجزائر",
@@ -1046,11 +1177,11 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fa_soon6: "اقتراح المواعيد المُلغاة على المرضى المنتظرين",
       fa_soon5: "ملاحظات فحص منظّمة خاصة بالطبيب، تُفعَّل لكل عيادة بعد المصادقة القانونية",
       fa_soon4: "دفع الاشتراك ببطاقة CIB / الذهبية، بعد الاعتماد",
-      brand: "ميديكا", nav1: "المشكلة", nav2: "العرض", nav3: "المنتج", nav4: "الأسعار", nav5: "أفكاركم", navCta: "تجربة مجانية",
-      heroPillB: "جديد", heroPill: "طابور الانتظار المباشر، على هاتف مرضاكم",
+      brand: "ميديكا", nav1: "المشكلة", nav2: "العرض", nav3: "المنتج", nav4: "الأسعار", nav5: "أفكاركم", navCta: "تسجيل مسبق −10%",
+      heroPillB: "−10%", heroPill: "التسجيل المسبق مفتوح قبل الإطلاق",
       heroTitle: "قاعة انتظارك،",
       heroLede: "المواعيد والمرضى بدون موعد وطابور الانتظار في شاشة واحدة. يحجز مرضاكم عبر رابط أو رمز QR أو التطبيق، يستلمون تذكرتهم ويصلون في الوقت المناسب. ويتنفّس الاستقبال.",
-      heroCta1: "ابدأوا تجربة 14 يومًا", heroCta2: "جرّبوا العرض",
+      heroCta1: "سجّلوا مسبقًا بخصم 10%", heroCta2: "جرّبوا العرض",
       tr1: "أطباء موثَّقون", tr2: "العربية والفرنسية والإنجليزية", tr3: "بدون عمولة على المواعيد",
       pNowS: "في الفحص الآن", pNow: "التذكرة المنادى عليها", pYours: "تذكرتك", pWhen: "تنظيف الجير · د. مثال", pAhead1: "أمامك:", pWait1: "الانتظار ≈",
       mEyebrow: "صباح في العيادة", mTitle1: "هل تعرفون هذا الصباح؟", mTitle2: "يمكن أن يتغيّر من يوم الإثنين.",
@@ -1114,10 +1245,37 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       q5: "وإذا انقطع الإنترنت في العيادة؟", a5: "تعرض ميديكا فورًا تنبيهًا ووقت آخر مزامنة. تواصلون العمل بورقة اليوم المطبوعة أو على هاتف الطبيب عبر 4G، ثم ترشدكم ميديكا لتحديث كل شيء. وتبقى تذكرة المريض ظاهرة على هاتفه حتى دون اتصال.",
       q6: "هل يرسل المساعد بياناتي إلى ذكاء اصطناعي خارجي؟", a6: "لا. يعمل مساعد ميديكا على خوادمنا الخاصة. يجد المهمة المناسبة ويعرضها عليكم قبل التنفيذ. لا تُستعمل أسماء مرضاكم وأرقامهم أبدًا في تدريبه.",
       finEyebrow: "الجزائر العاصمة · وهران · قسنطينة · عنابة", finTitle1: "صباح الإثنين، يمكن لقاعتكم أن تكون", finTitle2: "هادئة.",
-      finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. نُعدّ عيادتكم في عين المكان، ونستورد مرضاكم معكم، ونجيبكم عبر واتساب. تبدأ أيامكم الـ14 المجانية مع أوّل موعد حقيقي.",
+      finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. سجّلوا مسبقًا لخصم 10% لمدة 12 شهرًا، أو راسلونا لعرض توضيحي مدّته 10 دقائق.",
       copy: "نسخ العنوان", footer: "صُنع في الجزائر · العربية · Français · English"
     },
     en: {
+      a8: "We call you before launch to set a date. You pay nothing until then. Your 14 free days start at your first real appointment, then 10% off applies automatically to your first 12 paid months. You can cancel any time.",
+      q8: "What happens after I pre-register?",
+      stickyB: "Pre-register",
+      stickyT: "10% off for 12 months",
+      prDoneP: "We'll call you before launch to set your start date. Your 10% off is linked to this number.",
+      prDoneT: "Done, your place is saved",
+      prPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
+      prMicro: "We'll call you before launch. Nothing to pay today.",
+      prSend: "Claim my 10% off",
+      plConsent: "I agree that Medica may use this information to contact me about the launch.",
+      plWilaya: "Wilaya (optional)",
+      plDocs: "Number of doctors",
+      plSpec: "Specialty",
+      plPhoneH: "WhatsApp preferred. We only use it to call you back.",
+      plPhone: "Phone",
+      plName: "Doctor or practice name",
+      prFormT: "Pre-register my practice",
+      prPriceL: "Your pre-registered price",
+      prB4: "No payment, no card, no commitment",
+      prB3: "Priority for our pilot programme: on-site setup and your patients imported for you",
+      prB2: "The 14-day free trial on top",
+      prB1: "<b>10% off</b> your subscription, monthly or yearly, for 12 months",
+      prLede: "Pre-register your practice in 30 seconds. You pay nothing today: the discount applies automatically to your first 12 paid months.",
+      prTitle2: "10% off for 12 months.",
+      prTitle1: "Save your place.",
+      prEyebrow: "Pre-registration · before launch",
+      heroMicro: "Free · 30 seconds · no commitment",
       a7: "Yes. Import your Excel or CSV file: Medica shows a preview, spots duplicates and errors, and you can undo everything. For our pilot practices, we do the import with you.",
       q7: "Can I bring my current patients?",
       fa_later7: "Hosting in Algeria",
@@ -1128,11 +1286,11 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fa_soon6: "Freed-up slots offered to patients who are waiting",
       fa_soon5: "Structured consultation notes, doctor-only, switched on per practice after legal approval",
       fa_soon4: "Subscription paid by CIB / Edahabia card, after certification",
-      brand: "medica", nav1: "The problem", nav2: "Demo", nav3: "Product", nav4: "Pricing", nav5: "Your ideas", navCta: "Free trial",
-      heroPillB: "New", heroPill: "The live queue, on your patients' phones",
+      brand: "medica", nav1: "The problem", nav2: "Demo", nav3: "Product", nav4: "Pricing", nav5: "Your ideas", navCta: "Pre-register −10%",
+      heroPillB: "−10%", heroPill: "Pre-registration is open before launch",
       heroTitle: "Your waiting room, finally",
       heroLede: "Appointments, walk-ins and the queue on one screen. Patients book by link, QR code or the app, get their ticket and arrive at the right time. Your front desk can breathe.",
-      heroCta1: "Start the 14-day trial", heroCta2: "Try the demo",
+      heroCta1: "Pre-register, save 10%", heroCta2: "Try the demo",
       tr1: "Verified doctors", tr2: "Arabic, French, English", tr3: "No commission per appointment",
       pNowS: "In consultation", pNow: "Ticket called", pYours: "Your ticket", pWhen: "Scaling · Dr. Example", pAhead1: "Ahead of you:", pWait1: "Wait ≈",
       mEyebrow: "A morning at the practice", mTitle1: "Recognise this morning?", mTitle2: "It can change by Monday.",
@@ -1196,20 +1354,23 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       q5: "What if the internet goes down?", a5: "Medica shows a banner straight away with the last-sync time. You carry on with the printed day sheet, or on the doctor's phone over 4G, then Medica guides you to bring everything up to date. The patient's ticket stays on their phone even offline.",
       q6: "Does the assistant send my data to an outside AI?", a6: "No. Assistant Medica runs on our own servers. It finds the right task and shows it to you before acting. Your patients' names and numbers are never used to train it.",
       finEyebrow: "Algiers · Oran · Constantine · Annaba", finTitle1: "On Monday morning, your waiting room can be", finTitle2: "calm.",
-      finText: "We're choosing our first 5 to 8 pilot practices. We set up your practice on site, import your patients with you and answer on WhatsApp. Your 14 free days start at your first real appointment.",
+      finText: "We're choosing our first 5 to 8 pilot practices. Pre-register for 10% off for 12 months, or write to us for a 10-minute demo.",
       copy: "Copy address", footer: "Made in Algeria · العربية · Français · English"
     }
   };
   var EXTRA = {
     fr: { rot: ["organisée.", "calme.", "à l'heure."], copied: "Adresse copiée", phone: function (a) { return "Ticket 07, " + a + " patients avant vous"; },
+          errPhone: "Entrez un numéro algérien valide, par exemple 0551 23 45 67.", errName: "Écrivez au moins 2 caractères.", prDup: "Ce numéro est déjà pré-inscrit : votre −10 % est bien réservé.", prQuote: "Sur devis, −10 %", prPer: function (n) { return "/ mois · " + (n > 10 ? "plus de 10 médecins" : n + (n === 1 ? " médecin" : " médecins")); }, calcPre: function (p) { return "Pré-inscrit : " + p + " / mois →"; }, prYour: function (p) { return "Votre tarif : " + p; },
           typed: ["Déplace les patients de jeudi du Dr. B à la semaine prochaine", "Prépare chaque soir la liste des absents", "Bloque le Dr. A de 12 h à 14 h tous les mardis"],
           errReq: "Ce champ est obligatoire.", errSpecOther: "Précisez votre spécialité.", errTitle: "Écrivez au moins 5 caractères.", errDetails: "Décrivez votre besoin en 20 caractères minimum.", errCat: "Choisissez ce que cela concerne.", errFreq: "Choisissez une fréquence.", errConsent: "Votre accord est nécessaire pour envoyer.", errContact: "Entrez un e-mail ou un numéro valide.", errSend: "L'envoi a échoué. Réessayez dans un instant.", sending: "Envoi…",
           vote: "Voter", voted: "Voté", st: { considering: "À l'étude", planned: "Prévu", in_progress: "En cours", shipped: "Disponible" } },
     ar: { rot: ["منظّمة أخيرًا.", "هادئة أخيرًا.", "في الموعد أخيرًا."], copied: "تمّ النسخ", phone: function (a) { return "التذكرة 07، أمامك " + a + " مرضى"; },
+          errPhone: "أدخلوا رقمًا جزائريًا صحيحًا، مثل 0551 23 45 67.", errName: "اكتبوا حرفين على الأقل.", prDup: "هذا الرقم مسجّل مسبقًا: خصم 10% محجوز لكم.", prQuote: "حسب العرض، مع خصم 10%", prPer: function (n) { return "/ شهريًا · " + (n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"); }, calcPre: function (p) { return "مع التسجيل المسبق: " + p + " / شهريًا ←"; }, prYour: function (p) { return "سعركم: " + p; },
           typed: ["انقل مرضى الخميس للدكتور ب إلى الأسبوع القادم", "حضّر كل مساء قائمة الغائبين", "احجب الدكتور أ من 12 إلى 14 كل ثلاثاء"],
           errReq: "هذا الحقل إلزامي.", errSpecOther: "حدّدوا تخصّصكم.", errTitle: "اكتبوا 5 أحرف على الأقل.", errDetails: "صفوا حاجتكم في 20 حرفًا على الأقل.", errCat: "اختاروا ما يتعلّق به الأمر.", errFreq: "اختاروا التكرار.", errConsent: "موافقتكم ضرورية للإرسال.", errContact: "أدخلوا بريدًا أو رقمًا صحيحًا.", errSend: "فشل الإرسال. أعيدوا المحاولة بعد قليل.", sending: "جارٍ الإرسال…",
           vote: "صوّت", voted: "تمّ التصويت", st: { considering: "قيد الدراسة", planned: "مُبرمَج", in_progress: "قيد الإنجاز", shipped: "متاح" } },
     en: { rot: ["organised.", "calm.", "on time."], copied: "Address copied", phone: function (a) { return "Ticket 07, " + a + " patients ahead"; },
+          errPhone: "Enter a valid Algerian number, e.g. 0551 23 45 67.", errName: "Write at least 2 characters.", prDup: "This number is already pre-registered: your 10% off is saved.", prQuote: "On quote, 10% off", prPer: function (n) { return "/ month · " + (n > 10 ? "more than 10 doctors" : n + (n === 1 ? " doctor" : " doctors")); }, calcPre: function (p) { return "Pre-registered: " + p + " / month →"; }, prYour: function (p) { return "Your price: " + p; },
           typed: ["Move Dr. B's Thursday patients to next week", "Prepare the no-show list every evening", "Block Dr. A from 12:00 to 14:00 every Tuesday"],
           errReq: "This field is required.", errSpecOther: "Tell us your specialty.", errTitle: "Write at least 5 characters.", errDetails: "Describe your need in at least 20 characters.", errCat: "Choose what it's about.", errFreq: "Choose how often.", errConsent: "Your agreement is needed to send.", errContact: "Enter a valid email or phone number.", errSend: "Sending failed. Please try again in a moment.", sending: "Sending…",
           vote: "Vote", voted: "Voted", st: { considering: "Considering", planned: "Planned", in_progress: "In progress", shipped: "Available" } }
@@ -1233,6 +1394,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
 
   var root = document.documentElement;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById("p-specialty").innerHTML = document.getElementById("f-specialty").innerHTML;
   var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   var labelNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n-label]"));
   var fr = {};
@@ -1380,6 +1542,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       if (cycle === "y") note += c.save(c.cur(m * 2));
       noteEl.textContent = note;
     }
+    document.getElementById("calc-pre").textContent = docs > 10 ? x().prQuote : x().calcPre(C[current].cur(Math.round(monthly(docs) * 0.9)));
+    var pd = document.getElementById("p-docs"); if (pd) { pd.value = String(Math.min(docs, 11)); renderPrereg(); }
     document.getElementById("cyc-m").setAttribute("aria-pressed", String(cycle === "m"));
     document.getElementById("cyc-y").setAttribute("aria-pressed", String(cycle === "y"));
   }
@@ -1529,6 +1693,65 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   });
 
 
+  /* Pre-registration (10% off for 12 months) */
+  var pForm = document.getElementById("prereg-form"), pBody = document.getElementById("pr-body"), pDone = document.getElementById("pr-done");
+  var pDocs = document.getElementById("p-docs"), pSpec = document.getElementById("p-specialty"), pPhone = document.getElementById("p-phone"), pName = document.getElementById("p-name"), pConsent = document.getElementById("p-consent");
+  if (!hasBackend) document.getElementById("pr-preview").hidden = false;
+  function prPrice() { var n = Number(document.getElementById("p-docs").value) || 1; return n > 10 ? null : Math.round(monthly(n) * 0.9); }
+  function renderPrereg() {
+    var pDocs = document.getElementById("p-docs");
+    var n = Number(pDocs.value) || 1, c = C[current], v = prPrice();
+    document.getElementById("pr-price").textContent = v == null ? c.quote : c.cur(v);
+    var was = document.getElementById("pr-was"); was.hidden = v == null; was.textContent = v == null ? "" : c.cur(monthly(n));
+    document.getElementById("pr-per").textContent = x().prPer(n);
+  }
+  pDocs.addEventListener("change", function () { docs = Number(pDocs.value) || 1; renderCalc(); });
+  function normPhone(v) { return v.replace(/[\s.\-()]/g, "").replace(/^00213/, "+213").replace(/^\+213/, "0"); }
+  function pValidate() {
+    var e = x(), first = null;
+    function check(id, ok, msg, field) { document.getElementById("e-" + id).textContent = ok ? "" : msg; field.setAttribute("aria-invalid", ok ? "false" : "true"); if (!ok && !first) first = field; }
+    check("p-name", pName.value.trim().length >= 2, e.errName, pName);
+    check("p-phone", /^0\d{8,9}$/.test(normPhone(pPhone.value)), e.errPhone, pPhone);
+    check("p-specialty", !!pSpec.value, e.errReq, pSpec);
+    check("p-consent", pConsent.checked, e.errConsent, pConsent);
+    return first;
+  }
+  ["p-name", "p-phone", "p-specialty"].forEach(function (id) { document.getElementById(id).addEventListener("blur", function () { if (pForm.dataset.tried) pValidate(); }); });
+  pForm.addEventListener("change", function () { if (pForm.dataset.tried) pValidate(); });
+  pForm.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    pForm.dataset.tried = "1";
+    var sendErr = document.getElementById("e-p-send"); sendErr.textContent = "";
+    var bad = pValidate(); if (bad) { bad.focus(); return; }
+    if (document.getElementById("p-website").value) return;
+    var v = prPrice();
+    var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), specialty: pSpec.value, doctors: Number(pDocs.value) || 1,
+      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-12m", lang: current };
+    var btn = document.getElementById("p-submit"), label = document.getElementById("p-submit-label");
+    function done(dup) {
+      pBody.hidden = true; pDone.hidden = false;
+      document.getElementById("pr-done-price").textContent = dup ? x().prDup : v == null ? x().prQuote : x().prYour(C[current].cur(v) + " " + x().prPer(Number(pDocs.value) || 1));
+      pDone.focus();
+    }
+    if (!hasBackend) { done(false); return; }
+    btn.disabled = true; label.textContent = x().sending;
+    api("preregistrations", { method: "POST", prefer: "return=minimal", body: payload })
+      .then(function () { done(false); })
+      .catch(function (err) { if (String(err && err.message) === "409") done(true); else sendErr.textContent = x().errSend; })
+      .then(function () { btn.disabled = false; label.innerHTML = T[current].prSend; });
+  });
+
+  /* Sticky pre-registration bar on phones: hidden over the hero, the form and the final call */
+  var sticky = document.getElementById("sticky-cta");
+  if ("IntersectionObserver" in window) {
+    var seen = new Set();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) seen.add(en.target); else seen.delete(en.target); });
+      sticky.classList.toggle("show", seen.size === 0);
+    }, { threshold: 0 });
+    [document.querySelector(".hero"), document.getElementById("preinscription"), document.getElementById("contact")].forEach(function (el) { if (el) io.observe(el); });
+  }
+
   /* Theme: light by default, dark on demand (remembered) */
   var themeBtn = document.getElementById("theme-toggle");
   var THEME_LBL = { fr: ["Thème sombre", "Thème clair"], ar: ["الوضع الداكن", "الوضع الفاتح"], en: ["Dark theme", "Light theme"] };
@@ -1552,7 +1775,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     labelNodes.forEach(function (n) { var v = T[l][n.dataset.i18nLabel]; if (v != null) n.label = v; });
     document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
     setStore("medica-lang", l);
-    buildRot(); heroRender(); demoRender(); renderCalc(); renderRoadmap(); typeLoop();
+    buildRot(); heroRender(); demoRender(); renderCalc(); renderPrereg(); renderRoadmap(); typeLoop();
+    if (pForm.dataset.tried) pValidate();
     applyTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
     if (form.dataset.tried) validate(false);
   }
