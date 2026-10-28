@@ -6,387 +6,393 @@
 <title>Medica</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Medica : rendez-vous, file d'attente en direct et rappels pour cabinets médicaux, dentaires et cliniques en Algérie.">
+<script>document.documentElement.classList.add("js");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Alexandria:wght@500;700;800&family=Readex+Pro:wght@400;500;600&display=swap">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Onest:wght@400;500;600;700&family=Geist+Mono:wght@500;600&family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: one clinic morning, told in order. Dark "waiting-room board" hero → the morning without/with Medica
-   (flip toggle) → a live queue you can drive → bento of what's inside → price → your idea → go.
-   Brand: clinic green + amber ticket digits. Display: Bricolage Grotesque, Instrument Serif italic for the human words. */
+/* Layout follows a calm clinic day: a sunrise hero with the "Today" screen rising into view → the morning,
+   without and with Medica → what's inside → simple rules → a live queue → price → pre-register → ideas → FAQ.
+   Palette: deep navy ink, lake blue for actions, sunrise amber, mint, sky and lavender tints. Radius 8px everywhere. */
 :root {
-  --bg: #F4F7F5; --surface: #FFFFFF; --sunk: #E7EEEA; --ink: #0E211D; --muted: #4A5E58; --line: #D2DDD8;
-  --accent: #0B7A62; --accent-2: #12A37F; --accent-ink: #FFFFFF; --accent-soft: #DCF1EA;
-  --board: #0C1A17; --board-2: #12251F; --board-ink: #E8F2EE; --board-muted: #9AB3AB; --board-line: #23382F;
-  --signal: #F4A62A; --danger: #B42318; --danger-soft: #FBE7E4;
-  --room-wall: #EEF5F1; --room-floor: #DFEAE4; --room-line: #C6D7CF; --room-desk: #FFFFFF; --room-chair: #B9CDC4; --fig-a: #2E6E5E; --fig-b: #C98A3A; --fig-c: #6F8A82; --fig-d: #4F7FA6; --fig-head: #D9B896;
-  --band: #E6F2EC; --band-2: #F4FAF7; --band-ink: #0E211D; --band-muted: #3F5A52; --band-line: #C4DBD1; --band-signal: #A8530A; --band-accent: #0B7A62;
-  --font-display: "Bricolage Grotesque", "Alexandria", system-ui, sans-serif;
-  --font-human: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-body: "Figtree", "Readex Pro", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --r: 18px;
-  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --bg: #F6F7FB; --surface: #FFFFFF; --sunk: #EEF1F6; --ink: #141C33; --muted: #59637E; --line: #E0E4EE;
+  --accent: #2F5BEA; --accent-hover: #2449C9; --accent-ink: #FFFFFF; --accent-soft: #E8EEFF;
+  --sun: #F5A524; --sun-soft: #FFF2DC; --mint: #1E9E74; --mint-soft: #DFF5EC; --sky: #E4EFFF; --lav: #EEEAFE; --peach: #FFE9DC;
+  --danger: #C8372B; --danger-soft: #FDECEA; --night: #0F1730;
+  --serif: "Newsreader", "Amiri", Georgia, serif;
+  --sans: "Onest", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 8px;
+  --shadow: 0 1px 2px rgba(20, 28, 51, .06), 0 14px 34px -14px rgba(20, 28, 51, .2);
+  --ease: cubic-bezier(.16, 1, .3, 1);
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0A1311; --surface: #111E1B; --sunk: #172723; --ink: #E6EFEB; --muted: #9DB2AB; --line: #24372F;
-    --accent: #3CC29F; --accent-2: #5FD8B6; --accent-ink: #052019; --accent-soft: #143A30;
-    --board: #060E0C; --board-2: #0D1A17; --board-ink: #E6EFEB; --board-muted: #8FA79F; --board-line: #1D302A;
-    --signal: #F6B54C; --danger: #F07167; --danger-soft: #3A1714;
-    --room-wall: #10201C; --room-floor: #0B1714; --room-line: #2A4038; --room-desk: #182B26; --room-chair: #2C443C; --fig-a: #4FB79A; --fig-b: #D9A257; --fig-c: #8AA39B; --fig-d: #6E9CC4; --fig-head: #C9A88A;
-    --band: #0C1A17; --band-2: #12251F; --band-ink: #E8F2EE; --band-muted: #9AB3AB; --band-line: #23382F; --band-signal: #F6B54C; --band-accent: #5FD8B6;
+    --bg: #0D1222; --surface: #141B30; --sunk: #1A2340; --ink: #ECF0FA; --muted: #A2ABC5; --line: #263050;
+    --accent: #819DFF; --accent-hover: #A0B5FF; --accent-ink: #0B1020; --accent-soft: #1E2A52;
+    --sun: #FFC46B; --sun-soft: #33280F; --mint: #4CD3A5; --mint-soft: #13332A; --sky: #16264A; --lav: #221E3F; --peach: #352419;
+    --danger: #FF8A7E; --danger-soft: #3A1A17; --night: #080D1B;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 40px -18px rgba(0, 0, 0, .7);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0A1311; --surface: #111E1B; --sunk: #172723; --ink: #E6EFEB; --muted: #9DB2AB; --line: #24372F;
-  --accent: #3CC29F; --accent-2: #5FD8B6; --accent-ink: #052019; --accent-soft: #143A30;
-  --board: #060E0C; --board-2: #0D1A17; --board-ink: #E6EFEB; --board-muted: #8FA79F; --board-line: #1D302A;
-  --signal: #F6B54C; --danger: #F07167; --danger-soft: #3A1714;
-  --room-wall: #10201C; --room-floor: #0B1714; --room-line: #2A4038; --room-desk: #182B26; --room-chair: #2C443C; --fig-a: #4FB79A; --fig-b: #D9A257; --fig-c: #8AA39B; --fig-d: #6E9CC4; --fig-head: #C9A88A;
-  --band: #0C1A17; --band-2: #12251F; --band-ink: #E8F2EE; --band-muted: #9AB3AB; --band-line: #23382F; --band-signal: #F6B54C; --band-accent: #5FD8B6;
+  --bg: #0D1222; --surface: #141B30; --sunk: #1A2340; --ink: #ECF0FA; --muted: #A2ABC5; --line: #263050;
+  --accent: #819DFF; --accent-hover: #A0B5FF; --accent-ink: #0B1020; --accent-soft: #1E2A52;
+  --sun: #FFC46B; --sun-soft: #33280F; --mint: #4CD3A5; --mint-soft: #13332A; --sky: #16264A; --lav: #221E3F; --peach: #352419;
+  --danger: #FF8A7E; --danger-soft: #3A1A17; --night: #080D1B;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 40px -18px rgba(0, 0, 0, .7);
   color-scheme: dark;
 }
-html[lang="ar"] {
-  --font-display: "Alexandria", "Bricolage Grotesque", system-ui, sans-serif;
-  --font-human: "Alexandria", system-ui, sans-serif;
-  --font-body: "Readex Pro", "Figtree", system-ui, sans-serif;
-}
+html[lang="ar"] { --serif: "Amiri", "Newsreader", Georgia, serif; --sans: "IBM Plex Sans Arabic", "Onest", system-ui, sans-serif; }
+
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.6 var(--font-body); -webkit-font-smoothing: antialiased; }
-.wrap { max-width: 1160px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
-h1 { font-size: clamp(2.6rem, 6.4vw, 5.2rem); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; }
-h2 { font-size: clamp(1.9rem, 4vw, 3.1rem); line-height: 1.08; font-weight: 700; letter-spacing: -0.02em; }
-h3 { font-size: 1.2rem; line-height: 1.25; font-weight: 700; }
-html[lang="ar"] h1, html[lang="ar"] h2 { letter-spacing: 0; line-height: 1.35; }
-html[lang="ar"] h1 { font-size: clamp(2.2rem, 5.4vw, 4.2rem); }
-em.h { font-family: var(--font-human); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
-html[lang="ar"] em.h { font-style: normal; font-weight: 800; color: var(--accent); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+.wrap { max-width: 1200px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
+h2 { font: 400 clamp(2rem, 4.4vw, 3.3rem)/1.08 var(--serif); letter-spacing: -.015em; }
+h2 em, h1 em { font-style: italic; }
+html[lang="ar"] h1, html[lang="ar"] h2 { letter-spacing: 0; line-height: 1.3; }
+h3 { font: 600 1.15rem/1.3 var(--sans); }
 p { margin: 0; }
+.lede { font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: var(--muted); max-width: 60ch; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+section { padding-block: clamp(72px, 10vw, 128px); }
+.center-head { text-align: center; max-width: 760px; margin: 0 auto clamp(36px, 5vw, 60px); display: grid; gap: 16px; justify-items: center; }
+.kicker { font-size: .95rem; color: var(--accent); font-weight: 600; }
 a { color: var(--accent); }
-:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; border-radius: 8px; }
-.eyebrow { font: 600 0.8rem/1.2 var(--font-body); text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
-html[lang="ar"] .eyebrow { letter-spacing: 0; font-size: 0.95rem; text-transform: none; }
-.lede { font-size: clamp(1.08rem, 1.6vw, 1.25rem); color: var(--muted); max-width: 60ch; }
-section { padding-block: clamp(64px, 9vw, 120px); }
-.section-head { display: grid; gap: 16px; max-width: 760px; margin-bottom: clamp(32px, 5vw, 56px); }
-.mono { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 24px; border-radius: 14px; border: 1px solid transparent; font: 700 1rem/1 var(--font-body); text-decoration: none; cursor: pointer; transition: transform .25s var(--ease-out), background-color .2s, box-shadow .25s; }
-.btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--accent) 70%, transparent); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 34px -12px color-mix(in srgb, var(--accent) 80%, transparent); }
-.btn-primary:active { transform: translateY(0) scale(.98); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: var(--r); border: 1px solid transparent; font: 600 .98rem/1 var(--sans); text-decoration: none; cursor: pointer; transition: background .25s, color .25s, border-color .25s, transform .25s var(--ease), box-shadow .25s; white-space: nowrap; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { transform: scale(.98); }
 .btn-primary:disabled { opacity: .6; cursor: progress; }
-.btn-ghost { background: transparent; color: inherit; border-color: color-mix(in srgb, currentColor 30%, transparent); }
-.btn-ghost:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
-.btn svg { flex: none; }
-html[dir="rtl"] .btn .arrow { transform: scaleX(-1); }
+.btn-split { padding-inline-end: 6px; }
+.btn-arrow { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 6px; background: rgba(255, 255, 255, .2); transition: transform .35s var(--ease); }
+.btn-split:hover .btn-arrow { transform: translateX(3px); }
+[dir="rtl"] .btn-arrow svg { transform: scaleX(-1); }
+[dir="rtl"] .btn-split:hover .btn-arrow { transform: translateX(-3px); }
+.btn-glass { background: rgba(255, 255, 255, .12); color: #fff; border-color: rgba(255, 255, 255, .38); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.btn-glass:hover { background: rgba(255, 255, 255, .22); }
+.btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { background: var(--sunk); }
+.btn-dark { background: var(--ink); color: var(--surface); }
+.btn-dark:hover { opacity: .9; }
+.btn-light { background: #fff; color: #141C33; }
 
 /* Header */
-header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: color-mix(in srgb, var(--band) 88%, transparent); backdrop-filter: blur(14px); color: var(--band-ink); border-bottom: 1px solid var(--band-line); }
-.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 66px; }
-.brand { display: flex; align-items: center; gap: 10px; font: 800 1.35rem/1 var(--font-display); color: var(--band-ink); text-decoration: none; }
-.navlinks { display: flex; gap: 22px; }
-.navlinks a { color: var(--band-muted); text-decoration: none; font-weight: 600; font-size: .95rem; }
-.navlinks a:hover { color: var(--band-ink); }
-.top-actions { display: flex; align-items: center; gap: 10px; }
-.lang { display: inline-flex; border: 1px solid var(--band-line); border-radius: 999px; padding: 3px; }
-.lang button { border: 0; background: transparent; color: var(--band-muted); font: 600 .86rem/1 var(--font-body); padding: 8px 11px; border-radius: 999px; cursor: pointer; min-width: 38px; min-height: 36px; }
-.lang button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
-.lang button[data-lang="ar"] { font-family: "Readex Pro", sans-serif; }
-.theme-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--band-line); background: transparent; color: var(--band-ink); cursor: pointer; }
-.theme-btn:hover { background: color-mix(in srgb, var(--band-ink) 8%, transparent); }
-.theme-btn .moon { display: none; }
-:root[data-theme="dark"] .theme-btn .sun { display: none; }
-:root[data-theme="dark"] .theme-btn .moon { display: block; }
-@media (max-width: 960px) { .navlinks { display: none; } }
-@media (max-width: 620px) { .top .btn { display: none; } }
+.top { position: fixed; inset-inline: 0; top: 0; z-index: 50; color: #fff; transition: background .35s, color .35s, box-shadow .35s; }
+.top.solid { background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
+.top-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 68px; }
+.brand { font: italic 500 1.75rem/1 var(--serif); letter-spacing: -.01em; color: inherit; text-decoration: none; }
+html[lang="ar"] .brand { font-style: normal; font-weight: 700; }
+.navlinks { display: flex; gap: 2px; padding: 4px; border-radius: var(--r); background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.top.solid .navlinks { background: var(--sunk); border-color: var(--line); }
+.navlinks a { color: inherit; text-decoration: none; font-size: .9rem; font-weight: 500; padding: 7px 12px; border-radius: 6px; transition: background .2s; }
+.navlinks a:hover { background: rgba(255, 255, 255, .18); }
+.top.solid .navlinks a:hover { background: var(--surface); }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+.lang { display: flex; padding: 3px; border-radius: var(--r); border: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
+.lang button { min-width: 34px; height: 32px; border: 0; border-radius: 6px; background: transparent; color: inherit; font: 600 .82rem var(--sans); cursor: pointer; }
+.lang button[aria-pressed="true"] { background: color-mix(in srgb, currentColor 18%, transparent); }
+.theme-btn { width: 40px; height: 40px; display: grid; place-items: center; border-radius: var(--r); border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; cursor: pointer; }
+.theme-btn .moon, [data-theme="dark"] .theme-btn .sun { display: none; }
+[data-theme="dark"] .theme-btn .moon { display: block; }
+.top .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
+.top.solid .btn-light { background: var(--accent); color: var(--accent-ink); }
+@media (max-width: 1000px) { .navlinks { display: none; } }
+@media (max-width: 560px) { .top .btn-light { display: none; } }
 
-/* HERO */
-.hero { position: relative; overflow: hidden; background: radial-gradient(1200px 520px at 80% -10%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 60%), radial-gradient(700px 400px at 0% 110%, color-mix(in srgb, var(--signal) 14%, transparent), transparent 60%), var(--band); color: var(--band-ink); padding-block: clamp(56px, 9vw, 112px) clamp(64px, 9vw, 120px); }
-.paths { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--band-accent); opacity: .32; pointer-events: none; }
-.paths path { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 6 14; animation: flow 18s linear infinite; }
-.paths path:nth-child(3n) { animation-duration: 26s; opacity: .7; }
-.paths path:nth-child(4n) { stroke: var(--signal); opacity: .5; animation-duration: 32s; }
-@keyframes flow { to { stroke-dashoffset: -400; } }
-.hero .wrap { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
-.hero-copy { display: grid; gap: 26px; min-width: 0; }
-.hero h1 { color: var(--band-ink); }
-.rot { display: inline-grid; vertical-align: bottom; color: var(--band-signal); }
-.rot > span { grid-area: 1 / 1; transition: opacity .5s var(--ease-out), transform .6s var(--ease-out), filter .5s; }
-.rot > span[aria-hidden="true"] { opacity: 0; transform: translateY(.45em); filter: blur(6px); }
-.hero .lede { color: var(--band-muted); }
-.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
-.hero .btn-ghost { color: var(--band-ink); }
-.pill { display: inline-flex; align-items: center; gap: 10px; width: fit-content; max-width: 100%; padding: 7px 14px 7px 8px; border-radius: 999px; background: color-mix(in srgb, var(--band-ink) 8%, transparent); border: 1px solid var(--band-line); font-size: .9rem; font-weight: 600; color: var(--band-ink); }
-.pill b { background: var(--signal); color: #1B1205; border-radius: 999px; padding: 3px 9px; font-size: .78rem; flex: none; }
-.trust-row { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--band-muted); font-size: .92rem; }
-.trust-row > span { display: inline-flex; align-items: center; gap: 8px; }
-.trust-row svg { color: var(--band-accent); flex: none; }
-@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+/* Hero */
+.hero { position: relative; padding: 150px 0 0; color: #fff; isolation: isolate; }
+.hero-media { position: absolute; inset: 0 0 200px; z-index: -1; overflow: hidden; background: #2A3A5C; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+.hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13, 21, 46, .62) 0%, rgba(13, 21, 46, .28) 48%, rgba(13, 21, 46, .55) 100%), linear-gradient(90deg, rgba(13, 21, 46, .42), transparent 65%); }
+[dir="rtl"] .hero-media::after { background: linear-gradient(180deg, rgba(13, 21, 46, .62) 0%, rgba(13, 21, 46, .28) 48%, rgba(13, 21, 46, .55) 100%), linear-gradient(270deg, rgba(13, 21, 46, .42), transparent 65%); }
+.hero-in { position: relative; display: grid; grid-template-columns: 1.35fr .85fr; align-items: end; gap: 32px; min-height: calc(100svh - 360px); padding-bottom: 48px; }
+.hero-in > * { min-width: 0; }
+.hero-kicker { display: inline-block; font-size: .9rem; padding: 7px 11px; border-radius: var(--r); background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .28); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin-bottom: 22px; }
+.hero h1 { font: 400 clamp(2.6rem, 6.4vw, 5.2rem)/1.02 var(--serif); letter-spacing: -.02em; max-width: 13ch; }
+html[lang="ar"] .hero h1 { line-height: 1.25; max-width: 14ch; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.hero-side { display: grid; gap: 12px; padding-bottom: 6px; }
+.hero-side p { color: rgba(255, 255, 255, .9); max-width: 38ch; }
+.hero-side .hero-micro { font-size: .9rem; color: rgba(255, 255, 255, .72); }
+.hero-rail { position: absolute; inset-inline-end: 0; top: -40px; display: grid; gap: 7px; justify-items: end; font: 500 .75rem var(--mono); color: rgba(255, 255, 255, .7); }
+.hero-rail i { display: block; width: 12px; height: 1px; background: rgba(255, 255, 255, .45); }
+.hero-rail i.l { width: 24px; background: #fff; }
+@media (max-width: 900px) { .hero-in { grid-template-columns: 1fr; min-height: 0; } .hero-rail { display: none; } }
 
-/* Phone ticket */
-.phone { justify-self: center; width: min(340px, 100%); border-radius: 40px; padding: 12px; background: linear-gradient(160deg, #2A3A35, #0B1512); box-shadow: 0 40px 80px -30px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.08); transform: rotate(-2.5deg); transition: transform .8s var(--ease-out); }
-.phone:hover { transform: rotate(0deg) translateY(-6px); }
-html[dir="rtl"] .phone { transform: rotate(2.5deg); }
-.screen { border-radius: 30px; overflow: hidden; background: var(--bg); color: var(--ink); display: grid; }
-.screen-top { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px 8px; font: 600 .78rem var(--font-mono); color: var(--muted); direction: ltr; }
-.now-board { margin: 6px 12px; padding: 16px 18px; border-radius: 20px; background: var(--board); color: var(--board-ink); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 6px; }
-.now-board small { display: block; color: var(--board-muted); font-size: .82rem; }
-.now-board strong { font-weight: 600; }
-.digits { font: 700 3.6rem/1 var(--font-mono); color: var(--signal); direction: ltr; display: inline-flex; overflow: hidden; height: 1em; }
-.digits span { display: inline-block; transition: transform .38s var(--ease-out); }
-.ticket { margin: 10px 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px 18px; display: grid; gap: 12px; position: relative; }
-.ticket::before, .ticket::after { content: ""; position: absolute; top: 58px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); }
-.ticket::before { inset-inline-start: -10px; } .ticket::after { inset-inline-end: -10px; }
-.ticket-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.ticket .num { font: 700 2.4rem/1 var(--font-mono); color: var(--accent); direction: ltr; }
-.ticket .when { color: var(--muted); font-size: .9rem; }
-.tear { border-top: 2px dashed var(--line); }
-.meter { height: 8px; border-radius: 99px; background: var(--sunk); overflow: hidden; display: flex; }
-.meter span { display: block; height: 100%; width: 40%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: inherit; transition: width .8s var(--ease-out); }
-.ticket-meta { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: .92rem; }
-.ticket-meta b { color: var(--ink); }
+/* "Today" screen rising over the hero */
+.shot-wrap { perspective: 1400px; }
+.app-shot { transform: translateY(calc((1 - var(--p, 0)) * 80px)) scale(calc(.955 + var(--p, 0) * .045)); transform-origin: 50% 0; will-change: transform; }
+.app { display: grid; grid-template-columns: 196px 1fr; background: var(--surface); color: var(--ink); border-radius: var(--r); border: 1px solid var(--line); box-shadow: 0 50px 90px -40px rgba(13, 21, 46, .55); overflow: hidden; text-align: start; }
+.app-side { background: var(--sunk); padding: 18px 12px; display: grid; align-content: start; gap: 18px; border-inline-end: 1px solid var(--line); }
+.app-side b { font: italic 500 1.3rem/1 var(--serif); padding-inline: 8px; }
+.app-side nav { display: grid; gap: 2px; }
+.app-side nav span { padding: 8px 10px; border-radius: 6px; font-size: .88rem; color: var(--muted); }
+.app-side nav span.on { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
+.app-main { padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.app-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.app-top h4 { font: 600 1.05rem var(--sans); }
+.app-top small { color: var(--muted); font-size: .8rem; }
+.app-search { font-size: .82rem; color: var(--muted); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 12px; min-width: 200px; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.kpi { border: 1px solid var(--line); border-radius: var(--r); padding: 12px; display: grid; gap: 2px; min-width: 0; }
+.kpi small { font-size: .78rem; color: var(--muted); }
+.kpi b { font: 600 1.5rem/1.2 var(--mono); }
+.kpi span { font-size: .74rem; color: var(--mint); }
+.app-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; }
+.panel { border: 1px solid var(--line); border-radius: var(--r); padding: 12px; min-width: 0; }
+.panel-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.panel-h b { font-size: .9rem; }
+.panel-h small { font-size: .75rem; color: var(--mint); font-weight: 600; }
+.aq { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.aq li { display: grid; grid-template-columns: 34px 1fr auto auto; gap: 10px; align-items: center; padding: 7px 8px; border-radius: 6px; font-size: .84rem; animation: rowIn .6s var(--ease) both; }
+.aq li .t { font: 600 .84rem var(--mono); }
+.aq li .v { color: var(--muted); font-size: .78rem; }
+.aq li .s { font-size: .74rem; font-weight: 600; color: var(--muted); }
+.aq li.cur { background: var(--accent-soft); }
+.aq li.cur .s { color: var(--accent); }
+.aq li.arr .s { color: var(--mint); }
+@keyframes rowIn { from { opacity: 0; transform: translateY(6px); } }
+.tl { display: grid; gap: 7px; }
+.tl-row { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; font: 500 .72rem var(--mono); color: var(--muted); }
+.tl-row div { height: 22px; border-radius: 6px; background: var(--sunk); position: relative; overflow: hidden; }
+.tl-row div i { position: absolute; top: 0; bottom: 0; border-radius: 6px; }
+.tl-row .a { background: var(--sky); } .tl-row .b { background: var(--mint-soft); } .tl-row .c { background: var(--sun-soft); } .tl-row .d { background: var(--lav); }
+.tl-row .now { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--accent); }
+@media (max-width: 900px) { .app { grid-template-columns: 1fr; } .app-side { display: none; } .kpis { grid-template-columns: 1fr 1fr; } .app-grid { grid-template-columns: 1fr; } .tl-panel { display: none; } .app-search { display: none; } }
 
 /* Morning: without / with */
-.switch-wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
-.switch { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 5px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 24px -14px rgba(0,0,0,.25); }
-.switch button { position: relative; z-index: 1; border: 0; background: transparent; padding: 12px 22px; min-height: 46px; border-radius: 999px; font: 700 1rem/1 var(--font-body); color: var(--muted); cursor: pointer; transition: color .3s; }
-.switch .knob { position: absolute; z-index: 0; top: 5px; bottom: 5px; inset-inline-start: 5px; width: calc(50% - 5px); border-radius: 999px; background: var(--danger); transition: transform .55s var(--ease-out), background-color .4s; }
-.switch button[aria-pressed="true"] { color: #fff; }
-.morning[data-mode="with"] .switch .knob { transform: translateX(100%); background: var(--accent); }
-html[dir="rtl"] .morning[data-mode="with"] .switch .knob { transform: translateX(-100%); }
-.morning[data-mode="with"] .switch button[aria-pressed="true"] { color: var(--accent-ink); }
-.hint { color: var(--muted); font-size: .95rem; display: inline-flex; align-items: center; gap: 8px; }
-.hint svg { animation: nudge 1.6s ease-in-out infinite; color: var(--accent); flex: none; }
-html[dir="rtl"] .hint svg { transform: scaleX(-1); }
-@keyframes nudge { 50% { translate: 4px 0; } }
-.morning[data-mode="with"] .hint { visibility: hidden; }
-.scenes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.scene { perspective: 1200px; min-width: 0; display: grid; }
-.scene-inner { display: grid; transition: transform .8s var(--ease-out); transform-style: preserve-3d; }
-.face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--r); padding: 24px; display: grid; gap: 12px; align-content: start; }
-.face.bad { background: var(--surface); border: 1px solid var(--line); }
-.face.good { background: var(--band); color: var(--band-ink); transform: rotateY(180deg); border: 1px solid var(--band-line); }
-.morning[data-mode="with"] .scene-inner { transform: rotateY(180deg); }
-.morning[data-mode="with"] .scene:nth-child(2) .scene-inner { transition-delay: .08s; }
-.morning[data-mode="with"] .scene:nth-child(3) .scene-inner { transition-delay: .16s; }
-.morning[data-mode="with"] .scene:nth-child(4) .scene-inner { transition-delay: .24s; }
-.clock { font: 700 1.6rem/1 var(--font-mono); direction: ltr; justify-self: start; }
-.face.bad .clock { color: var(--danger); }
-.face.good .clock { color: var(--band-signal); }
-.face .tag { justify-self: start; font-size: .78rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
-.face.bad .tag { background: var(--danger-soft); color: var(--danger); }
-.face.good .tag { background: color-mix(in srgb, var(--band-accent) 18%, transparent); color: var(--band-accent); }
-.face.bad p { color: var(--muted); }
-.face.good p { color: var(--band-muted); }
-.face.good h3 { color: var(--band-ink); }
-@media (max-width: 1000px) { .scenes { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .scenes { grid-template-columns: 1fr; } }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.story-grid > * { min-width: 0; }
+.story-media { position: relative; aspect-ratio: 1 / 1.02; border-radius: var(--r); overflow: hidden; background: var(--sunk); }
+.story-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .8s ease, transform 1.4s var(--ease); }
+.story[data-mode="with"] .ph-bad, .story[data-mode="without"] .ph-good { opacity: 0; transform: scale(1.05); }
+.story-board { position: absolute; top: 16px; inset-inline-start: 16px; background: var(--night); color: #fff; border-radius: var(--r); padding: 12px 16px; display: flex; gap: 16px; align-items: center; transition: opacity .6s, transform .6s var(--ease); }
+.story-board small { display: block; font-size: .72rem; color: rgba(255, 255, 255, .7); }
+.story-board b { font: 600 2rem/1 var(--mono); color: var(--sun); }
+.story-board .nx { font: 500 .9rem var(--mono); color: rgba(255, 255, 255, .7); display: grid; gap: 2px; border-inline-start: 1px solid rgba(255, 255, 255, .2); padding-inline-start: 14px; }
+.story[data-mode="without"] .story-board { opacity: 0; transform: translateY(-10px); }
+.story-cap { position: absolute; inset-inline: 16px; bottom: 16px; background: var(--surface); color: var(--ink); border-radius: var(--r); padding: 12px 14px; display: flex; gap: 10px; align-items: baseline; box-shadow: var(--shadow); font-size: .95rem; }
+.story-cap b { font: 600 .9rem var(--mono); color: var(--muted); }
+.story[data-mode="with"] .cap.bad, .story[data-mode="without"] .cap.good { display: none; }
+.story-copy { display: grid; gap: 22px; }
+.seg { display: inline-flex; padding: 4px; background: var(--sunk); border-radius: var(--r); justify-self: start; }
+.seg button { min-height: 40px; padding: 0 16px; border-radius: 6px; border: 0; background: transparent; color: var(--muted); font: 600 .92rem var(--sans); cursor: pointer; transition: background .25s, color .25s, box-shadow .25s; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.steps { position: relative; padding: 0 0 0 22px; }
+.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+[dir="rtl"] .steps { padding: 0 22px 0 0; }
+.rail { position: absolute; inset-inline-start: 0; top: 10px; bottom: 10px; width: 2px; background: var(--line); }
+.rail i { position: absolute; inset-inline-start: 0; top: 0; width: 2px; height: var(--fill, 25%); background: var(--accent); transition: height .7s var(--ease); }
+.rail i::after { content: ""; position: absolute; bottom: -6px; inset-inline-start: -5px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); }
+.step-btn { width: 100%; text-align: start; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 16px 18px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; transition: box-shadow .35s, border-color .35s, transform .35s var(--ease); }
+.step-btn[aria-current="true"] { box-shadow: var(--shadow); border-color: transparent; transform: translateX(4px); }
+[dir="rtl"] .step-btn[aria-current="true"] { transform: translateX(-4px); }
+.step-btn .clock { font: 500 .85rem var(--mono); color: var(--muted); grid-row: span 2; padding-top: 3px; }
+.step-btn strong { font: 600 1.05rem/1.3 var(--sans); }
+.step-btn .p { color: var(--muted); font-size: .95rem; }
+.story[data-mode="with"] .face.bad, .story[data-mode="without"] .face.good { display: none; }
+.face { display: contents; }
+@media (max-width: 900px) { .story-grid { grid-template-columns: 1fr; } .story-media { aspect-ratio: 4 / 3; } }
+
+/* Features bento */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.card { border-radius: var(--r); padding: 26px; display: grid; gap: 12px; align-content: start; overflow: hidden; min-width: 0; grid-column: span 2; }
+.card > p { color: var(--muted); }
+.card .ui { background: var(--surface); border-radius: var(--r); padding: 14px; box-shadow: var(--shadow); margin-top: 8px; transition: transform .5s var(--ease); }
+.card:hover .ui { transform: translateY(-4px); }
+.c-a { background: var(--sky); } .c-b { background: var(--sun-soft); } .c-c { background: var(--mint-soft); } .c-f { background: var(--lav); grid-column: span 4; } .c-e { background: var(--peach); }
+.card .note { font-size: .88rem; color: var(--muted); }
+.vt { display: grid; gap: 10px; }
+.vt-row { display: grid; grid-template-columns: 96px 1fr 52px; gap: 10px; align-items: center; font-size: .88rem; }
+.vt-row .bar { height: 8px; border-radius: 4px; background: var(--sunk); overflow: hidden; }
+.vt-row .bar i { display: block; height: 100%; width: var(--w); background: var(--accent); border-radius: 4px; transform-origin: left; }
+[dir="rtl"] .vt-row .bar i { transform-origin: right; }
+.in .vt-row .bar i { animation: grow 1.2s var(--ease) both; }
+@keyframes grow { from { transform: scaleX(0); } }
+.vt-row .min { font: 500 .82rem var(--mono); text-align: end; }
+.learn { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; font-size: .85rem; flex-wrap: wrap; }
+.learn .apply { color: var(--accent); font-weight: 600; }
+.rem { display: grid; }
+.rem div { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); font-size: .9rem; flex-wrap: wrap; }
+.rem div:first-child { border-top: 0; padding-top: 0; }
+.rem span { color: var(--muted); }
+.tk-board { display: flex; justify-content: space-between; align-items: center; background: var(--night); color: #fff; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; }
+.tk-board small { font-size: .74rem; color: rgba(255, 255, 255, .7); display: block; }
+.tk-board .digits { font: 600 1.6rem/1 var(--mono); color: var(--sun); overflow: hidden; height: 1.6rem; }
+.tk-board .digits span { display: block; transition: transform .38s var(--ease); }
+.tk-row { display: flex; justify-content: space-between; align-items: center; font-size: .88rem; }
+.tk-row .num { font: 600 2rem/1 var(--mono); }
+.tk-row .when { color: var(--muted); font-size: .8rem; }
+.meter { height: 6px; border-radius: 3px; background: var(--sunk); margin: 12px 0 8px; overflow: hidden; }
+.meter span { display: block; height: 100%; width: 40%; background: var(--mint); border-radius: 3px; transition: width .6s var(--ease); }
+.tk-meta { display: flex; justify-content: space-between; font-size: .82rem; color: var(--muted); }
+.tk-meta b { color: var(--ink); }
+.langs { display: grid; gap: 4px; font: 400 2rem/1.15 var(--serif); }
+.langs span:first-child { font-family: "Amiri", serif; }
+.c-f { grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.c-f > div:first-child { display: grid; gap: 12px; }
+.c-f .later { font-size: .85rem; color: var(--muted); font-weight: 600; }
+.typing .q { font-size: .95rem; padding: 12px; border: 1px solid var(--line); border-radius: var(--r); min-height: 70px; }
+.typing .q::after { content: ""; display: inline-block; width: 2px; height: 1.05em; background: var(--accent); margin-inline-start: 2px; vertical-align: -2px; animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.typing .a { display: grid; gap: 6px; margin: 12px 0; font-size: .88rem; color: var(--muted); }
+.typing .a b { color: var(--ink); }
+.typing .ok { display: inline-flex; min-height: 36px; align-items: center; padding: 0 14px; border-radius: var(--r); background: var(--ink); color: var(--surface); font-weight: 600; font-size: .88rem; }
+@media (max-width: 980px) { .bento { grid-template-columns: 1fr 1fr; } .card { grid-column: span 1; } .c-f { grid-column: span 2; } }
+@media (max-width: 640px) { .bento { grid-template-columns: 1fr; } .card, .c-f { grid-column: span 1; } .c-f { grid-template-columns: 1fr; } }
+
+/* Simple rules (stats carousel) */
+.band { background: var(--sunk); }
+.stat-track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 32px) / 3); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.stat-track::-webkit-scrollbar { display: none; }
+.stat-card { scroll-snap-align: start; background: var(--surface); border-radius: var(--r); padding: 26px; display: grid; grid-template-rows: auto auto 1fr; gap: 10px; min-height: 270px; }
+.stat-card .num { font: 400 clamp(2.6rem, 4.4vw, 3.6rem)/1 var(--serif); color: var(--accent); }
+.stat-card h3 { font: 500 1.12rem/1.35 var(--sans); }
+.stat-card p { align-self: end; color: var(--muted); font-size: .95rem; }
+.stat-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 22px; }
+.stat-foot p { color: var(--muted); font-size: .95rem; max-width: 46ch; }
+.arrows { display: flex; gap: 10px; }
+.arrow-btn { width: 46px; height: 46px; display: grid; place-items: center; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; transition: background .2s, transform .2s var(--ease); }
+.arrow-btn.fill { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.arrow-btn:hover { transform: translateY(-2px); }
+[dir="rtl"] .arrow-btn svg { transform: scaleX(-1); }
+@media (max-width: 900px) { .stat-track { grid-auto-columns: calc((100% - 16px) / 2); } }
+@media (max-width: 620px) { .stat-track { grid-auto-columns: 86%; } }
 
 /* Live demo */
-.demo { display: grid; grid-template-columns: 1.35fr .65fr; gap: 24px; align-items: start; }
-.demo > * { min-width: 0; }
-.console { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 30px 60px -40px rgba(0,0,0,.4); }
-.console-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 18px; background: var(--sunk); border-bottom: 1px solid var(--line); }
-.dots { display: flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
-.console-bar b { font-family: var(--font-display); }
-.console-body { padding: 18px; display: grid; gap: 14px; }
+.demo-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.demo-grid > * { min-width: 0; }
+.demo-copy { display: grid; gap: 20px; }
 .controls { display: flex; flex-wrap: wrap; gap: 10px; }
-.controls .btn { min-height: 44px; padding: 0 16px; font-size: .95rem; }
-.controls .btn-ghost { color: var(--ink); }
-.qlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.qitem { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 14px; background: var(--sunk); animation: slidein .5s var(--ease-out); }
-.qitem.current { background: var(--board); color: var(--board-ink); }
-.qitem.current .t { color: var(--signal); }
-.qitem.mine { outline: 2px solid var(--accent); outline-offset: -2px; }
-.qitem .t { font: 700 1.15rem/1 var(--font-mono); direction: ltr; }
-.qitem small { opacity: .75; font-size: .85rem; }
-@keyframes slidein { from { opacity: 0; transform: translateY(8px); } }
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.stat { padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); min-width: 0; }
-.stat b { display: block; font: 700 1.5rem/1.1 var(--font-mono); }
-.stat span { color: var(--muted); font-size: .85rem; }
-.toast { min-height: 1.6em; color: var(--accent); font-weight: 600; font-size: .95rem; }
-.mini-phone { background: var(--board); color: var(--board-ink); border-radius: 26px; padding: 18px; display: grid; gap: 14px; position: sticky; top: 90px; }
-.mini-phone small { color: var(--board-muted); }
-.mini-phone .big { font: 700 3rem/1 var(--font-mono); color: var(--signal); direction: ltr; }
-.mini-phone .msg { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; }
-.mini-phone .meter { background: var(--board-line); }
-.example-note { font-size: .85rem; color: var(--muted); margin-top: 12px; }
-@media (max-width: 860px) { .demo { grid-template-columns: 1fr; } .mini-phone { position: static; } }
+.controls .btn { min-height: 44px; padding: 0 16px; font-size: .92rem; }
+.phone-note { background: var(--sunk); border-radius: var(--r); padding: 18px 20px; display: grid; gap: 8px; }
+.phone-note small { color: var(--muted); font-size: .85rem; }
+.phone-note .ticket-row { display: flex; justify-content: space-between; align-items: baseline; }
+.phone-note .big { font: 600 1.8rem/1 var(--mono); }
+.phone-note .msg { font: 400 1.4rem/1.3 var(--serif); }
+.demo-visual { position: relative; border-radius: var(--r); overflow: hidden; min-height: 560px; background: var(--night); }
+.demo-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.console { position: absolute; inset: auto 20px 20px; background: rgba(13, 21, 46, .84); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; border-radius: var(--r); padding: 16px; display: grid; gap: 12px; }
+.console-bar { display: flex; justify-content: space-between; align-items: center; font-size: .9rem; }
+.console-bar .count { font: 600 .85rem var(--mono); color: var(--sun); }
+.qlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 214px; overflow: auto; }
+.qitem { display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 6px; background: rgba(255, 255, 255, .06); font-size: .9rem; animation: rowIn .5s var(--ease) both; }
+.qitem .t { font: 600 .9rem var(--mono); }
+.qitem small { color: rgba(255, 255, 255, .65); font-size: .78rem; }
+.qitem.current { background: var(--accent); color: #fff; }
+.qitem.current small { color: rgba(255, 255, 255, .85); }
+.qitem.mine { box-shadow: inset 0 0 0 1px var(--sun); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid rgba(255, 255, 255, .15); padding-top: 10px; }
+.stat { display: grid; font-size: .76rem; color: rgba(255, 255, 255, .7); }
+.stat b { font: 600 1.1rem var(--mono); color: #fff; }
+.toast { font-size: .85rem; color: var(--sun); min-height: 1.3em; }
+.example-note { font-size: .85rem; color: var(--muted); margin-top: 14px; }
+@media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } .demo-visual { min-height: 520px; } }
 
-/* Bento */
-.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-.tile { --mx: 50%; --my: 50%; position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px; display: grid; gap: 12px; align-content: start; min-width: 0; }
-.tile::before { content: ""; position: absolute; inset: 0; background: radial-gradient(420px circle at var(--mx) var(--my), color-mix(in srgb, var(--accent) 14%, transparent), transparent 45%); opacity: 0; transition: opacity .3s; pointer-events: none; }
-.tile:hover::before { opacity: 1; }
-.tile p { color: var(--muted); }
-.t-a { grid-column: span 4; } .t-b { grid-column: span 2; } .t-c { grid-column: span 2; } .t-d { grid-column: span 2; } .t-e { grid-column: span 2; } .t-f { grid-column: span 6; }
-.t-f { background: var(--band); color: var(--band-ink); border-color: var(--band-line); grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; }
-.t-f p { color: var(--band-muted); }
-.t-f h3 { color: var(--band-ink); }
-.t-f > div { display: grid; gap: 12px; min-width: 0; }
-@media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; } .tile { grid-column: span 1 !important; } .t-a, .t-f { grid-column: span 2 !important; } .t-f { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .bento { grid-template-columns: 1fr; } .tile, .t-a, .t-f { grid-column: span 1 !important; } }
-.vt { display: grid; gap: 9px; margin-top: 4px; }
-.vt-row { display: grid; grid-template-columns: minmax(0, 8.5rem) 1fr 3.8rem; gap: 12px; align-items: center; font-size: .95rem; }
-.vt-row span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bar { height: 10px; border-radius: 99px; background: var(--sunk); overflow: hidden; display: flex; }
-.bar i { display: block; height: 100%; width: var(--w); background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: inherit; transform-origin: left center; }
-html[dir="rtl"] .bar i { transform-origin: right center; }
-.vt-row .min { font: 700 .9rem var(--font-mono); text-align: end; direction: ltr; }
-.learn { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--accent-soft); border-radius: 12px; padding: 10px 14px; font-size: .92rem; }
-.rem { display: grid; gap: 10px; margin-top: 4px; }
-.rem div { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 12px; background: var(--sunk); font-size: .92rem; }
-.rem b { font-family: var(--font-mono); }
-.chip { font-size: .75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
-.chip.soon { background: color-mix(in srgb, var(--signal) 24%, transparent); color: var(--ink); }
-.t-f .chip.soon { color: var(--band-ink); justify-self: start; }
-.langs { display: flex; gap: 10px 16px; flex-wrap: wrap; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; }
-.langs span:nth-child(1) { font-family: "Alexandria", sans-serif; }
-.badge-v { display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 8px 12px; border-radius: 12px; background: var(--accent-soft); font-weight: 700; font-size: .92rem; }
-.typing { background: var(--band-2); border: 1px solid var(--band-line); border-radius: 16px; padding: 16px; display: grid; gap: 12px; font-size: .95rem; }
-.typing .q { color: var(--band-ink); font-weight: 600; min-height: 3em; }
-.typing .q::after { content: "▍"; color: var(--signal); animation: blink 1s steps(1) infinite; margin-inline-start: 2px; }
-@keyframes blink { 50% { opacity: 0; } }
-.typing .a { display: grid; gap: 6px; color: var(--band-muted); }
-.typing .a b { color: var(--band-ink); }
-.typing .ok { justify-self: start; background: var(--accent); color: var(--accent-ink); border-radius: 10px; padding: 8px 14px; font-weight: 700; }
-
-
-
-/* Waiting-room illustration (linked to the toggle) */
-.room { position: relative; margin-bottom: 22px; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); background: var(--room-wall); }
-.room-svg { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 440; max-width: 100%; }
-.r-wall { fill: var(--room-wall); } .r-floor { fill: var(--room-floor); } .r-line { fill: var(--room-line); }
-.r-door rect { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 3; } .r-knob { fill: var(--room-line); }
-.r-clock circle { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 4; } .r-clock path { stroke: var(--ink); }
-.chair rect { fill: var(--room-chair); }
-.head { fill: var(--fig-head); }
-.r-desk rect { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 3; }
-.r-recep rect { fill: var(--fig-a); }
-.r-paper rect { fill: var(--room-desk); stroke: var(--room-line); stroke-width: 2; } .r-paper path { stroke: var(--room-line); }
-.r-sticky { fill: color-mix(in srgb, var(--signal) 70%, var(--room-desk)); }
-.r-phonebody { fill: var(--danger); } .r-waves { stroke: var(--danger); }
-.bubble circle { fill: var(--surface); stroke: var(--danger); stroke-width: 3; } .bubble text { fill: var(--danger); font: 700 22px var(--font-display); }
-.r-screen > rect:first-child { fill: var(--board); } .r-mount { fill: var(--room-line); }
-.scr-big { fill: var(--signal); font: 700 74px var(--font-mono); } .scr-small { fill: var(--board-ink); font: 700 26px var(--font-mono); } .scr-small.dim { fill: var(--board-muted); }
-.scr-div { fill: var(--board-line); } .scr-dot { fill: var(--accent-2); }
-.r-phone rect { fill: var(--board); } .r-phone circle { fill: var(--signal); }
-.r-plant path { fill: var(--accent-2); } .r-pot { fill: var(--accent); }
-.r-laptop > rect { fill: var(--board); } .r-laptop .l1 { fill: var(--signal); } .r-laptop .l2 { fill: var(--board-muted); }
-.r-logo { fill: var(--accent); opacity: .5; }
-.room .st { transition: opacity .7s var(--ease-out); }
-.room .st.good { opacity: 0; }
-.morning[data-mode="with"] .room .st.bad { opacity: 0; }
-.morning[data-mode="with"] .room .st.good { opacity: 1; }
-.room-cap { display: grid; padding: 14px 20px; background: var(--surface); border-top: 1px solid var(--line); }
-.room-cap .cap { grid-area: 1 / 1; display: flex; gap: 10px; align-items: baseline; transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
-.room-cap .cap b { font-size: 1.05rem; flex: none; }
-.room-cap .cap.bad b { color: var(--danger); } .room-cap .cap.good b { color: var(--accent); }
-.room-cap .cap.good { opacity: 0; transform: translateY(6px); }
-.morning[data-mode="with"] .room-cap .cap.bad { opacity: 0; transform: translateY(-6px); }
-.morning[data-mode="with"] .room-cap .cap.good { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: no-preference) {
-  .r-ring { animation: ring 1.1s ease-in-out infinite; transform-origin: 255px 228px; transform-box: view-box; }
-  @keyframes ring { 0%, 50%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(-9deg); } 20%, 40% { transform: rotate(9deg); } }
-  .r-waves { animation: wave 1.1s ease-out infinite; }
-  @keyframes wave { 0% { opacity: 1; } 100% { opacity: .1; } }
-  .bubble { animation: bob 2.4s ease-in-out infinite; transform-box: fill-box; }
-  .bubble.b2 { animation-delay: .5s; } .bubble.b3 { animation-delay: 1s; }
-  @keyframes bob { 50% { transform: translateY(-8px); } }
-  .scr-dot { animation: live 1.8s ease-in-out infinite; } @keyframes live { 50% { opacity: .25; } }
-  .r-plant path { animation: sway 5s ease-in-out infinite; transform-origin: 80px 214px; transform-box: view-box; }
-  @keyframes sway { 50% { transform: rotate(3deg); } }
-  .r-phone circle { animation: live 2.4s ease-in-out infinite; }
-}
-
-/* Feature index */
-.fidx { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 22px; }
-.fidx-head { display: grid; gap: 6px; }
-.fidx-head p { color: var(--muted); }
-.fidx-cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 24px; }
-.fcol { display: grid; gap: 12px; align-content: start; min-width: 0; }
-.fcol ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
-.fcol li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; font-size: .97rem; }
-.fcol li::before { content: ""; width: 18px; height: 18px; margin-top: 3px; border-radius: 6px; background: var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4.5 9.5l3 3 6-6.5' fill='none' stroke='%230B7A62' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; }
-.fa-soon li::before { background: color-mix(in srgb, var(--signal) 26%, transparent); }
-.fa-later li::before { background: var(--sunk); }
+/* What's inside */
+.fidx { display: grid; gap: 28px; }
+.fidx-cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+.fcol { min-width: 0; }
+.fhead { font: 600 1.05rem var(--sans); padding-bottom: 12px; border-bottom: 2px solid var(--ink); display: flex; justify-content: space-between; }
+.fa-soon .fhead { border-color: var(--sun); } .fa-later .fhead { border-color: var(--line); }
+.fcol ul { list-style: none; margin: 0; padding: 0; }
+.fcol li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.fa-now ul { columns: 2; column-gap: 24px; }
+.fa-now li { break-inside: avoid; }
 .fa-soon li, .fa-later li { color: var(--muted); }
-.fbadge { justify-self: start; font-size: .8rem; font-weight: 700; padding: 5px 12px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
-.fa-soon .fbadge { background: color-mix(in srgb, var(--signal) 30%, transparent); color: var(--ink); }
-.fa-later .fbadge { background: var(--sunk); color: var(--ink); }
-.fa-now ul { grid-template-columns: 1fr; }
-@media (max-width: 900px) { .fidx-cols { grid-template-columns: 1fr; } }
-
-/* Scroll-driven reveal (pure CSS; content stays visible where unsupported) */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
-    @keyframes rise { from { opacity: 0; transform: translateY(28px) scale(.985); } }
-    .bar i { animation: grow linear both; animation-timeline: view(); animation-range: entry 10% cover 35%; }
-    @keyframes grow { from { transform: scaleX(0); } }
-  }
-}
+@media (max-width: 1000px) { .fidx-cols { grid-template-columns: 1fr 1fr; } .fa-now { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .fidx-cols { grid-template-columns: 1fr; } .fa-now ul { columns: 1; } }
 
 /* Pricing */
-.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px; display: grid; gap: 14px; align-content: start; min-width: 0; }
-.plan.featured { border: 2px solid var(--accent); box-shadow: 0 30px 60px -40px color-mix(in srgb, var(--accent) 80%, transparent); }
-.price { font: 800 2.4rem/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
-.price small { font: 400 1rem var(--font-body); color: var(--muted); }
-.plan ul { margin: 0; padding-inline-start: 1.1em; display: grid; gap: 8px; color: var(--muted); }
-.plan li::marker { color: var(--accent); }
-.calc-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-weight: 600; }
-.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); }
-.stepper button { width: 44px; height: 44px; border: 0; background: transparent; color: var(--ink); font: 500 1.3rem/1 var(--font-mono); cursor: pointer; }
-.stepper button:hover { background: var(--sunk); }
-.stepper button:disabled { opacity: .35; cursor: default; }
-.stepper output { min-width: 3.2ch; text-align: center; font: 700 1.4rem/1 var(--font-mono); direction: ltr; }
-.cycle { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: var(--sunk); }
-.cycle button { border: 0; border-radius: 9px; padding: 10px 8px; min-height: 44px; background: transparent; color: var(--muted); font: 600 .9rem/1.2 var(--font-body); cursor: pointer; }
-.cycle button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
-.calc-note { color: var(--muted); font-size: .95rem; min-height: 3em; }
-.addon { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; margin-top: 18px; padding: 18px 22px; border-radius: 18px; border: 1px dashed var(--accent); background: var(--accent-soft); }
-.addon > div { display: grid; gap: 4px; min-width: 0; }
-.addon span { color: var(--muted); }
-.addon .addon-price { font: 800 1.3rem/1.2 var(--font-display); color: var(--ink); white-space: nowrap; }
-.fine { font-size: .92rem; color: var(--muted); margin-top: 16px; max-width: 85ch; }
-@media (max-width: 900px) { .plans { grid-template-columns: 1fr; } }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; margin-top: 12px; }
+.plan { background: var(--sunk); border-radius: var(--r); padding: 10px 10px 22px; display: grid; gap: 18px; min-width: 0; transition: transform .45s var(--ease), box-shadow .45s; }
+.plan.featured { background: var(--surface); box-shadow: var(--shadow); transform: translateY(-14px); }
+.plan:hover { transform: translateY(-6px); }
+.plan.featured:hover { transform: translateY(-18px); }
+.plan-photo { position: relative; border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 9.5; color: #fff; background: var(--night); }
+.plan-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+.plan:hover .plan-photo img { transform: scale(1.06); }
+.plan-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13, 21, 46, .62), rgba(13, 21, 46, .15) 45%, rgba(13, 21, 46, .7)); }
+.plan-top { position: absolute; inset: 14px 14px auto; z-index: 1; display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+.plan-top h3 { font: 600 1.2rem var(--sans); }
+.plan-price { text-align: end; display: grid; }
+.plan-price b { font: 600 1.45rem/1.1 var(--sans); white-space: nowrap; }
+.plan-price small { font-size: .78rem; opacity: .85; }
+.plan-for { position: absolute; inset: auto 14px 12px; z-index: 1; font-size: .92rem; }
+.plan ul { list-style: none; margin: 0; padding: 0 10px; }
+.plan li { padding: 10px 0; border-top: 1px solid var(--line); font-size: .95rem; }
+.plan li:first-child { border-top: 0; }
+.plan .btn { margin: 0 10px; }
+@media (max-width: 980px) { .plans { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; } .plan.featured { transform: none; } .plan:hover, .plan.featured:hover { transform: none; } }
+.estimate { margin-top: 40px; background: var(--sunk); border-radius: var(--r); padding: 26px; display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center; }
+.est-l { display: grid; gap: 12px; min-width: 0; }
+.est-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+.est-head b { font: 600 1.1rem var(--sans); }
+.est-head output { font: 500 .9rem var(--mono); color: var(--muted); }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 26px; background: transparent; cursor: pointer; }
+input[type="range"]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--accent) var(--v, 0%), var(--line) var(--v, 0%)); }
+[dir="rtl"] input[type="range"]::-webkit-slider-runnable-track { background: linear-gradient(270deg, var(--accent) var(--v, 0%), var(--line) var(--v, 0%)); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -8px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); box-shadow: var(--shadow); }
+input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line); }
+input[type="range"]::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--accent); }
+input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); }
+.ticks { display: flex; justify-content: space-between; font: 500 .78rem var(--mono); color: var(--muted); }
+.calc-note { font-size: .9rem; color: var(--muted); }
+.est-r { text-align: end; display: grid; gap: 6px; justify-items: end; }
+.est-r small { color: var(--muted); font-size: .88rem; }
+.est-r .price { font: 600 clamp(2rem, 4vw, 2.8rem)/1 var(--sans); }
+.est-r .price small { font-size: .95rem; font-weight: 500; }
+.calc-pre { font-weight: 600; text-decoration: none; font-size: .95rem; }
+.calc-pre:hover { text-decoration: underline; }
+@media (max-width: 760px) { .estimate { grid-template-columns: 1fr; gap: 20px; } .est-r { text-align: start; justify-items: start; } }
+.trial { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .95rem; color: var(--muted); }
+.trial b { color: var(--ink); }
+.addon { margin-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 18px 22px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); }
+.addon > div { display: grid; gap: 4px; }
+.addon span { color: var(--muted); font-size: .95rem; }
+.addon-price { font: 600 1.15rem var(--sans); color: var(--ink) !important; white-space: nowrap; }
+.fine { margin-top: 16px; font-size: .86rem; color: var(--muted); max-width: 90ch; }
 
-/* Ideas / feature requests */
-.ideas { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(24px, 4vw, 48px); align-items: start; }
-.ideas > * { min-width: 0; }
-.flow { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 16px; counter-reset: f; }
-.flow li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
-.flow li::before { counter-increment: f; content: counter(f); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); font: 700 1rem var(--font-mono); }
-.flow li > div { display: grid; gap: 4px; }
-.flow p { color: var(--muted); font-size: .95rem; }
-.roadmap { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 12px; }
-.roadmap-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-.rm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.rm-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 14px; background: var(--sunk); }
-.rm-item > div { min-width: 0; display: grid; }
-.rm-item .st { font-size: .75rem; font-weight: 700; color: var(--muted); }
-.rm-item .st.planned { color: var(--accent); }
-.vote { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 700 .9rem var(--font-body); cursor: pointer; transition: transform .2s var(--ease-out), background-color .2s; }
-.vote:hover { transform: translateY(-1px); }
-.vote[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); cursor: default; }
-.vote .count { font-family: var(--font-mono); }
-.form { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 18px; box-shadow: 0 30px 60px -45px rgba(0,0,0,.45); }
-.form h3 { font-size: 1.4rem; }
+/* Pre-registration */
+.prereg-sec { background: var(--sky); }
+.prereg { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.prereg > * { min-width: 0; }
+.prereg-media { position: sticky; top: 92px; border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 5; background: var(--night); }
+.prereg-media img { width: 100%; height: 100%; object-fit: cover; }
+.prereg-price { position: absolute; inset: auto 16px 16px; background: var(--surface); color: var(--ink); border-radius: var(--r); padding: 16px 18px; display: grid; gap: 2px; box-shadow: var(--shadow); }
+.prereg-price > span { font-size: .85rem; color: var(--muted); font-weight: 600; }
+.prereg-price .row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.prereg-price b { font: 600 2rem/1.1 var(--sans); }
+.prereg-price s { color: var(--muted); }
+.prereg-price small { color: var(--muted); font-size: .88rem; }
+.prereg-main { display: grid; gap: 22px; }
+.prereg-list { list-style: none; margin: 0; padding: 0; }
+.prereg-list li { padding: 12px 0; border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.prereg-list li:first-child { border-top: 0; padding-top: 0; }
+.prereg-list b { color: var(--accent); }
+@media (max-width: 900px) { .prereg { grid-template-columns: 1fr; } .prereg-media { position: relative; top: 0; aspect-ratio: 16 / 11; } }
+
+/* Forms */
+.form { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(20px, 3vw, 30px); display: grid; gap: 18px; box-shadow: var(--shadow); }
+.form h3 { font: 400 1.7rem/1.2 var(--serif); }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
 .field { display: grid; gap: 6px; min-width: 0; }
 .field > label { font-weight: 600; font-size: .95rem; }
 .req { color: var(--danger); }
 .help { color: var(--muted); font-size: .85rem; }
-input[type="text"], input[type="tel"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; min-height: 48px; }
+input[type="text"], input[type="tel"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--sans); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; min-height: 48px; }
 textarea { min-height: 120px; resize: vertical; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 [aria-invalid="true"] { border-color: var(--danger) !important; }
@@ -396,93 +402,113 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .chips-pick legend { font-weight: 600; font-size: .95rem; margin-bottom: 8px; padding: 0; }
 .chips-pick label { position: relative; cursor: pointer; }
 .chips-pick input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.chips-pick span { display: inline-flex; align-items: center; min-height: 42px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font-weight: 600; font-size: .92rem; transition: background-color .2s, border-color .2s, color .2s; }
-.chips-pick input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.chips-pick input:focus-visible + span { outline: 3px solid var(--signal); outline-offset: 2px; }
+.chips-pick label > span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg); font-weight: 500; font-size: .92rem; transition: background .2s, color .2s, border-color .2s; }
+.chips-pick input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.chips-pick input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 .check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: .95rem; cursor: pointer; }
 .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); }
 .hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.form { position: relative; }
-.summary { border: 1px solid var(--danger); background: var(--danger-soft); border-radius: 14px; padding: 14px 16px; }
+.summary { border: 1px solid var(--danger); background: var(--danger-soft); border-radius: var(--r); padding: 14px 16px; }
 .summary ul { margin: 8px 0 0; padding-inline-start: 1.2em; }
 .summary a { color: var(--danger); font-weight: 600; }
-.done { border-radius: 18px; background: var(--accent-soft); padding: 20px; display: grid; gap: 10px; }
-.done h3 { color: var(--accent); }
-.preview-note { font-size: .88rem; color: var(--muted); border-inline-start: 3px solid var(--signal); padding-inline-start: 10px; }
-.counter { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); justify-self: end; direction: ltr; }
+.done { border-radius: var(--r); background: var(--mint-soft); padding: 20px; display: grid; gap: 10px; }
+.done h3 { font: 400 1.5rem var(--serif); color: var(--ink); }
+.preview-note { font-size: .88rem; color: var(--muted); border-inline-start: 3px solid var(--sun); padding-inline-start: 10px; }
+.form-micro { font-size: .88rem; color: var(--muted); }
+.counter { font-family: var(--mono); font-size: .8rem; color: var(--muted); justify-self: end; direction: ltr; }
+
+/* Ideas + roadmap */
+.ideas { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.ideas > * { min-width: 0; }
+.flow { list-style: none; margin: 0 0 28px; padding: 0; counter-reset: f; }
+.flow li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); }
+.flow li::before { counter-increment: f; content: counter(f, decimal-leading-zero); font: 600 .95rem var(--mono); color: var(--accent); padding-top: 2px; }
+.flow li > div { display: grid; gap: 4px; }
+.flow p { color: var(--muted); font-size: .95rem; }
+.roadmap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: grid; gap: 12px; }
+.roadmap-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.rm-list { list-style: none; margin: 0; padding: 0; }
+.rm-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+.rm-item > div { min-width: 0; display: grid; }
+.rm-item .st { font-size: .78rem; font-weight: 600; color: var(--muted); }
+.rm-item .st.planned { color: var(--accent); }
+.vote { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 12px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 .88rem var(--sans); cursor: pointer; transition: background .2s, transform .2s; }
+.vote:hover { transform: translateY(-1px); }
+.vote[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); cursor: default; }
+.vote .count { font-family: var(--mono); }
 @media (max-width: 900px) { .ideas { grid-template-columns: 1fr; } }
 
 /* FAQ */
-.faq { display: grid; gap: 10px; max-width: 860px; }
-details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 20px; }
-summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(24px, 5vw, 72px); align-items: start; }
+.faq-grid > * { min-width: 0; }
+.faq { border-top: 1px solid var(--line); }
+details { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; font-weight: 600; padding: 20px 0; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
 summary::-webkit-details-marker { display: none; }
-summary::after { content: "+"; font: 700 1.3rem/1 var(--font-mono); color: var(--accent); transition: transform .3s var(--ease-out); }
+summary::after { content: "+"; font: 500 1.4rem/1 var(--mono); color: var(--accent); transition: transform .35s var(--ease); }
 details[open] summary::after { transform: rotate(45deg); }
-details p { padding-bottom: 16px; color: var(--muted); }
+details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
+@media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; } }
 
-/* Final */
-.final { position: relative; overflow: hidden; background: var(--band); color: var(--band-ink); }
-.final .paths { opacity: .22; }
-.final .wrap { position: relative; display: grid; gap: 24px; justify-items: center; text-align: center; }
-.final h2 { color: var(--band-ink); max-width: 18ch; font-size: clamp(2.2rem, 5vw, 3.8rem); }
-.final p { max-width: 58ch; color: var(--band-muted); }
-.contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
-.contact code { font: 600 1.05rem var(--font-mono); background: color-mix(in srgb, var(--band-ink) 10%, transparent); padding: 12px 16px; border-radius: 12px; user-select: all; direction: ltr; }
-.final .btn-ghost { color: var(--band-ink); }
-footer { padding-block: 28px; color: var(--muted); font-size: .92rem; }
-footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+/* Footer */
+.foot { position: relative; color: #fff; overflow: hidden; background: var(--night); isolation: isolate; }
+.foot-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.foot::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10, 16, 36, .55), rgba(10, 16, 36, .82)); }
+.foot-in { padding-block: clamp(80px, 11vw, 140px) 28px; display: grid; gap: 64px; }
+.foot-cta { display: grid; gap: 22px; max-width: 760px; }
+.foot-cta h2 { color: #fff; font-size: clamp(2.4rem, 5.4vw, 4.2rem); }
+.foot-cta p { color: rgba(255, 255, 255, .82); max-width: 56ch; }
+.final-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.contact { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.contact code { font: 500 1rem var(--mono); background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .25); padding: 12px 14px; border-radius: var(--r); user-select: all; direction: ltr; }
+.foot-cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; padding-top: 32px; border-top: 1px solid rgba(255, 255, 255, .18); }
+.foot-cols > div { display: grid; gap: 10px; align-content: start; }
+.foot-cols b { font-weight: 600; }
+.foot-cols .brand { font-size: 2rem; }
+.foot-cols p { color: rgba(255, 255, 255, .72); max-width: 40ch; font-size: .95rem; }
+.foot-cols a { color: rgba(255, 255, 255, .8); text-decoration: none; font-size: .95rem; }
+.foot-cols a:hover { color: #fff; }
+.foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: .82rem; color: rgba(255, 255, 255, .6); }
+@media (max-width: 760px) { .foot-cols { grid-template-columns: 1fr 1fr; } .foot-cols > div:first-child { grid-column: 1 / -1; } }
 
-/* Pre-registration */
-.hero-micro { color: var(--band-muted); font-size: .9rem; margin-top: -12px; }
-.calc-pre { font-weight: 700; color: var(--accent); text-decoration: none; font-size: .98rem; justify-self: start; }
-.calc-pre:hover { text-decoration: underline; }
-.prereg-sec { background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--accent) 7%, var(--bg))); }
-.prereg { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
-.prereg > * { min-width: 0; }
-.prereg-copy { display: grid; gap: 20px; }
-.prereg-copy h2 { font-size: clamp(2rem, 4.4vw, 3.2rem); }
-.prereg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.prereg-list li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
-.prereg-list li::before { content: ""; width: 20px; height: 20px; margin-top: 2px; border-radius: 7px; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4.5 9.5l3 3 6-6.5' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; }
-.prereg-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 18px 20px; border-radius: 18px; background: var(--surface); border: 2px dashed color-mix(in srgb, var(--accent) 55%, transparent); }
-.prereg-price > span { flex-basis: 100%; font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
-.prereg-price b { font: 800 clamp(1.9rem, 4vw, 2.5rem)/1.05 var(--font-display); font-variant-numeric: tabular-nums; }
-.prereg-price s { color: var(--muted); font-variant-numeric: tabular-nums; }
-.prereg-price small { color: var(--muted); font-size: .92rem; }
-.form-micro { font-size: .88rem; color: var(--muted); }
-.prereg .form { border: 2px solid var(--accent); }
-.final-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+/* Sticky pre-registration bar (phones) */
 .sticky-cta { display: none; }
-@media (max-width: 900px) { .prereg { grid-template-columns: 1fr; } }
 @media (max-width: 760px) {
   .sticky-cta { display: flex; position: fixed; z-index: 60; inset-inline: 0; bottom: 0; align-items: center; justify-content: space-between; gap: 12px;
     padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-    background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -12px 30px -18px rgba(0,0,0,.35);
-    transform: translateY(110%); visibility: hidden; transition: transform .3s ease, visibility .3s; }
+    background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -12px 30px -18px rgba(0, 0, 0, .35);
+    transform: translateY(110%); visibility: hidden; transition: transform .35s var(--ease), visibility .35s; }
   .sticky-cta.show { transform: none; visibility: visible; }
-  .sticky-cta > span { font-weight: 700; font-size: .95rem; min-width: 0; }
+  .sticky-cta > span { font-weight: 600; font-size: .95rem; min-width: 0; }
   .sticky-cta .btn { min-height: 44px; padding: 0 18px; flex: none; }
-  footer { padding-bottom: 84px; }
+  .foot-bottom { padding-bottom: 72px; }
 }
+
+/* Motion */
+.js .reveal { opacity: 0; transform: translateY(26px); }
+.js .reveal.in { opacity: 1; transform: none; transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
+.hero-media img { animation: heroZoom 2.8s var(--ease) both; }
+.hero-copy > *, .hero-side { animation: up 1s var(--ease) both; }
+.hero-copy > :nth-child(2) { animation-delay: .12s; } .hero-copy > :nth-child(3) { animation-delay: .24s; } .hero-side { animation-delay: .38s; }
+.shot-wrap { animation: up 1.2s .3s var(--ease) both; }
+@keyframes heroZoom { from { transform: scale(1.12); } }
+@keyframes up { from { opacity: 0; transform: translateY(22px); } }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .js .reveal { opacity: 1; transform: none; }
+  .app-shot { transform: none; }
 }
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="Medica">
-      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="9" fill="var(--accent)"/><path d="M16 8.5v15M8.5 16h15" stroke="var(--accent-ink)" stroke-width="3.4" stroke-linecap="round"/></svg>
-      <span data-i18n="brand">medica</span>
-    </a>
+<header class="top" id="topbar">
+  <div class="wrap top-in">
+    <a class="brand" href="#top" data-i18n="brand">medica</a>
     <nav class="navlinks" aria-label="Medica">
       <a href="#matin" data-i18n="nav1">Le problème</a>
-      <a href="#demo" data-i18n="nav2">Démo</a>
       <a href="#produit" data-i18n="nav3">Produit</a>
+      <a href="#demo" data-i18n="nav2">Démo</a>
       <a href="#tarifs" data-i18n="nav4">Tarifs</a>
       <a href="#idees" data-i18n="nav5">Vos idées</a>
     </nav>
@@ -493,7 +519,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <button type="button" class="theme-btn" id="theme-toggle" aria-label="Thème sombre" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
-      <a class="btn btn-primary" href="#preinscription" data-i18n="navCta">Pré-inscription −10 %</a>
+      <a class="btn btn-light" href="#preinscription" data-i18n="navCta">Pré-inscription −10 %</a>
     </div>
   </div>
 </header>
@@ -501,55 +527,49 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 <main id="top">
 
 <!-- HERO -->
-<section class="hero">
-  <svg class="paths" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <path d="M-50 600 C 250 520, 350 380, 620 360 S 1000 200, 1260 120"/>
-    <path d="M-50 640 C 260 560, 380 420, 640 400 S 1020 240, 1260 170"/>
-    <path d="M-50 680 C 270 600, 400 460, 660 440 S 1040 280, 1260 220"/>
-    <path d="M-50 560 C 240 480, 330 340, 600 320 S 980 160, 1260 70"/>
-    <path d="M-50 520 C 230 440, 310 300, 580 280 S 960 120, 1260 20"/>
-    <path d="M-50 720 C 280 640, 420 500, 680 480 S 1060 320, 1260 270"/>
-    <path d="M-50 480 C 220 400, 290 260, 560 240 S 940 80, 1260 -30"/>
-    <path d="M-50 760 C 290 680, 440 540, 700 520 S 1080 360, 1260 320"/>
-    <path d="M-50 440 C 210 360, 270 220, 540 200 S 920 40, 1260 -80"/>
-    <path d="M-50 800 C 300 720, 460 580, 720 560 S 1100 400, 1260 370"/>
-    <path d="M-50 400 C 200 320, 250 180, 520 160 S 900 0, 1260 -130"/>
-    <path d="M-50 840 C 310 760, 480 620, 740 600 S 1120 440, 1260 420"/>
-  </svg>
-  <div class="wrap">
+<section class="hero" id="hero">
+  <div class="hero-media"><img src="https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=2000&q=78" srcset="https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=900&q=75 900w, https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=1500&q=76 1500w, https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=2200&q=78 2200w" sizes="100vw" alt="" width="2200" height="1472" fetchpriority="high"></div>
+  <div class="wrap hero-in">
     <div class="hero-copy">
-      <span class="pill"><b data-i18n="heroPillB">−10 %</b><span data-i18n="heroPill">Pré-inscriptions ouvertes avant le lancement</span></span>
-      <h1><span data-i18n="heroTitle">Votre salle d'attente, enfin</span> <span class="rot" id="rot"><span>organisée.</span></span></h1>
-      <p class="lede" data-i18n="heroLede">Rendez-vous, patients sans rendez-vous et file d'attente sur un seul écran. Vos patients réservent par lien, QR code ou application, reçoivent leur ticket et arrivent au bon moment. Votre réception respire.</p>
+      <p class="hero-kicker" data-i18n="heroPill">Pré-inscriptions ouvertes · −10 % les 3 premiers mois</p>
+      <h1 data-i18n="heroH1">Votre salle d'attente, enfin calme.</h1>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <a class="btn btn-ghost" href="#demo" data-i18n="heroCta2">Essayer la démo</a>
-      </div>
-      <p class="hero-micro" data-i18n="heroMicro">Gratuit · 30 secondes · sans engagement</p>
-      <div class="trust-row">
-        <span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tr1">Médecins vérifiés</span></span>
-        <span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tr2">Arabe, français, anglais</span></span>
-        <span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="tr3">Sans commission par rendez-vous</span></span>
+        <a class="btn btn-primary btn-split" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn-glass" href="#demo" data-i18n="heroCta2">Essayer la démo</a>
       </div>
     </div>
-
-    <div class="phone" role="img" aria-label="Ticket 07, 3 patients avant vous">
-      <div class="screen">
-        <div class="screen-top"><span>10:32</span><span>medica</span><span>4G</span></div>
-        <div class="now-board">
-          <div><small data-i18n="pNowS">En consultation</small><strong data-i18n="pNow">Ticket appelé</strong></div>
-          <div class="digits" id="hero-now"><span>04</span></div>
-        </div>
-        <div class="ticket">
-          <div class="ticket-row">
-            <div><div data-i18n="pYours">Votre ticket</div><div class="when" data-i18n="pWhen">Détartrage · Dr. Exemple</div></div>
-            <span class="num">07</span>
+    <div class="hero-side">
+      <p data-i18n="heroLede">Rendez-vous, patients sans rendez-vous et file d'attente sur un seul écran. Vos patients réservent par lien, QR code ou application, reçoivent leur ticket et arrivent au bon moment. Votre réception respire.</p>
+      <p class="hero-micro" data-i18n="heroMicro">Gratuit · 30 secondes · sans engagement</p>
+    </div>
+    <div class="hero-rail" aria-hidden="true"><span>001</span><i class="l"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>008</span></div>
+  </div>
+  <div class="wrap shot-wrap">
+    <div class="app-shot" aria-hidden="true">
+      <div class="app">
+        <aside class="app-side">
+          <b>medica</b>
+          <nav><span class="on" data-i18n="apToday">Aujourd'hui</span><span data-i18n="apAgenda">Agenda</span><span data-i18n="apPatients">Patients</span><span data-i18n="apRem">Rappels</span><span data-i18n="apStats">Statistiques</span></nav>
+        </aside>
+        <div class="app-main">
+          <div class="app-top"><div><h4 data-i18n="apHello">Bonjour, Dr Benali</h4><small data-i18n="apDate">Mardi · cabinet dentaire · données d'exemple</small></div><span class="app-search" data-i18n="apSearch">Rechercher un patient…</span></div>
+          <div class="kpis">
+            <div class="kpi"><small data-i18n="k1">Patients aujourd'hui</small><b>18</b><span data-i18n="k1s">12 en ligne · 6 sur place</span></div>
+            <div class="kpi"><small data-i18n="k2">En salle d'attente</small><b>3</b><span data-i18n="k2s">5 chaises libres</span></div>
+            <div class="kpi"><small data-i18n="k3">Attente moyenne</small><b>12 min</b><span data-i18n="k3s">mise à jour en direct</span></div>
+            <div class="kpi"><small data-i18n="k4">Rappels envoyés</small><b>41</b><span data-i18n="k4s">la veille, −1 h, −15 min</span></div>
           </div>
-          <div class="tear"></div>
-          <div class="meter" aria-hidden="true"><span id="hero-meter"></span></div>
-          <div class="ticket-meta">
-            <span><span data-i18n="pAhead1">Avant vous :</span> <b class="mono" id="hero-ahead">3</b></span>
-            <span><span data-i18n="pWait1">Attente ≈</span> <b class="mono" id="hero-wait">25 min</b></span>
+          <div class="app-grid">
+            <div class="panel"><div class="panel-h"><b data-i18n="apQueue">File d'attente</b><small data-i18n="apLive">En direct</small></div><ol class="aq" id="aq"></ol></div>
+            <div class="panel tl-panel"><div class="panel-h"><b data-i18n="apDay">Journée du Dr Benali</b></div>
+              <div class="tl">
+                <div class="tl-row"><span>09:00</span><div><i class="a" style="inset-inline-start:0;width:30%"></i><i class="b" style="inset-inline-start:33%;width:40%"></i><i class="c" style="inset-inline-start:76%;width:22%"></i></div></div>
+                <div class="tl-row"><span>10:00</span><div><i class="d" style="inset-inline-start:0;width:45%"></i><i class="a" style="inset-inline-start:48%;width:30%"></i><span class="now" style="inset-inline-start:58%"></span></div></div>
+                <div class="tl-row"><span>11:00</span><div><i class="b" style="inset-inline-start:6%;width:34%"></i><i class="c" style="inset-inline-start:44%;width:50%"></i></div></div>
+                <div class="tl-row"><span>12:00</span><div><i class="a" style="inset-inline-start:0;width:24%"></i><i class="d" style="inset-inline-start:28%;width:30%"></i></div></div>
+                <div class="tl-row"><span>14:00</span><div><i class="c" style="inset-inline-start:10%;width:44%"></i><i class="b" style="inset-inline-start:58%;width:36%"></i></div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -558,89 +578,113 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 </section>
 
 <!-- MORNING: WITHOUT / WITH -->
-<section id="matin" class="morning" data-mode="without">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="mEyebrow">Une matinée au cabinet</p>
-      <h2><span data-i18n="mTitle1">Vous reconnaissez cette matinée ?</span> <em class="h" data-i18n="mTitle2">Elle peut changer dès lundi.</em></h2>
+<section id="matin" class="story" data-mode="without">
+  <div class="wrap story-grid">
+    <div class="story-media reveal">
+      <img class="ph-bad" src="https://images.unsplash.com/photo-1758654860024-9e352f70d1f9?auto=format&fit=crop&w=1200&h=1240&q=75" alt="" loading="lazy" decoding="async" width="1200" height="1240">
+      <img class="ph-good" src="https://images.unsplash.com/photo-1762341116682-cef250137a24?auto=format&fit=crop&w=1200&h=1240&q=75" alt="" loading="lazy" decoding="async" width="1200" height="1240">
+      <div class="story-board" aria-hidden="true"><div><small data-i18n="pNowS">En consultation</small><b>05</b></div><div class="nx"><span>06</span><span>07</span><span>08</span></div></div>
+      <p class="story-cap"><b>08:30</b><span class="cap bad" data-i18n="roomBad">11 personnes pour 6 chaises. Le téléphone sonne, les questions fusent.</span><span class="cap good" data-i18n="roomGood">Ticket 05 en consultation. 3 patients attendent, les autres arrivent à leur heure.</span></p>
     </div>
-    <div class="switch-wrap">
-      <div class="switch" role="group" aria-label="Medica">
-        <span class="knob" aria-hidden="true"></span>
+    <div class="story-copy">
+      <h2 class="reveal"><span data-i18n="mTitle1">Vous reconnaissez cette matinée ?</span> <em data-i18n="mTitle2">Elle peut changer dès lundi.</em></h2>
+      <div class="seg reveal" role="group" aria-label="Medica">
         <button type="button" id="mode-without" aria-pressed="true" data-i18n="mWithout">Sans Medica</button>
         <button type="button" id="mode-with" aria-pressed="false" data-i18n="mWith">Avec Medica</button>
       </div>
-      <span class="hint"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="mHint">Basculez pour voir votre journée avec Medica</span></span>
-    </div>
-    <div class="room reveal">
-      <svg class="room-svg" viewBox="0 0 1200 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-        <defs>
-          <symbol id="p-seat" viewBox="0 0 72 80" width="72" height="80"><circle cx="34" cy="16" r="15" class="head"/><rect x="15" y="33" width="40" height="40" rx="17" fill="currentColor"/><rect x="22" y="60" width="44" height="12" rx="6" fill="currentColor"/></symbol>
-          <symbol id="p-stand" viewBox="0 0 52 160" width="52" height="160"><circle cx="26" cy="17" r="16" class="head"/><rect x="6" y="37" width="40" height="78" rx="20" fill="currentColor"/><rect x="11" y="104" width="12" height="52" rx="6" fill="currentColor"/><rect x="29" y="104" width="12" height="52" rx="6" fill="currentColor"/></symbol>
-        </defs>
-        <rect class="r-wall" x="0" y="0" width="1200" height="360"/>
-        <rect class="r-floor" x="0" y="360" width="1200" height="80"/>
-        <rect class="r-line" x="0" y="358" width="1200" height="3"/>
-        <g class="r-door"><rect x="1070" y="150" width="96" height="210" rx="6"/><circle cx="1152" cy="260" r="5" class="r-knob"/></g>
-        <g class="r-clock"><circle cx="390" cy="96" r="30"/><path d="M390 96V76M390 96l13 7" fill="none" stroke-linecap="round" stroke-width="4"/></g>
-        <g class="chair"><rect x="430" y="250" width="12" height="60" rx="6"/><rect x="430" y="300" width="72" height="12" rx="6"/><rect x="436" y="312" width="6" height="48" rx="3"/><rect x="490" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="530" y="250" width="12" height="60" rx="6"/><rect x="530" y="300" width="72" height="12" rx="6"/><rect x="536" y="312" width="6" height="48" rx="3"/><rect x="590" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="630" y="250" width="12" height="60" rx="6"/><rect x="630" y="300" width="72" height="12" rx="6"/><rect x="636" y="312" width="6" height="48" rx="3"/><rect x="690" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="730" y="250" width="12" height="60" rx="6"/><rect x="730" y="300" width="72" height="12" rx="6"/><rect x="736" y="312" width="6" height="48" rx="3"/><rect x="790" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="830" y="250" width="12" height="60" rx="6"/><rect x="830" y="300" width="72" height="12" rx="6"/><rect x="836" y="312" width="6" height="48" rx="3"/><rect x="890" y="312" width="6" height="48" rx="3"/></g><g class="chair"><rect x="930" y="250" width="12" height="60" rx="6"/><rect x="930" y="300" width="72" height="12" rx="6"/><rect x="936" y="312" width="6" height="48" rx="3"/><rect x="990" y="312" width="6" height="48" rx="3"/></g>
-        <g class="st bad">
-          <g class="r-paper" transform="rotate(-6 640 110)"><rect x="580" y="70" width="120" height="84" rx="4"/><path d="M596 92h80M596 108h64M596 124h72" stroke-width="5" stroke-linecap="round"/></g>
-          <g class="r-paper" transform="rotate(5 800 130)"><rect x="760" y="96" width="90" height="70" rx="4"/><path d="M774 116h56M774 132h40" stroke-width="5" stroke-linecap="round"/></g>
-          <use href="#p-seat" x="430" y="240" style="color:var(--fig-a)"/><use href="#p-seat" x="530" y="240" style="color:var(--fig-b)"/><use href="#p-seat" x="630" y="240" style="color:var(--fig-c)"/><use href="#p-seat" x="730" y="240" style="color:var(--fig-d)"/><use href="#p-seat" x="830" y="240" style="color:var(--fig-a)"/><use href="#p-seat" x="930" y="240" style="color:var(--fig-b)"/>
-          <use href="#p-stand" x="355" y="212" style="color:var(--fig-b)"/><use href="#p-stand" x="470" y="212" style="color:var(--fig-c)"/><use href="#p-stand" x="680" y="212" style="color:var(--fig-a)"/><use href="#p-stand" x="880" y="212" style="color:var(--fig-d)"/><use href="#p-stand" x="1000" y="212" style="color:var(--fig-b)"/>
-          <g class="bubble b1"><circle cx="402" cy="170" r="20"/><text x="402" y="178" text-anchor="middle">?</text></g>
-          <g class="bubble b2"><circle cx="928" cy="178" r="20"/><text x="928" y="186" text-anchor="middle">!</text></g>
-          <g class="bubble b3"><circle cx="520" cy="182" r="18"/><text x="520" y="189" text-anchor="middle">?</text></g>
-        </g>
-        <g class="st good">
-          <rect class="r-mount" x="696" y="64" width="8" height="18" rx="3"/>
-          <g class="r-screen"><rect x="560" y="80" width="280" height="140" rx="16"/>
-            <text class="scr-big" x="650" y="182" text-anchor="middle">05</text>
-            <rect class="scr-div" x="728" y="100" width="2" height="100"/>
-            <text class="scr-small" x="785" y="128" text-anchor="middle">06</text>
-            <text class="scr-small dim" x="785" y="164" text-anchor="middle">07</text>
-            <text class="scr-small dim" x="785" y="200" text-anchor="middle">08</text>
-            <circle class="scr-dot" cx="590" cy="104" r="6"/>
-          </g>
-          <use href="#p-seat" x="430" y="240" style="color:var(--fig-a)"/><use href="#p-seat" x="630" y="240" style="color:var(--fig-b)"/><use href="#p-seat" x="830" y="240" style="color:var(--fig-c)"/>
-          <g class="r-phone"><rect x="676" y="282" width="14" height="22" rx="3"/><circle cx="683" cy="292" r="3"/></g>
-        </g>
-        <g class="r-recep"><circle cx="155" cy="192" r="19" class="head"/><rect x="120" y="211" width="70" height="44" rx="22"/></g>
-        <g class="st bad">
-          <g class="r-paper"><rect x="60" y="214" width="70" height="26" rx="3" transform="rotate(-8 95 227)"/><rect x="70" y="206" width="66" height="26" rx="3" transform="rotate(6 103 219)"/></g>
-          <g class="r-ring"><rect x="232" y="216" width="46" height="24" rx="8" class="r-phonebody"/><path d="M226 204q-8 10 0 20M284 204q8 10 0 20M218 198q-14 16 0 32M292 198q14 16 0 32" fill="none" stroke-width="3" stroke-linecap="round" class="r-waves"/></g>
-        </g>
-        <g class="st good">
-          <g class="r-plant"><path d="M74 214c-10-22 2-34 10-38 2 14 0 26-10 38zM80 214c4-24 20-30 28-30-4 14-12 24-28 30z"/><rect x="66" y="212" width="28" height="28" rx="6" class="r-pot"/></g>
-          <g class="r-laptop"><rect x="214" y="186" width="92" height="56" rx="6"/><rect x="224" y="198" width="40" height="7" rx="3" class="l1"/><rect x="224" y="212" width="62" height="7" rx="3" class="l2"/><rect x="224" y="226" width="52" height="7" rx="3" class="l2"/><rect x="204" y="240" width="112" height="6" rx="3"/></g>
-        </g>
-        <g class="r-desk"><rect x="28" y="240" width="320" height="18" rx="8"/><rect x="44" y="258" width="288" height="102" rx="6"/></g>
-        <g class="st bad"><rect x="70" y="282" width="26" height="26" rx="3" class="r-sticky" transform="rotate(-6 83 295)"/><rect x="104" y="290" width="26" height="26" rx="3" class="r-sticky" transform="rotate(5 117 303)"/><rect x="260" y="286" width="26" height="26" rx="3" class="r-sticky" transform="rotate(-3 273 299)"/></g>
-        <g class="st good"><rect x="160" y="290" width="56" height="8" rx="4" class="r-logo"/></g>
-      </svg>
-      <div class="room-cap">
-        <p class="cap bad"><b class="mono">08:30</b> <span data-i18n="roomBad">11 personnes pour 6 chaises. Le téléphone sonne, les questions fusent.</span></p>
-        <p class="cap good"><b class="mono">08:30</b> <span data-i18n="roomGood">Ticket 05 en consultation. 3 patients attendent, les autres arrivent à leur heure.</span></p>
+      <div class="steps reveal">
+        <span class="rail" aria-hidden="true"><i></i></span>
+        <ol class="steps-list">
+        <li><button type="button" class="step-btn"><span class="clock">07:55</span><span class="face bad"><strong data-i18n="s1bt">Le téléphone sonne avant l'ouverture</strong><span class="p" data-i18n="s1bp">Votre secrétaire note les rendez-vous au crayon, entre deux patients, sur un cahier que personne d'autre ne peut lire.</span></span><span class="face good"><strong data-i18n="s1gt">Votre journée est déjà prête</strong><span class="p" data-i18n="s1gp">Vos patients ont réservé hier soir par lien ou QR code. Les appels restants vont dans le même agenda, en quelques secondes.</span></span></button></li>
+        <li><button type="button" class="step-btn"><span class="clock">08:30</span><span class="face bad"><strong data-i18n="s2bt">Une salle pleine à craquer</strong><span class="p" data-i18n="s2bp">Tout le monde est arrivé à 8 h « pour passer en premier ». Les chaises manquent, la patience aussi.</span></span><span class="face good"><strong data-i18n="s2gt">Chacun arrive au bon moment</strong><span class="p" data-i18n="s2gp">Chaque patient a son ticket et son heure de passage, et suit son tour depuis son téléphone. La salle reste calme.</span></span></button></li>
+        <li><button type="button" class="step-btn"><span class="clock">10:40</span><span class="face bad"><strong data-i18n="s3bt">Le docteur a du retard</strong><span class="p" data-i18n="s3bp">Personne n'est prévenu. On demande à l'accueil toutes les cinq minutes, et la tension monte.</span></span><span class="face good"><strong data-i18n="s3gt">Un geste, tout le monde est prévenu</strong><span class="p" data-i18n="s3gp">« Le docteur a du retard » : les prochains patients reçoivent l'information et leurs estimations se mettent à jour seules.</span></span></button></li>
+        <li><button type="button" class="step-btn"><span class="clock">17:00</span><span class="face bad"><strong data-i18n="s4bt">Des absents, des créneaux perdus</strong><span class="p" data-i18n="s4bp">Ils n'ont pas prévenu, et personne ne sait qui récidive. Le créneau est perdu pour tout le monde.</span></span><span class="face good"><strong data-i18n="s4gt">Moins d'absents, plus de créneaux</strong><span class="p" data-i18n="s4gp">Rappels la veille, 1 h et 15 min avant. Une annulation libère le créneau en ligne, et les absences répétées sont signalées.</span></span></button></li>
+      </ol>
       </div>
     </div>
-    <div class="scenes">
-      <article class="scene reveal"><div class="scene-inner">
-        <div class="face bad"><span class="clock">07:55</span><span class="tag" data-i18n="badTag">Aujourd'hui</span><h3 data-i18n="s1bt">Le téléphone sonne avant l'ouverture</h3><p data-i18n="s1bp">Votre secrétaire note les rendez-vous au crayon, entre deux patients, sur un cahier que personne d'autre ne peut lire.</p></div>
-        <div class="face good"><span class="clock">07:55</span><span class="tag" data-i18n="goodTag">Avec Medica</span><h3 data-i18n="s1gt">Votre journée est déjà prête</h3><p data-i18n="s1gp">Vos patients ont réservé hier soir par lien ou QR code. Les appels restants vont dans le même agenda, en quelques secondes.</p></div>
-      </div></article>
-      <article class="scene reveal"><div class="scene-inner">
-        <div class="face bad"><span class="clock">08:30</span><span class="tag" data-i18n="badTag2">Aujourd'hui</span><h3 data-i18n="s2bt">Une salle pleine à craquer</h3><p data-i18n="s2bp">Tout le monde est arrivé à 8 h « pour passer en premier ». Les chaises manquent, la patience aussi.</p></div>
-        <div class="face good"><span class="clock">08:30</span><span class="tag" data-i18n="goodTag2">Avec Medica</span><h3 data-i18n="s2gt">Chacun arrive au bon moment</h3><p data-i18n="s2gp">Chaque patient a son ticket et son heure de passage, et suit son tour depuis son téléphone. La salle reste calme.</p></div>
-      </div></article>
-      <article class="scene reveal"><div class="scene-inner">
-        <div class="face bad"><span class="clock">10:40</span><span class="tag" data-i18n="badTag3">Aujourd'hui</span><h3 data-i18n="s3bt">Le docteur a du retard</h3><p data-i18n="s3bp">Personne n'est prévenu. On demande à l'accueil toutes les cinq minutes, et la tension monte.</p></div>
-        <div class="face good"><span class="clock">10:40</span><span class="tag" data-i18n="goodTag3">Avec Medica</span><h3 data-i18n="s3gt">Un geste, tout le monde est prévenu</h3><p data-i18n="s3gp">« Le docteur a du retard » : les prochains patients reçoivent l'information et leurs estimations se mettent à jour seules.</p></div>
-      </div></article>
-      <article class="scene reveal"><div class="scene-inner">
-        <div class="face bad"><span class="clock">17:00</span><span class="tag" data-i18n="badTag4">Aujourd'hui</span><h3 data-i18n="s4bt">Des absents, des créneaux perdus</h3><p data-i18n="s4bp">Ils n'ont pas prévenu, et personne ne sait qui récidive. Le créneau est perdu pour tout le monde.</p></div>
-        <div class="face good"><span class="clock">17:00</span><span class="tag" data-i18n="goodTag4">Avec Medica</span><h3 data-i18n="s4gt">Moins d'absents, plus de créneaux</h3><p data-i18n="s4gp">Rappels la veille, 1 h et 15 min avant. Une annulation libère le créneau en ligne, et les absences répétées sont signalées.</p></div>
-      </div></article>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="produit">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <h2><span data-i18n="bTitle1">Pensé pour la façon dont votre cabinet</span> <em data-i18n="bTitle2">travaille vraiment.</em></h2>
+      <p class="lede" data-i18n="bLede">De la réservation au dernier patient : un seul écran pour la réception, le médecin et le patient.</p>
+    </div>
+    <div class="bento">
+      <article class="card c-a reveal">
+        <h3 data-i18n="b1t">Un contrôle n'est pas une extraction</h3>
+        <p data-i18n="b1p">Les types de visite de votre spécialité sont déjà prêts. Ajustez les minutes, et Medica vous propose votre vraie moyenne après 20 visites.</p>
+        <div class="ui">
+          <div class="vt">
+            <div class="vt-row"><span data-i18n="vt1">Consultation</span><span class="bar"><i style="--w:50%"></i></span><span class="min">20 min</span></div>
+            <div class="vt-row"><span data-i18n="vt2">Détartrage</span><span class="bar"><i style="--w:75%"></i></span><span class="min">30 min</span></div>
+            <div class="vt-row"><span data-i18n="vt3">Soin carie</span><span class="bar"><i style="--w:100%"></i></span><span class="min">40 min</span></div>
+            <div class="vt-row"><span data-i18n="vt4">Contrôle</span><span class="bar"><i style="--w:37.5%"></i></span><span class="min">15 min</span></div>
+          </div>
+          <div class="learn"><span data-i18n="vtLearn">Votre moyenne réelle pour « Contrôle » : <b>12 min</b></span><span class="apply" data-i18n="vtApply">Appliquer</span></div>
+        </div>
+      </article>
+      <article class="card c-b reveal" style="--d:.08s">
+        <h3 data-i18n="b2t">Trois rappels, par le bon canal</h3>
+        <p data-i18n="b2p">Envoyés automatiquement, sans rien faire. Jamais le motif de la visite dans un message.</p>
+        <div class="ui rem">
+          <div><b data-i18n="r1">J-1 · 18:00</b><span data-i18n="r1c">Notif · SMS · WhatsApp</span></div>
+          <div><b data-i18n="r2">−1 h</b><span data-i18n="r2c">Notif · SMS · WhatsApp</span></div>
+          <div><b data-i18n="r3">−15 min</b><span data-i18n="r3c">Notification</span></div>
+        </div>
+      </article>
+      <article class="card c-c reveal" style="--d:.16s">
+        <h3 data-i18n="b3t">Avec ou sans application</h3>
+        <p data-i18n="b3p">Un lien suffit pour réserver, pour soi, un enfant ou un parent. Chacun suit son tour en direct.</p>
+        <div class="ui tk" id="tk" role="img" aria-label="Ticket 07, 3 patients avant vous">
+          <div class="tk-board"><div><small data-i18n="pNowS">En consultation</small><span data-i18n="pNow">Ticket appelé</span></div><div class="digits" id="tk-now"><span>04</span></div></div>
+          <div class="tk-row"><div><div data-i18n="pYours">Votre ticket</div><div class="when" data-i18n="pWhen">Détartrage · Dr. Exemple</div></div><span class="num">07</span></div>
+          <div class="meter" aria-hidden="true"><span id="tk-meter"></span></div>
+          <div class="tk-meta"><span><span data-i18n="pAhead1">Avant vous :</span> <b class="mono" id="tk-ahead">3</b></span><span><span data-i18n="pWait1">Attente ≈</span> <b class="mono" id="tk-wait">25 min</b></span></div>
+        </div>
+        <p class="note" data-i18n="b3s">Application Android après la phase pilote</p>
+      </article>
+      <article class="card c-f reveal">
+        <div>
+          <p class="later" data-i18n="b6s">Option · bientôt</p>
+          <h3 data-i18n="b6t">Assistant Medica : vos tâches répétitives en un geste</h3>
+          <p class="note" data-i18n="b6p">Écrivez ce que vous voulez faire, avec vos mots. L'assistant prépare l'action, vous montre ce qui va changer et attend votre confirmation.</p>
+        </div>
+        <div class="ui typing" role="img" aria-label="Assistant Medica">
+          <div class="q" id="typed">Déplace les patients de jeudi du Dr. B à la semaine prochaine</div>
+          <div class="a"><span data-i18n="b6a1"><b>14 rendez-vous</b> déplacés au jeudi suivant</span><span data-i18n="b6a2"><b>14 patients</b> prévenus par notification</span><span data-i18n="b6a3"><b>0 conflit</b></span></div>
+          <span class="ok" data-i18n="b6ok">Confirmer</span>
+        </div>
+      </article>
+      <article class="card c-e reveal" style="--d:.08s">
+        <h3 data-i18n="b5e">Trois langues</h3>
+        <div class="langs" aria-hidden="true"><span>العربية</span><span>Français</span><span>English</span></div>
+        <p data-i18n="b5p">Chaque écran est pensé en arabe de droite à gauche, en français et en anglais. Chacun choisit sa langue.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SIMPLE RULES -->
+<section class="band" aria-labelledby="st-title">
+  <div class="wrap">
+    <div class="center-head reveal"><h2 id="st-title" data-i18n="stTitle">Des règles simples, pour des journées calmes.</h2></div>
+    <div class="stat-track reveal" id="stat-track" tabindex="0">
+      <article class="stat-card"><span class="num" data-i18n="sn1">3</span><h3 data-i18n="st1t">gestes pour ajouter un patient sans rendez-vous</h3><p data-i18n="st1p">Nom, téléphone facultatif, type de visite. Il reçoit son ticket aussitôt.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn2">15 min</span><h3 data-i18n="st2t">avant la visite : le dernier rappel</h3><p data-i18n="st2p">La veille, 1 h puis 15 min avant. Vos patients arrivent à leur heure, pas tous à 8 h.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn3">0</span><h3 data-i18n="st3t">double réservation possible</h3><p data-i18n="st3p">C'est une règle de la base de données, même quand deux personnes réservent à la même seconde.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn4">15 min</span><h3 data-i18n="st4t">pour créer votre cabinet</h3><p data-i18n="st4p">Puis 48 h au plus pour vérifier votre numéro d'inscription à l'Ordre et votre carte professionnelle.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn5">3</span><h3 data-i18n="st5t">langues sur chaque écran</h3><p data-i18n="st5p">Arabe de droite à gauche, français et anglais. Chacun choisit la sienne.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn6">0 DA</span><h3 data-i18n="st6t">de commission par rendez-vous</h3><p data-i18n="st6p">Un abonnement par médecin. Les comptes réception sont gratuits et illimités.</p></article>
+    </div>
+    <div class="stat-foot">
+      <p data-i18n="stFoot">Ce sont des règles du produit, pas des promesses.</p>
+      <div class="arrows">
+        <button type="button" class="arrow-btn" id="st-prev" aria-label="Précédent"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M15 9H3M8 4L3 9l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="arrow-btn fill" id="st-next" aria-label="Suivant"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
     </div>
   </div>
 </section>
@@ -648,105 +692,48 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 <!-- LIVE DEMO -->
 <section id="demo">
   <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="dEyebrow">Démo en direct</p>
-      <h2><span data-i18n="dTitle1">Prenez la place de votre réception.</span> <em class="h" data-i18n="dTitle2">C'est déjà votre écran.</em></h2>
-      <p class="lede" data-i18n="dLede">Appelez le patient suivant, ajoutez un patient sans rendez-vous, annoncez un retard. Regardez le téléphone d'Omar se mettre à jour.</p>
-    </div>
-    <div class="demo">
-      <div class="console reveal">
-        <div class="console-bar"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><b data-i18n="dBar">Aujourd'hui · Dr. Exemple</b><span class="chip mono" id="d-count">4</span></div>
-        <div class="console-body">
-          <div class="controls">
-            <button type="button" class="btn btn-primary" id="d-next" data-i18n="dNext">Patient suivant</button>
-            <button type="button" class="btn btn-ghost" id="d-walk" data-i18n="dWalk">+ Sans rendez-vous</button>
-            <button type="button" class="btn btn-ghost" id="d-late" data-i18n="dLate">Retard +15 min</button>
-            <button type="button" class="btn btn-ghost" id="d-reset" data-i18n="dReset">Recommencer</button>
-          </div>
+    <div class="demo-grid">
+      <div class="demo-copy reveal">
+        <h2 data-i18n="dTitle1">Prenez la place de votre réception.</h2>
+        <p class="lede" data-i18n="dLede">Appelez le patient suivant, ajoutez un patient sans rendez-vous, annoncez un retard. Regardez le téléphone d'Omar se mettre à jour.</p>
+        <div class="controls">
+          <button type="button" class="btn btn-primary" id="d-next" data-i18n="dNext">Patient suivant</button>
+          <button type="button" class="btn btn-ghost" id="d-walk" data-i18n="dWalk">+ Sans rendez-vous</button>
+          <button type="button" class="btn btn-ghost" id="d-late" data-i18n="dLate">Retard +15 min</button>
+          <button type="button" class="btn btn-ghost" id="d-reset" data-i18n="dReset">Recommencer</button>
+        </div>
+        <aside class="phone-note" aria-live="polite">
+          <small data-i18n="dPhone">Téléphone d'Omar S.</small>
+          <div class="ticket-row"><span data-i18n="pYours2">Votre ticket</span><span class="big">07</span></div>
+          <div class="msg" id="d-msg">Encore 3 patients avant vous</div>
+          <div class="meter" aria-hidden="true"><span id="d-meter"></span></div>
+          <small id="d-eta">Attente ≈ 30 min</small>
+        </aside>
+      </div>
+      <div class="demo-visual reveal" style="--d:.1s">
+        <img src="https://images.unsplash.com/photo-1777331903190-341a3dd0441b?auto=format&fit=crop&w=1300&h=1500&q=75" alt="" loading="lazy" decoding="async" width="1300" height="1500">
+        <div class="console">
+          <div class="console-bar"><b data-i18n="dBar">Aujourd'hui · Dr. Exemple</b><span class="count" id="d-count">4</span></div>
           <ol class="qlist" id="d-list"></ol>
           <div class="stats">
-            <div class="stat"><b class="mono" id="d-seen">0</b><span data-i18n="dSeen">Patients vus</span></div>
-            <div class="stat"><b class="mono" id="d-walkins">2</b><span data-i18n="dWalkins">Sans rendez-vous</span></div>
-            <div class="stat"><b class="mono" id="d-late-v">0 min</b><span data-i18n="dDelay">Retard annoncé</span></div>
+            <div class="stat"><b id="d-seen">0</b><span data-i18n="dSeen">Patients vus</span></div>
+            <div class="stat"><b id="d-walkins">2</b><span data-i18n="dWalkins">Sans rendez-vous</span></div>
+            <div class="stat"><b id="d-late-v">0 min</b><span data-i18n="dDelay">Retard annoncé</span></div>
           </div>
           <p class="toast" id="d-toast" role="status" aria-live="polite"></p>
         </div>
       </div>
-      <aside class="mini-phone reveal" aria-live="polite">
-        <small data-i18n="dPhone">Téléphone d'Omar S.</small>
-        <div class="ticket-row"><span data-i18n="pYours2">Votre ticket</span><span class="big">07</span></div>
-        <div class="msg" id="d-msg">Encore 3 patients avant vous</div>
-        <div class="meter" aria-hidden="true"><span id="d-meter"></span></div>
-        <small id="d-eta">Attente ≈ 30 min</small>
-      </aside>
     </div>
     <p class="example-note" data-i18n="exNote">Démonstration avec des données d'exemple.</p>
   </div>
 </section>
 
-<!-- PRODUCT BENTO -->
-<section id="produit">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="bEyebrow">Ce qu'il y a dedans</p>
-      <h2><span data-i18n="bTitle1">Pensé pour la façon dont votre cabinet</span> <em class="h" data-i18n="bTitle2">travaille vraiment.</em></h2>
-    </div>
-    <div class="bento">
-      <article class="tile t-a reveal">
-        <span class="eyebrow" data-i18n="b1e">Durées par type de visite</span>
-        <h3 data-i18n="b1t">Un contrôle n'est pas une extraction</h3>
-        <p data-i18n="b1p">Les types de visite de votre spécialité sont déjà prêts. Ajustez les minutes, et Medica vous propose votre vraie moyenne après 20 visites.</p>
-        <div class="vt">
-          <div class="vt-row"><span data-i18n="vt1">Consultation</span><span class="bar"><i style="--w:50%"></i></span><span class="min">20 min</span></div>
-          <div class="vt-row"><span data-i18n="vt2">Détartrage</span><span class="bar"><i style="--w:75%"></i></span><span class="min">30 min</span></div>
-          <div class="vt-row"><span data-i18n="vt3">Soin carie</span><span class="bar"><i style="--w:100%"></i></span><span class="min">40 min</span></div>
-          <div class="vt-row"><span data-i18n="vt4">Contrôle</span><span class="bar"><i style="--w:37.5%"></i></span><span class="min">15 min</span></div>
-        </div>
-        <div class="learn"><span data-i18n="vtLearn">Votre moyenne réelle pour « Contrôle » : <b>12 min</b></span><span class="chip" data-i18n="vtApply">Appliquer</span></div>
-      </article>
-      <article class="tile t-b reveal">
-        <span class="eyebrow" data-i18n="b2e">Rappels</span>
-        <h3 data-i18n="b2t">Trois rappels, par le bon canal</h3>
-        <div class="rem">
-          <div><b data-i18n="r1">J-1 · 18:00</b><span class="chip" data-i18n="r1c">Notif · SMS · WhatsApp</span></div>
-          <div><b data-i18n="r2">−1 h</b><span class="chip" data-i18n="r2c">Notif · SMS · WhatsApp</span></div>
-          <div><b data-i18n="r3">−15 min</b><span class="chip" data-i18n="r3c">Notification</span></div>
-        </div>
-        <p data-i18n="b2p">Envoyés automatiquement, sans rien faire. Jamais le motif de la visite dans un message.</p>
-      </article>
-      <article class="tile t-c reveal">
-        <span class="eyebrow" data-i18n="b3e">Pour chaque patient</span>
-        <h3 data-i18n="b3t">Avec ou sans application</h3>
-        <p data-i18n="b3p">Un lien suffit pour réserver. Ceux qui aiment les applications retrouvent leurs tickets, rendez-vous et rappels dans l'app Medica, et peuvent réserver pour un enfant ou un parent.</p>
-        <span class="chip soon" style="justify-self:start" data-i18n="b3s">Application Android après la phase pilote</span>
-      </article>
-      <article class="tile t-d reveal">
-        <span class="badge-v"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 1.5l6 2.5v4.5c0 3.7-2.6 6.6-6 8-3.4-1.4-6-4.3-6-8V4z" fill="var(--accent)"/><path d="M6 9l2 2 4-4.5" fill="none" stroke="var(--accent-ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="b4b">Identité professionnelle vérifiée</span></span>
-        <h3 data-i18n="b4t">Seuls de vrais médecins</h3>
-        <p data-i18n="b4p">Numéro d'inscription à l'Ordre et carte professionnelle vérifiés avant toute publication. Les avis ne viennent que de patients réellement venus.</p>
-      </article>
-      <article class="tile t-e reveal">
-        <span class="eyebrow" data-i18n="b5e">Trois langues</span>
-        <div class="langs"><span>العربية</span><span>Français</span><span>English</span></div>
-        <p data-i18n="b5p">Chaque écran est pensé en arabe de droite à gauche, en français et en anglais. Chacun choisit sa langue.</p>
-      </article>
-      <article class="tile t-f reveal">
-        <div>
-          <span class="chip soon" data-i18n="b6s">Option · bientôt</span>
-          <h3 data-i18n="b6t">Assistant Medica : vos tâches répétitives en un geste</h3>
-          <p data-i18n="b6p">Écrivez ce que vous voulez faire, avec vos mots. L'assistant prépare l'action, vous montre ce qui va changer et attend votre confirmation. Quand vous répétez une action, il vous propose de l'automatiser. Il fonctionne sur nos propres serveurs : aucune donnée patient n'est envoyée à une IA extérieure.</p>
-        </div>
-        <div class="typing" role="img" aria-label="Assistant Medica">
-          <div class="q" id="typed">Déplace les patients de jeudi du Dr. B à la semaine prochaine</div>
-          <div class="a"><span data-i18n="b6a1"><b>14 rendez-vous</b> déplacés au jeudi suivant</span><span data-i18n="b6a2"><b>14 patients</b> prévenus par notification</span><span data-i18n="b6a3"><b>0 conflit</b></span></div>
-          <span class="ok" data-i18n="b6ok">Confirmer</span>
-        </div>
-      </article>
-    </div>
-    <div class="fidx reveal">
-      <div class="fidx-head"><h3 data-i18n="faTitle">Tout ce que nous avons prévu, en un coup d'œil</h3><p data-i18n="faLede">Ce qui arrive au lancement, ce qui suit juste après, et ce qui vient ensuite.</p></div>
-      <div class="fidx-cols">
-        <div class="fcol fa-now"><span class="fbadge" data-i18n="faNow">Au lancement</span><ul>
+<!-- WHAT'S INSIDE -->
+<section id="inside" class="band">
+  <div class="wrap fidx">
+    <div class="center-head reveal" style="margin-bottom:12px"><h2 data-i18n="faTitle">Tout ce que nous avons prévu, en un coup d'œil</h2><p class="lede" data-i18n="faLede">Ce qui arrive au lancement, ce qui suit juste après, et ce qui vient ensuite.</p></div>
+    <div class="fidx-cols reveal">
+        <div class="fcol fa-now"><h3 class="fhead" data-i18n="faNow">Au lancement</h3><ul>
           <li data-i18n="fa_now0">File d'attente en direct : rendez-vous et sans rendez-vous dans la même file</li>
           <li data-i18n="fa_now1">Un ticket et une heure de passage pour chaque patient</li>
           <li data-i18n="fa_now2">La position en direct sur le téléphone du patient</li>
@@ -772,7 +759,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
           <li data-i18n="fa_now22">Comptes réception gratuits, rôles et historique des changements</li>
           <li data-i18n="fa_now23">Vos patients et rendez-vous exportables à tout moment</li>
         </ul></div>
-        <div class="fcol fa-soon"><span class="fbadge" data-i18n="faSoon">Bientôt</span><ul>
+        <div class="fcol fa-soon"><h3 class="fhead" data-i18n="faSoon">Bientôt</h3><ul>
           <li data-i18n="fa_soon0">Application patients Android, si nos premiers cabinets la demandent</li>
           <li data-i18n="fa_soon1">Avis vérifiés après une vraie visite</li>
           <li data-i18n="fa_soon2">Assistant Medica (option) et aide « Comment faire… ? »</li>
@@ -782,7 +769,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
           <li data-i18n="fa_soon6">Créneaux libérés reproposés aux patients en attente</li>
           <li data-i18n="fa_soon7">Connexion en deux étapes pour l'équipe</li>
         </ul></div>
-        <div class="fcol fa-later"><span class="fbadge" data-i18n="faLater">Ensuite</span><ul>
+        <div class="fcol fa-later"><h3 class="fhead" data-i18n="faLater">Ensuite</h3><ul>
           <li data-i18n="fa_later0">Automatisations proposées par l'assistant</li>
           <li data-i18n="fa_later1">Applications iOS</li>
           <li data-i18n="fa_later2">Cliniques multi-sites</li>
@@ -793,60 +780,58 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
           <li data-i18n="fa_later7">Hébergement en Algérie</li>
         </ul></div>
       </div>
-    </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section id="tarifs">
   <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="priceEyebrow">Tarifs</p>
-      <h2><span data-i18n="priceTitle1">Un seul abonnement.</span> <em class="h" data-i18n="priceTitle2">Au nombre de médecins.</em></h2>
+    <div class="center-head reveal">
+      <h2><span data-i18n="priceTitle1">Un seul abonnement.</span> <em data-i18n="priceTitle2">Au nombre de médecins.</em></h2>
       <p class="lede" data-i18n="priceLede">2 900 DA pour un médecin, 2 200 DA par médecin dès deux. Toutes les fonctionnalités pour tous, comptes réception gratuits, aucune commission.</p>
+      <div class="seg" role="group" aria-label="Medica" style="justify-self:center">
+        <button type="button" id="cyc-m" aria-pressed="true" data-i18n="cycM">Mensuel</button>
+        <button type="button" id="cyc-y" aria-pressed="false" data-i18n="cycY">Annuel · 2 mois offerts</button>
+      </div>
     </div>
     <div class="plans">
-      <div class="plan reveal">
-        <h3 data-i18n="pl1t">Essai gratuit</h3>
-        <div class="price" data-i18n="pl1p">14 jours</div>
-        <ul>
-          <li data-i18n="pl1a">Toutes les fonctionnalités</li>
-          <li data-i18n="pl1b">Jusqu'à 5 médecins</li>
-          <li data-i18n="pl1c">Les 14 jours démarrent à votre premier vrai rendez-vous</li>
-          <li data-i18n="pl1d">Sans carte, sans engagement</li>
-        </ul>
-      </div>
-      <div class="plan featured reveal">
-        <h3 data-i18n="calcTitle">Calculez votre tarif</h3>
-        <div class="calc-row">
-          <span id="doc-label" data-i18n="calcDocs">Nombre de médecins</span>
-          <div class="stepper" role="group" aria-labelledby="doc-label">
-            <button type="button" id="doc-minus" aria-label="−">−</button>
-            <output id="doc-count" aria-live="polite">1</output>
-            <button type="button" id="doc-plus" aria-label="+">+</button>
-          </div>
-        </div>
-        <div class="cycle" role="group">
-          <button type="button" id="cyc-m" aria-pressed="true" data-i18n="cycM">Mensuel</button>
-          <button type="button" id="cyc-y" aria-pressed="false" data-i18n="cycY">Annuel · 2 mois offerts</button>
-        </div>
-        <div class="price" id="calc-price">2 900 DA <small>/ mois</small></div>
+      <article class="plan reveal">
+        <div class="plan-photo"><img src="https://images.unsplash.com/photo-1758691462651-611d730c5272?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
+          <div class="plan-top"><h3 data-i18n="plSolo">Solo</h3><div class="plan-price"><b id="pp1">2 900 DA</b><small id="pp1u">/ mois</small></div></div>
+          <p class="plan-for" data-i18n="plSoloFor">Pour un médecin qui reçoit seul</p></div>
+        <ul><li data-i18n="ps1">1 médecin, comptes réception illimités</li><li data-i18n="ps2">File d'attente, tickets et rappels</li><li data-i18n="ps3">Page de réservation et affiche QR</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <a class="btn btn-ghost" href="#preinscription" data-docs="1" data-i18n="stickyB">Me pré-inscrire</a>
+      </article>
+      <article class="plan featured reveal" style="--d:.08s">
+        <div class="plan-photo"><img src="https://images.unsplash.com/photo-1758691463203-cce9d415b2b5?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
+          <div class="plan-top"><h3 data-i18n="plCab">Cabinet</h3><div class="plan-price"><b id="pp2">2 200 DA</b><small id="pp2u">/ médecin / mois</small></div></div>
+          <p class="plan-for" data-i18n="plCabFor">De 2 à 5 médecins</p></div>
+        <ul><li data-i18n="pc1">Un agenda et une file par médecin</li><li data-i18n="pc2">Un écran d'appel commun pour la salle</li><li data-i18n="pc3">Rôles et historique des changements</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <a class="btn btn-primary" href="#preinscription" data-docs="3" data-i18n="stickyB">Me pré-inscrire</a>
+      </article>
+      <article class="plan reveal" style="--d:.16s">
+        <div class="plan-photo"><img src="https://images.unsplash.com/photo-1778151270886-f227700b0eba?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
+          <div class="plan-top"><h3 data-i18n="plCli">Clinique</h3><div class="plan-price"><b id="pp3">dès 12 000 DA</b><small id="pp3u">/ mois</small></div></div>
+          <p class="plan-for" data-i18n="plCliFor">De 6 à 10 médecins</p></div>
+        <ul><li data-i18n="pk1">11 000 DA pour 5 médecins, puis 1 000 DA par médecin</li><li data-i18n="pk2">Tableau de bord par médecin</li><li data-i18n="pk3">Plus de 10 médecins ou plusieurs sites : sur devis</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <a class="btn btn-ghost" href="#preinscription" data-docs="6" data-i18n="stickyB">Me pré-inscrire</a>
+      </article>
+    </div>
+
+    <div class="estimate reveal">
+      <div class="est-l">
+        <div class="est-head"><b id="doc-label" data-i18n="calcTitle">Calculez votre tarif</b><output id="doc-count" for="doc-range">1</output></div>
+        <input type="range" id="doc-range" min="1" max="11" step="1" value="1" aria-labelledby="doc-label">
+        <div class="ticks" aria-hidden="true"><span>1</span><span>5</span><span>10+</span></div>
         <p class="calc-note" id="calc-note">Pour un médecin, avec comptes réception illimités.</p>
-        <a class="calc-pre" id="calc-pre" href="#preinscription">Pré-inscrit : 2 610 DA / mois →</a>
       </div>
-      <div class="plan reveal">
-        <h3 data-i18n="incTitle">Tout est inclus</h3>
-        <ul>
-          <li data-i18n="inc1">File d'attente en direct et tickets</li>
-          <li data-i18n="inc2">Types de visite et durées personnalisées</li>
-          <li data-i18n="inc3">Page, QR code et application patients</li>
-          <li data-i18n="inc4">Rappels automatiques, sans rien envoyer à la main</li>
-          <li data-i18n="inc5">Écran d'appel, feuille du jour et tableau de bord</li>
-          <li data-i18n="inc6">Comptes réception gratuits et illimités</li>
-          <li data-i18n="inc7">Aide intégrée « Comment faire… ? »</li>
-        </ul>
+      <div class="est-r">
+        <small data-i18n="estYour">Votre tarif</small>
+        <div class="price" id="calc-price">2 900 DA <small>/ mois</small></div>
+        <a class="calc-pre" id="calc-pre" href="#preinscription">Pré-inscrit : 2 610 DA / mois les 3 premiers mois →</a>
       </div>
     </div>
+    <p class="trial reveal"><b data-i18n="pl1t">Essai gratuit</b><span data-i18n="pl1c">Les 14 jours démarrent à votre premier vrai rendez-vous</span><span data-i18n="pl1d">Sans carte, sans engagement</span></p>
     <div class="addon reveal"><div><b data-i18n="addonT">Option Assistant Medica</b><span data-i18n="addonP">Tâches en un geste, demandes écrites et automatisations. Incluse pendant l'essai.</span></div><span class="addon-price" data-i18n="addonPrice">+600 DA / mois par cabinet</span></div>
     <p class="fine" data-i18n="priceFine">Un médecin compte quand il a des horaires réservables dans le mois ; mettez en pause un médecin vacataire à tout moment. Rappels par notification inclus ; SMS et WhatsApp automatiques par crédits prépayés. Plus de 10 médecins, plusieurs sites ou centres d'imagerie : sur devis. Paiement par virement, CCP/BaridiMob ou espèces avec facture ; la carte CIB / Edahabia arrive après certification.</p>
   </div>
@@ -854,21 +839,21 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 
 <!-- PRE-REGISTRATION -->
 <section id="preinscription" class="prereg-sec">
-  <div class="wrap">
-    <div class="prereg">
-      <div class="prereg-copy reveal">
-        <p class="eyebrow" data-i18n="prEyebrow">Pré-inscription · avant le lancement</p>
-        <h2><span data-i18n="prTitle1">Réservez votre place.</span> <em class="h" data-i18n="prTitle2">−10 % pendant 12 mois.</em></h2>
-        <p class="lede" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Vous ne payez rien aujourd'hui : la réduction s'applique automatiquement à vos 12 premiers mois payants.</p>
-        <ul class="prereg-list">
-          <li><span data-i18n="prB1"><b>−10 %</b> sur l'abonnement, mensuel ou annuel, pendant 12 mois</span></li>
-          <li><span data-i18n="prB2">Les 14 jours d'essai gratuits, en plus</span></li>
-          <li><span data-i18n="prB3">Priorité pour rejoindre nos cabinets pilotes : installation sur place et import de vos patients</span></li>
-          <li><span data-i18n="prB4">Ni paiement, ni carte, ni engagement</span></li>
-        </ul>
-        <div class="prereg-price" aria-live="polite"><span data-i18n="prPriceL">Votre tarif pré-inscrit</span><b id="pr-price">2 610 DA</b><s id="pr-was">2 900 DA</s><small id="pr-per">/ mois · 1 médecin</small></div>
-      </div>
-
+  <div class="wrap prereg">
+    <div class="prereg-media reveal">
+      <img src="https://images.unsplash.com/photo-1663755787934-3742b0f5983a?auto=format&fit=crop&w=1100&h=1375&q=75" alt="" loading="lazy" decoding="async" width="1100" height="1375">
+      <div class="prereg-price" aria-live="polite"><span data-i18n="prPriceL">Vos 3 premiers mois</span><div class="row"><b id="pr-price">2 610 DA</b><s id="pr-was">2 900 DA</s></div><small id="pr-per">/ mois · 1 médecin</small><small id="pr-then">puis 2 900 DA / mois</small></div>
+    </div>
+    <div class="prereg-main">
+      <p class="kicker reveal" data-i18n="prEyebrow">Pré-inscription · avant le lancement</p>
+      <h2 class="reveal"><span data-i18n="prTitle1">Réservez votre place.</span> <em data-i18n="prTitle2">−10 % les 3 premiers mois.</em></h2>
+      <p class="lede reveal" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Rien à payer aujourd'hui : la réduction s'applique automatiquement à vos 3 premiers mois payants.</p>
+      <ul class="prereg-list reveal">
+        <li data-i18n="prB1"><b>−10 %</b> sur vos 3 premiers mois d'abonnement</li>
+        <li data-i18n="prB2">Les 14 jours d'essai gratuits, en plus</li>
+        <li data-i18n="prB3">Priorité pour rejoindre nos cabinets pilotes : installation sur place et import de vos patients</li>
+        <li data-i18n="prB4">Ni paiement, ni carte, ni engagement</li>
+      </ul>
       <form class="form reveal" id="prereg-form" novalidate aria-labelledby="pr-form-title">
         <h3 id="pr-form-title" data-i18n="prFormT">Pré-inscrire mon cabinet</h3>
         <div id="pr-body" style="display:grid;gap:16px">
@@ -921,25 +906,23 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 <!-- IDEAS / FEATURE REQUESTS -->
 <section id="idees">
   <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="iEyebrow">Construisons Medica ensemble</p>
-      <h2><span data-i18n="iTitle1">Il vous manque quelque chose ?</span> <em class="h" data-i18n="iTitle2">Dites-le-nous.</em></h2>
+    <div class="center-head reveal">
+      <h2><span data-i18n="iTitle1">Il vous manque quelque chose ?</span> <em data-i18n="iTitle2">Dites-le-nous.</em></h2>
       <p class="lede" data-i18n="iLede">Un dentiste, un pédiatre et un centre d'imagerie n'ont pas les mêmes besoins. Indiquez votre spécialité : chaque idée est lue, classée par spécialité, et les plus demandées entrent dans la feuille de route.</p>
     </div>
     <div class="ideas">
-      <div>
+      <div class="reveal">
         <ol class="flow">
           <li><div><h3 data-i18n="f1t">Vous proposez</h3><p data-i18n="f1p">Votre spécialité, votre besoin, et à quelle fréquence vous en auriez besoin.</p></div></li>
           <li><div><h3 data-i18n="f2t">Nous lisons chaque semaine</h3><p data-i18n="f2p">Chaque idée est classée par spécialité et par fréquence d'usage. Les besoins quotidiens passent en premier.</p></div></li>
           <li><div><h3 data-i18n="f3t">Vous votez</h3><p data-i18n="f3p">Les idées retenues rejoignent la feuille de route publique, et chacun peut voter.</p></div></li>
           <li><div><h3 data-i18n="f4t">On livre, on vous prévient</h3><p data-i18n="f4p">Si vous le souhaitez, nous vous écrivons quand votre idée est disponible.</p></div></li>
         </ol>
-        <div class="roadmap reveal">
+        <div class="roadmap">
           <div class="roadmap-head"><h3 data-i18n="rmTitle">Feuille de route : votez</h3><span class="help" data-i18n="rmHelp">Un vote par idée</span></div>
           <ul class="rm-list" id="rm-list"></ul>
         </div>
       </div>
-
       <form class="form reveal" id="idea-form" novalidate aria-labelledby="form-title">
         <h3 id="form-title" data-i18n="fmTitle">Proposer une fonctionnalité</h3>
         <div class="summary" id="fm-summary" tabindex="-1" hidden><b data-i18n="fmSummary">Vérifiez ces champs :</b><ul id="fm-summary-list"></ul></div>
@@ -1081,13 +1064,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 </section>
 
 <!-- FAQ -->
-<section>
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" data-i18n="faqEyebrow">Questions fréquentes</p>
-      <h2 data-i18n="faqTitle">Ce que les médecins nous demandent.</h2>
-    </div>
-    <div class="faq">
+<section class="band">
+  <div class="wrap faq-grid">
+    <h2 class="reveal" data-i18n="faqTitle">Ce que les médecins nous demandent.</h2>
+    <div class="faq reveal">
       <details><summary data-i18n="q1">Mes patients doivent-ils installer une application ?</summary><p data-i18n="a1">Non. Ils réservent par lien ou QR code, sans rien installer. Ceux qui préfèrent une application ajoutent la page Medica à leur écran d'accueil pour retrouver tickets, rendez-vous et rappels.</p></details>
       <details><summary data-i18n="q2">Et les patients qui continuent d'appeler ?</summary><p data-i18n="a2">C'est normal. La réception les inscrit dans le même agenda en quelques secondes. Vous gardez un seul planning, quelle que soit l'origine du rendez-vous.</p></details>
       <details><summary data-i18n="q3">Combien de temps pour démarrer ?</summary><p data-i18n="a3">Environ 15 minutes pour créer votre cabinet, et 48 h maximum pour vérifier vos documents. L'essai de 14 jours démarre à votre premier vrai rendez-vous.</p></details>
@@ -1095,55 +1075,112 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
       <details><summary data-i18n="q5">Et si internet coupe au cabinet ?</summary><p data-i18n="a5">Medica affiche tout de suite une alerte et l'heure de la dernière synchronisation. Vous continuez sur la feuille du jour imprimée, ou sur le téléphone du médecin en 4G, puis Medica vous guide pour tout remettre à jour. Le ticket du patient reste affiché sur son téléphone même sans connexion.</p></details>
       <details><summary data-i18n="q6">L'assistant envoie-t-il mes données à une IA extérieure ?</summary><p data-i18n="a6">Non. Assistant Medica fonctionne sur nos propres serveurs. Il trouve la bonne tâche et vous la montre avant d'agir. Les noms et numéros de vos patients ne servent jamais à l'entraîner.</p></details>
       <details><summary data-i18n="q7">Puis-je reprendre mes patients actuels ?</summary><p data-i18n="a7">Oui. Importez votre fichier Excel ou CSV : Medica montre un aperçu, repère les doublons et les erreurs, et vous pouvez tout annuler. Pour nos cabinets pilotes, nous faisons l'import avec vous.</p></details>
-      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, puis −10 % s'applique automatiquement à vos 12 premiers mois payants. Vous pouvez annuler à tout moment.</p></details>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL -->
-<section class="final" id="contact">
-  <svg class="paths" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <path d="M-50 420 C 250 340, 350 200, 620 180 S 1000 60, 1260 0"/>
-    <path d="M-50 460 C 260 380, 380 240, 640 220 S 1020 100, 1260 50"/>
-    <path d="M-50 500 C 270 420, 400 280, 660 260 S 1040 140, 1260 100"/>
-    <path d="M-50 380 C 240 300, 330 160, 600 140 S 980 20, 1260 -50"/>
-    <path d="M-50 540 C 280 460, 420 320, 680 300 S 1060 180, 1260 150"/>
-  </svg>
-  <div class="wrap">
-    <p class="eyebrow" style="color:var(--band-signal)" data-i18n="finEyebrow">Alger · Oran · Constantine · Annaba</p>
-    <h2><span data-i18n="finTitle1">Lundi matin, votre salle peut être</span> <em class="h" data-i18n="finTitle2">calme.</em></h2>
-    <p data-i18n="finText">Nous choisissons nos 5 à 8 premiers cabinets pilotes. Pré-inscrivez-vous pour −10 % pendant 12 mois, ou écrivez-nous pour une démonstration de 10 minutes.</p>
-    <div class="final-cta"><a class="btn btn-primary" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
-    <div class="contact">
-      <code id="contact-email">contact@medica.dz</code>
-      <button type="button" class="btn btn-ghost" id="copy-email" data-i18n="copy">Copier l'adresse</button>
+      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, puis −10 % s'applique automatiquement à vos 3 premiers mois payants. Vous pouvez annuler à tout moment.</p></details>
     </div>
   </div>
 </section>
 
 </main>
 
-<div class="sticky-cta" id="sticky-cta"><span data-i18n="stickyT">−10 % pendant 12 mois</span><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
+<div class="sticky-cta" id="sticky-cta"><span data-i18n="stickyT">−10 % les 3 premiers mois</span><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
 
-<footer>
-  <div class="wrap">
-    <span>© 2026 Medica · app.medica.dz</span>
-    <span data-i18n="footer">Fait en Algérie · العربية · Français · English</span>
+<footer class="foot" id="contact">
+  <img class="foot-bg" src="https://images.unsplash.com/photo-1766685322236-7b47468cccb4?auto=format&fit=crop&w=2000&q=72" alt="" loading="lazy" decoding="async" width="2000" height="1240">
+  <div class="wrap foot-in">
+    <div class="foot-cta reveal">
+      <h2><span data-i18n="finTitle1">Lundi matin, votre salle peut être</span> <em data-i18n="finTitle2">calme.</em></h2>
+      <p data-i18n="finText">Nous choisissons nos 5 à 8 premiers cabinets pilotes. Pré-inscrivez-vous pour −10 % sur vos 3 premiers mois, ou écrivez-nous pour une démonstration de 10 minutes.</p>
+      <div class="final-cta">
+        <a class="btn btn-primary btn-split" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <div class="contact"><code id="contact-email">contact@medica.dz</code><button type="button" class="btn btn-glass" id="copy-email" data-i18n="copy">Copier l'adresse</button></div>
+      </div>
+    </div>
+    <div class="foot-cols">
+      <div><span class="brand" data-i18n="brand">medica</span><p data-i18n="footAbout">Rendez-vous, file d'attente en direct et rappels pour les cabinets médicaux et dentaires en Algérie.</p></div>
+      <div><b data-i18n="fcProduct">Produit</b><a href="#matin" data-i18n="nav1">Le problème</a><a href="#produit" data-i18n="nav3">Produit</a><a href="#demo" data-i18n="nav2">Démo</a><a href="#tarifs" data-i18n="nav4">Tarifs</a></div>
+      <div><b data-i18n="fcContact">Contact</b><a href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a><a href="#idees" data-i18n="nav5">Vos idées</a><a href="mailto:contact@medica.dz">contact@medica.dz</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Medica · app.medica.dz</span>
+      <span data-i18n="footer">Fait en Algérie · العربية · Français · English</span>
+      <span><span data-i18n="photosBy">Photos</span> : Unsplash · Scott Goodwill, Navy Medicine, Zulfugar Karimov, Harold Hisona, Vitaly Gariev, Irshad Pathan, D Dental Office, Sawyer Bergeron</span>
+    </div>
   </div>
 </footer>
 
 <script>
-/* Backend for the idea form and roadmap votes (Supabase). Leave empty for preview mode.
+/* Backend for the idea form, roadmap votes and pre-registrations (Supabase). Leave empty for preview mode.
    Schema: docs/feature-requests.sql. Use the PUBLIC anon key only, never the service key. */
 var MEDICA_BACKEND = { url: "", anonKey: "" };
 
 (function () {
   var T = {
     ar: {
-      a8: "نتصل بكم قبل الإطلاق لتحديد موعد. لا تدفعون شيئًا حتى ذلك الحين. تبدأ أيامكم الـ14 المجانية مع أوّل موعد حقيقي، ثم يُطبَّق خصم 10% تلقائيًا على أوّل 12 شهرًا مدفوعًا. يمكنكم الإلغاء في أي وقت.",
+      photosBy: "الصور",
+      fcContact: "تواصل",
+      fcProduct: "المنتج",
+      footAbout: "مواعيد وطابور انتظار مباشر وتذكيرات للعيادات الطبية وعيادات الأسنان في الجزائر.",
+      estYour: "سعركم",
+      pk3: "أكثر من 10 أطباء أو عدة فروع: حسب العرض",
+      pk2: "لوحة قيادة لكل طبيب",
+      pk1: "11,000 دج لـ5 أطباء، ثم 1,000 دج لكل طبيب إضافي",
+      plCliFor: "من 6 إلى 10 أطباء",
+      plCli: "مصحّة",
+      pc3: "أدوار وسجلّ للتغييرات",
+      pc2: "شاشة نداء مشتركة للقاعة",
+      pc1: "جدول وطابور لكل طبيب",
+      plCabFor: "من 2 إلى 5 أطباء",
+      plCab: "عيادة",
+      ps3: "صفحة الحجز وملصق QR",
+      ps2: "طابور الانتظار والتذاكر والتذكيرات",
+      ps1: "طبيب واحد، وحسابات استقبال غير محدودة",
+      plSoloFor: "لطبيب يستقبل وحده",
+      plSolo: "منفرد",
+      stFoot: "هذه قواعد في المنتج، لا وعود.",
+      st6p: "اشتراك لكل طبيب. حسابات الاستقبال مجانية وغير محدودة.",
+      st6t: "عمولة على كل موعد",
+      st5p: "العربية من اليمين إلى اليسار، والفرنسية والإنجليزية. كلٌّ يختار لغته.",
+      st5t: "لغات في كل شاشة",
+      st4p: "ثم 48 ساعة على الأكثر للتحقق من رقم تسجيلكم في المجلس وبطاقتكم المهنية.",
+      st4t: "لإنشاء عيادتكم",
+      st3p: "إنها قاعدة في قاعدة البيانات، حتى عندما يحجز شخصان في الثانية نفسها.",
+      st3t: "حجز مزدوج ممكن",
+      st2p: "قبل يوم، ثم قبل ساعة، ثم قبل 15 دقيقة. يصل مرضاكم في موعدهم، لا جميعًا عند الثامنة.",
+      st2t: "قبل الزيارة: آخر تذكير",
+      st1p: "الاسم، والهاتف اختياري، ونوع الزيارة. يحصل على تذكرته فورًا.",
+      st1t: "نقرات لإضافة مريض بدون موعد",
+      sn6: "0 دج",
+      sn5: "3",
+      sn4: "15 دقيقة",
+      sn3: "0",
+      sn2: "15 دقيقة",
+      sn1: "3",
+      stTitle: "قواعد بسيطة لأيام هادئة.",
+      bLede: "من الحجز إلى آخر مريض: شاشة واحدة للاستقبال والطبيب والمريض.",
+      apDay: "يوم د. بن علي",
+      apLive: "مباشر",
+      apQueue: "طابور الانتظار",
+      k4s: "قبل يوم، قبل ساعة، قبل 15 دقيقة",
+      k4: "تذكيرات مُرسلة",
+      k3s: "تحديث مباشر",
+      k3: "متوسط الانتظار",
+      k2s: "5 كراسٍ شاغرة",
+      k2: "في قاعة الانتظار",
+      k1s: "12 عبر الإنترنت · 6 في العيادة",
+      k1: "مرضى اليوم",
+      apSearch: "ابحث عن مريض…",
+      apDate: "الثلاثاء · عيادة أسنان · بيانات على سبيل المثال",
+      apHello: "صباح الخير، د. بن علي",
+      apStats: "الإحصائيات",
+      apRem: "التذكيرات",
+      apPatients: "المرضى",
+      apAgenda: "المواعيد",
+      apToday: "اليوم",
+      heroH1: "قاعة انتظاركم، هادئة أخيرًا.",
+      a8: "نتصل بكم قبل الإطلاق لتحديد موعد. لا تدفعون شيئًا حتى ذلك الحين. تبدأ أيامكم الـ14 المجانية مع أوّل موعد حقيقي، ثم يُطبَّق خصم 10% تلقائيًا على أوّل 3 أشهر مدفوعة. يمكنكم الإلغاء في أي وقت.",
       q8: "ماذا يحدث بعد التسجيل المسبق؟",
       stickyB: "سجّلوا مسبقًا",
-      stickyT: "خصم 10% لمدة 12 شهرًا",
+      stickyT: "خصم 10% لأوّل 3 أشهر",
       prDoneP: "نتصل بكم قبل الإطلاق لتحديد موعد البدء. خصم 10% مرتبط بهذا الرقم.",
       prDoneT: "تمّ التسجيل، مكانكم محجوز",
       prPreview: "معاينة: هذا النموذج غير مرتبط بخادمنا بعد. لا تُرسَل البيانات.",
@@ -1157,13 +1194,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       plPhone: "الهاتف",
       plName: "اسم الطبيب أو العيادة",
       prFormT: "تسجيل عيادتي مسبقًا",
-      prPriceL: "سعركم مع التسجيل المسبق",
+      prPriceL: "أوّل 3 أشهر",
       prB4: "دون دفع ودون بطاقة ودون التزام",
       prB3: "أولوية للانضمام إلى عياداتنا التجريبية: إعداد في عين المكان واستيراد مرضاكم",
       prB2: "أيام التجربة المجانية الـ14، إضافةً إلى ذلك",
-      prB1: "<b>خصم 10%</b> على الاشتراك، شهريًا أو سنويًا، لمدة 12 شهرًا",
-      prLede: "سجّلوا عيادتكم مسبقًا في 30 ثانية. لا تدفعون شيئًا اليوم: يُطبَّق الخصم تلقائيًا على أوّل 12 شهرًا مدفوعًا.",
-      prTitle2: "خصم 10% لمدة 12 شهرًا.",
+      prB1: "<b>خصم 10%</b> على أوّل 3 أشهر من الاشتراك",
+      prLede: "سجّلوا عيادتكم مسبقًا في 30 ثانية. لا شيء للدفع اليوم: يُطبَّق الخصم تلقائيًا على أوّل 3 أشهر مدفوعة.",
+      prTitle2: "خصم 10% لأوّل 3 أشهر.",
       prTitle1: "احجزوا مكانكم.",
       prEyebrow: "تسجيل مسبق · قبل الإطلاق",
       heroMicro: "مجاني · 30 ثانية · دون التزام",
@@ -1178,7 +1215,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fa_soon5: "ملاحظات فحص منظّمة خاصة بالطبيب، تُفعَّل لكل عيادة بعد المصادقة القانونية",
       fa_soon4: "دفع الاشتراك ببطاقة CIB / الذهبية، بعد الاعتماد",
       brand: "ميديكا", nav1: "المشكلة", nav2: "العرض", nav3: "المنتج", nav4: "الأسعار", nav5: "أفكاركم", navCta: "تسجيل مسبق −10%",
-      heroPillB: "−10%", heroPill: "التسجيل المسبق مفتوح قبل الإطلاق",
+      heroPillB: "−10%", heroPill: "التسجيل المسبق مفتوح · خصم 10% لأوّل 3 أشهر",
       heroTitle: "قاعة انتظارك،",
       heroLede: "المواعيد والمرضى بدون موعد وطابور الانتظار في شاشة واحدة. يحجز مرضاكم عبر رابط أو رمز QR أو التطبيق، يستلمون تذكرتهم ويصلون في الوقت المناسب. ويتنفّس الاستقبال.",
       heroCta1: "سجّلوا مسبقًا بخصم 10%", heroCta2: "جرّبوا العرض",
@@ -1204,10 +1241,10 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       b1e: "المدّة حسب نوع الزيارة", b1t: "المراقبة ليست كالقلع", b1p: "أنواع زيارات تخصّصكم جاهزة. عدّلوا الدقائق، وتقترح عليكم ميديكا متوسّطكم الحقيقي بعد 20 زيارة.",
       vt1: "فحص", vt2: "تنظيف الجير", vt3: "علاج تسوّس", vt4: "مراقبة", vtLearn: "متوسّطكم الحقيقي لـ«المراقبة»: <b>12 دقيقة</b>", vtApply: "تطبيق",
       b2e: "التذكيرات", b2t: "ثلاثة تذكيرات، عبر القناة المناسبة", r1: "قبل يوم · 18:00", r2: "−1 سا", r3: "−15 د", r1c: "إشعار · SMS · واتساب", r2c: "إشعار · SMS · واتساب", r3c: "إشعار", b2p: "تُرسَل تلقائيًا دون أي تدخّل. ولا يُذكر سبب الزيارة أبدًا في أي رسالة.",
-      b3e: "لكل مريض", b3t: "بتطبيق أو بدونه", b3p: "يكفي رابط للحجز. ومن يحبّ التطبيقات يجد تذاكره ومواعيده وتذكيراته في تطبيق ميديكا، ويمكنه الحجز لطفل أو لأحد الوالدين.", b3s: "تطبيق أندرويد بعد المرحلة التجريبية",
+      b3e: "لكل مريض", b3t: "بتطبيق أو بدونه", b3p: "يكفي رابط للحجز، لنفسه أو لطفل أو لأحد الوالدين. ويتابع كلٌّ دوره مباشرة.", b3s: "تطبيق أندرويد بعد المرحلة التجريبية",
       b4b: "هوية مهنية موثَّقة", b4t: "أطباء حقيقيون فقط", b4p: "يُتحقَّق من رقم التسجيل في مجلس أخلاقيات الطب ومن البطاقة المهنية قبل أي نشر. والآراء لا تأتي إلا من مرضى حضروا فعلًا.",
       b5e: "ثلاث لغات", b5p: "كل شاشة مصمَّمة بالعربية من اليمين إلى اليسار، وبالفرنسية والإنجليزية. ولكلٍّ لغته.",
-      b6s: "خيار · قريبًا", b6t: "مساعد ميديكا: مهامكم المتكرّرة بنقرة", b6p: "اكتبوا ما تريدون فعله بكلماتكم. يحضّر المساعد العملية، ويعرض ما سيتغيّر، وينتظر تأكيدكم. وعندما تكرّرون عملية، يقترح أتمتتها. يعمل على خوادمنا الخاصة: لا تُرسَل أي بيانات مرضى إلى ذكاء اصطناعي خارجي.",
+      b6s: "خيار · قريبًا", b6t: "مساعد ميديكا: مهامكم المتكرّرة بنقرة", b6p: "اكتبوا ما تريدون فعله بكلماتكم. يحضّر المساعد العملية، ويُريكم ما سيتغيّر، وينتظر تأكيدكم.",
       b6a1: "<b>14 موعدًا</b> نُقلت إلى الخميس الموالي", b6a2: "<b>14 مريضًا</b> أُعلِموا بإشعار", b6a3: "<b>0 تعارض</b>", b6ok: "تأكيد",
       priceEyebrow: "الأسعار", priceTitle1: "اشتراك واحد.", priceTitle2: "حسب عدد الأطباء.",
       priceLede: "2900 دج لطبيب واحد، و2200 دج لكل طبيب ابتداءً من طبيبين. كل الميزات للجميع، حسابات استقبال مجانية، بدون عمولة.",
@@ -1245,14 +1282,75 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       q5: "وإذا انقطع الإنترنت في العيادة؟", a5: "تعرض ميديكا فورًا تنبيهًا ووقت آخر مزامنة. تواصلون العمل بورقة اليوم المطبوعة أو على هاتف الطبيب عبر 4G، ثم ترشدكم ميديكا لتحديث كل شيء. وتبقى تذكرة المريض ظاهرة على هاتفه حتى دون اتصال.",
       q6: "هل يرسل المساعد بياناتي إلى ذكاء اصطناعي خارجي؟", a6: "لا. يعمل مساعد ميديكا على خوادمنا الخاصة. يجد المهمة المناسبة ويعرضها عليكم قبل التنفيذ. لا تُستعمل أسماء مرضاكم وأرقامهم أبدًا في تدريبه.",
       finEyebrow: "الجزائر العاصمة · وهران · قسنطينة · عنابة", finTitle1: "صباح الإثنين، يمكن لقاعتكم أن تكون", finTitle2: "هادئة.",
-      finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. سجّلوا مسبقًا لخصم 10% لمدة 12 شهرًا، أو راسلونا لعرض توضيحي مدّته 10 دقائق.",
+      finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. سجّلوا مسبقًا لخصم 10% على أوّل 3 أشهر، أو راسلونا لعرض توضيحي مدّته 10 دقائق.",
       copy: "نسخ العنوان", footer: "صُنع في الجزائر · العربية · Français · English"
     },
     en: {
-      a8: "We call you before launch to set a date. You pay nothing until then. Your 14 free days start at your first real appointment, then 10% off applies automatically to your first 12 paid months. You can cancel any time.",
+      photosBy: "Photos",
+      fcContact: "Contact",
+      fcProduct: "Product",
+      footAbout: "Appointments, live queue and reminders for medical and dental practices in Algeria.",
+      estYour: "Your price",
+      pk3: "More than 10 doctors or several sites: on quote",
+      pk2: "A dashboard per doctor",
+      pk1: "11,000 DZD for 5 doctors, then 1,000 DZD per extra doctor",
+      plCliFor: "6 to 10 doctors",
+      plCli: "Clinic",
+      pc3: "Roles and change history",
+      pc2: "One shared call screen for the room",
+      pc1: "A calendar and a queue per doctor",
+      plCabFor: "2 to 5 doctors",
+      plCab: "Practice",
+      ps3: "Booking page and QR poster",
+      ps2: "Queue, tickets and reminders",
+      ps1: "1 doctor, unlimited reception accounts",
+      plSoloFor: "For a doctor working alone",
+      plSolo: "Solo",
+      stFoot: "These are product rules, not promises.",
+      st6p: "One subscription per doctor. Reception accounts are free and unlimited.",
+      st6t: "commission per appointment",
+      st5p: "Right-to-left Arabic, French and English. Everyone picks their own.",
+      st5t: "languages on every screen",
+      st4p: "Then up to 48 hours to check your Medical Council number and professional card.",
+      st4t: "to set up your practice",
+      st3p: "It's a database rule, even when two people book in the same second.",
+      st3t: "double bookings possible",
+      st2p: "The day before, 1 hour and 15 minutes before. Patients arrive at their time, not all at 8.",
+      st2t: "before the visit: the last reminder",
+      st1p: "Name, optional phone, visit type. They get their ticket straight away.",
+      st1t: "taps to add a walk-in patient",
+      sn6: "0 DZD",
+      sn5: "3",
+      sn4: "15 min",
+      sn3: "0",
+      sn2: "15 min",
+      sn1: "3",
+      stTitle: "Simple rules, for calm days.",
+      bLede: "From the booking to the last patient: one screen for reception, doctor and patient.",
+      apDay: "Dr Benali's day",
+      apLive: "Live",
+      apQueue: "Queue",
+      k4s: "day before, −1 h, −15 min",
+      k4: "Reminders sent",
+      k3s: "updated live",
+      k3: "Average wait",
+      k2s: "5 free chairs",
+      k2: "In the waiting room",
+      k1s: "12 online · 6 walk-in",
+      k1: "Patients today",
+      apSearch: "Search a patient…",
+      apDate: "Tuesday · dental practice · sample data",
+      apHello: "Good morning, Dr Benali",
+      apStats: "Statistics",
+      apRem: "Reminders",
+      apPatients: "Patients",
+      apAgenda: "Calendar",
+      apToday: "Today",
+      heroH1: "Your waiting room, calm at last.",
+      a8: "We call you before launch to set a date. You pay nothing until then. Your 14 free days start at your first real appointment, then 10% off applies automatically to your first 3 paid months. You can cancel any time.",
       q8: "What happens after I pre-register?",
       stickyB: "Pre-register",
-      stickyT: "10% off for 12 months",
+      stickyT: "10% off your first 3 months",
       prDoneP: "We'll call you before launch to set your start date. Your 10% off is linked to this number.",
       prDoneT: "Done, your place is saved",
       prPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
@@ -1266,13 +1364,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       plPhone: "Phone",
       plName: "Doctor or practice name",
       prFormT: "Pre-register my practice",
-      prPriceL: "Your pre-registered price",
+      prPriceL: "Your first 3 months",
       prB4: "No payment, no card, no commitment",
       prB3: "Priority for our pilot programme: on-site setup and your patients imported for you",
       prB2: "The 14-day free trial on top",
-      prB1: "<b>10% off</b> your subscription, monthly or yearly, for 12 months",
-      prLede: "Pre-register your practice in 30 seconds. You pay nothing today: the discount applies automatically to your first 12 paid months.",
-      prTitle2: "10% off for 12 months.",
+      prB1: "<b>10% off</b> your first 3 months of subscription",
+      prLede: "Pre-register your practice in 30 seconds. Nothing to pay today: the discount applies automatically to your first 3 paid months.",
+      prTitle2: "10% off your first 3 months.",
       prTitle1: "Save your place.",
       prEyebrow: "Pre-registration · before launch",
       heroMicro: "Free · 30 seconds · no commitment",
@@ -1287,7 +1385,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fa_soon5: "Structured consultation notes, doctor-only, switched on per practice after legal approval",
       fa_soon4: "Subscription paid by CIB / Edahabia card, after certification",
       brand: "medica", nav1: "The problem", nav2: "Demo", nav3: "Product", nav4: "Pricing", nav5: "Your ideas", navCta: "Pre-register −10%",
-      heroPillB: "−10%", heroPill: "Pre-registration is open before launch",
+      heroPillB: "−10%", heroPill: "Pre-registration open · 10% off your first 3 months",
       heroTitle: "Your waiting room, finally",
       heroLede: "Appointments, walk-ins and the queue on one screen. Patients book by link, QR code or the app, get their ticket and arrive at the right time. Your front desk can breathe.",
       heroCta1: "Pre-register, save 10%", heroCta2: "Try the demo",
@@ -1313,10 +1411,10 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       b1e: "Durations by visit type", b1t: "A check-up is not an extraction", b1p: "Your specialty's visit types are ready. Adjust the minutes, and after 20 visits Medica suggests your real average.",
       vt1: "Consultation", vt2: "Scaling", vt3: "Cavity filling", vt4: "Check-up", vtLearn: "Your real average for \"Check-up\": <b>12 min</b>", vtApply: "Apply",
       b2e: "Reminders", b2t: "Three reminders, through the right channel", r1: "D-1 · 18:00", r2: "−1 h", r3: "−15 min", r1c: "Push · SMS · WhatsApp", r2c: "Push · SMS · WhatsApp", r3c: "Push", b2p: "Sent automatically, nothing to do. Never the reason for the visit in a message.",
-      b3e: "For every patient", b3t: "With or without the app", b3p: "A link is enough to book. Patients who like apps find their tickets, appointments and reminders in the Medica app, and can book for a child or a parent.", b3s: "Android app after the pilot",
+      b3e: "For every patient", b3t: "With or without the app", b3p: "A link is enough to book, for yourself, a child or a parent. Everyone follows their turn live.", b3s: "Android app after the pilot",
       b4b: "Professional identity verified", b4t: "Real doctors only", b4p: "Medical Council registration number and professional card checked before anything goes public. Reviews only come from patients who actually came.",
       b5e: "Three languages", b5p: "Every screen is designed in right-to-left Arabic, French and English. Everyone picks their language.",
-      b6s: "Add-on · coming soon", b6t: "Assistant Medica: your repetitive tasks in one tap", b6p: "Type what you want to do, in your own words. The assistant prepares it, shows you what will change and waits for your confirmation. When you repeat an action, it offers to automate it. It runs on our own servers: no patient data is sent to an outside AI.",
+      b6s: "Add-on · coming soon", b6t: "Assistant Medica: your repetitive tasks in one tap", b6p: "Write what you want to do, in your own words. The assistant prepares the action, shows you what will change and waits for your confirmation.",
       b6a1: "<b>14 appointments</b> moved to next Thursday", b6a2: "<b>14 patients</b> notified", b6a3: "<b>0 conflicts</b>", b6ok: "Confirm",
       priceEyebrow: "Pricing", priceTitle1: "One subscription.", priceTitle2: "Priced by doctors.",
       priceLede: "2,900 DZD for one doctor, 2,200 DZD per doctor from two. Every feature for everyone, free reception accounts, no commission.",
@@ -1354,23 +1452,26 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       q5: "What if the internet goes down?", a5: "Medica shows a banner straight away with the last-sync time. You carry on with the printed day sheet, or on the doctor's phone over 4G, then Medica guides you to bring everything up to date. The patient's ticket stays on their phone even offline.",
       q6: "Does the assistant send my data to an outside AI?", a6: "No. Assistant Medica runs on our own servers. It finds the right task and shows it to you before acting. Your patients' names and numbers are never used to train it.",
       finEyebrow: "Algiers · Oran · Constantine · Annaba", finTitle1: "On Monday morning, your waiting room can be", finTitle2: "calm.",
-      finText: "We're choosing our first 5 to 8 pilot practices. Pre-register for 10% off for 12 months, or write to us for a 10-minute demo.",
+      finText: "We're choosing our first 5 to 8 pilot practices. Pre-register for 10% off your first 3 months, or write to us for a 10-minute demo.",
       copy: "Copy address", footer: "Made in Algeria · العربية · Français · English"
     }
   };
   var EXTRA = {
     fr: { rot: ["organisée.", "calme.", "à l'heure."], copied: "Adresse copiée", phone: function (a) { return "Ticket 07, " + a + " patients avant vous"; },
-          errPhone: "Entrez un numéro algérien valide, par exemple 0551 23 45 67.", errName: "Écrivez au moins 2 caractères.", prDup: "Ce numéro est déjà pré-inscrit : votre −10 % est bien réservé.", prQuote: "Sur devis, −10 %", prPer: function (n) { return "/ mois · " + (n > 10 ? "plus de 10 médecins" : n + (n === 1 ? " médecin" : " médecins")); }, calcPre: function (p) { return "Pré-inscrit : " + p + " / mois →"; }, prYour: function (p) { return "Votre tarif : " + p; },
+          stNow: "En consultation", stArr: "Arrivé", stRoute: "En route", prThen: function (p) { return "puis " + p + " / mois"; },
+          errPhone: "Entrez un numéro algérien valide, par exemple 0551 23 45 67.", errName: "Écrivez au moins 2 caractères.", prDup: "Ce numéro est déjà pré-inscrit : votre −10 % est bien réservé.", prQuote: "Sur devis, −10 %", prPer: function (n) { return "/ mois · " + (n > 10 ? "plus de 10 médecins" : n + (n === 1 ? " médecin" : " médecins")); }, calcPre: function (p) { return "Pré-inscrit : " + p + " / mois les 3 premiers mois →"; }, prYour: function (p) { return "Vos 3 premiers mois : " + p; },
           typed: ["Déplace les patients de jeudi du Dr. B à la semaine prochaine", "Prépare chaque soir la liste des absents", "Bloque le Dr. A de 12 h à 14 h tous les mardis"],
           errReq: "Ce champ est obligatoire.", errSpecOther: "Précisez votre spécialité.", errTitle: "Écrivez au moins 5 caractères.", errDetails: "Décrivez votre besoin en 20 caractères minimum.", errCat: "Choisissez ce que cela concerne.", errFreq: "Choisissez une fréquence.", errConsent: "Votre accord est nécessaire pour envoyer.", errContact: "Entrez un e-mail ou un numéro valide.", errSend: "L'envoi a échoué. Réessayez dans un instant.", sending: "Envoi…",
           vote: "Voter", voted: "Voté", st: { considering: "À l'étude", planned: "Prévu", in_progress: "En cours", shipped: "Disponible" } },
     ar: { rot: ["منظّمة أخيرًا.", "هادئة أخيرًا.", "في الموعد أخيرًا."], copied: "تمّ النسخ", phone: function (a) { return "التذكرة 07، أمامك " + a + " مرضى"; },
-          errPhone: "أدخلوا رقمًا جزائريًا صحيحًا، مثل 0551 23 45 67.", errName: "اكتبوا حرفين على الأقل.", prDup: "هذا الرقم مسجّل مسبقًا: خصم 10% محجوز لكم.", prQuote: "حسب العرض، مع خصم 10%", prPer: function (n) { return "/ شهريًا · " + (n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"); }, calcPre: function (p) { return "مع التسجيل المسبق: " + p + " / شهريًا ←"; }, prYour: function (p) { return "سعركم: " + p; },
+          stNow: "في الفحص", stArr: "وصل", stRoute: "في الطريق", prThen: function (p) { return "ثم " + p + " شهريًا"; },
+          errPhone: "أدخلوا رقمًا جزائريًا صحيحًا، مثل 0551 23 45 67.", errName: "اكتبوا حرفين على الأقل.", prDup: "هذا الرقم مسجّل مسبقًا: خصم 10% محجوز لكم.", prQuote: "حسب العرض، مع خصم 10%", prPer: function (n) { return "/ شهريًا · " + (n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"); }, calcPre: function (p) { return "مع التسجيل المسبق: " + p + " شهريًا لأوّل 3 أشهر ←"; }, prYour: function (p) { return "أوّل 3 أشهر: " + p; },
           typed: ["انقل مرضى الخميس للدكتور ب إلى الأسبوع القادم", "حضّر كل مساء قائمة الغائبين", "احجب الدكتور أ من 12 إلى 14 كل ثلاثاء"],
           errReq: "هذا الحقل إلزامي.", errSpecOther: "حدّدوا تخصّصكم.", errTitle: "اكتبوا 5 أحرف على الأقل.", errDetails: "صفوا حاجتكم في 20 حرفًا على الأقل.", errCat: "اختاروا ما يتعلّق به الأمر.", errFreq: "اختاروا التكرار.", errConsent: "موافقتكم ضرورية للإرسال.", errContact: "أدخلوا بريدًا أو رقمًا صحيحًا.", errSend: "فشل الإرسال. أعيدوا المحاولة بعد قليل.", sending: "جارٍ الإرسال…",
           vote: "صوّت", voted: "تمّ التصويت", st: { considering: "قيد الدراسة", planned: "مُبرمَج", in_progress: "قيد الإنجاز", shipped: "متاح" } },
     en: { rot: ["organised.", "calm.", "on time."], copied: "Address copied", phone: function (a) { return "Ticket 07, " + a + " patients ahead"; },
-          errPhone: "Enter a valid Algerian number, e.g. 0551 23 45 67.", errName: "Write at least 2 characters.", prDup: "This number is already pre-registered: your 10% off is saved.", prQuote: "On quote, 10% off", prPer: function (n) { return "/ month · " + (n > 10 ? "more than 10 doctors" : n + (n === 1 ? " doctor" : " doctors")); }, calcPre: function (p) { return "Pre-registered: " + p + " / month →"; }, prYour: function (p) { return "Your price: " + p; },
+          stNow: "In consultation", stArr: "Arrived", stRoute: "On the way", prThen: function (p) { return "then " + p + " / month"; },
+          errPhone: "Enter a valid Algerian number, e.g. 0551 23 45 67.", errName: "Write at least 2 characters.", prDup: "This number is already pre-registered: your 10% off is saved.", prQuote: "On quote, 10% off", prPer: function (n) { return "/ month · " + (n > 10 ? "more than 10 doctors" : n + (n === 1 ? " doctor" : " doctors")); }, calcPre: function (p) { return "Pre-registered: " + p + " / month for your first 3 months →"; }, prYour: function (p) { return "Your first 3 months: " + p; },
           typed: ["Move Dr. B's Thursday patients to next week", "Prepare the no-show list every evening", "Block Dr. A from 12:00 to 14:00 every Tuesday"],
           errReq: "This field is required.", errSpecOther: "Tell us your specialty.", errTitle: "Write at least 5 characters.", errDetails: "Describe your need in at least 20 characters.", errCat: "Choose what it's about.", errFreq: "Choose how often.", errConsent: "Your agreement is needed to send.", errContact: "Enter a valid email or phone number.", errSend: "Sending failed. Please try again in a moment.", sending: "Sending…",
           vote: "Vote", voted: "Voted", st: { considering: "Considering", planned: "Planned", in_progress: "In progress", shipped: "Available" } }
@@ -1398,59 +1499,95 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   var labelNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n-label]"));
   var fr = {};
-  nodes.forEach(function (n) { fr[n.dataset.i18n] = n.innerHTML; });
+  nodes.forEach(function (n) { if (!(n.dataset.i18n in fr)) fr[n.dataset.i18n] = n.innerHTML; });
   labelNodes.forEach(function (n) { fr[n.dataset.i18nLabel] = n.label; });
   T.fr = fr;
   var current = "fr";
   function x() { return EXTRA[current]; }
   function pad(n) { return String(n).padStart(2, "0"); }
 
-  /* Rotating hero word */
-  var rot = document.getElementById("rot"), rotIdx = 0;
-  function buildRot() {
-    rot.innerHTML = "";
-    x().rot.forEach(function (w, i) { var s = document.createElement("span"); s.textContent = w; if (i !== rotIdx) s.setAttribute("aria-hidden", "true"); rot.appendChild(s); });
+  /* Header turns solid after the top; the "Today" screen rises as you scroll */
+  var topbar = document.getElementById("topbar"), heroEl = document.getElementById("hero"), ticking = false;
+  function onScroll() {
+    ticking = false;
+    var y = window.scrollY || 0;
+    topbar.classList.toggle("solid", y > 40);
+    heroEl.style.setProperty("--p", reduce ? "1" : Math.min(1, y / (window.innerHeight * 0.55)).toFixed(3));
   }
-  if (!reduce) setInterval(function () {
-    var spans = rot.children; if (spans.length < 2) return;
-    spans[rotIdx].setAttribute("aria-hidden", "true");
-    rotIdx = (rotIdx + 1) % spans.length;
-    spans[rotIdx].removeAttribute("aria-hidden");
-  }, 2600);
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
 
-  /* Hero phone: the queue moves */
-  var heroNow = document.getElementById("hero-now"), heroAhead = document.getElementById("hero-ahead"), heroWait = document.getElementById("hero-wait"), heroMeter = document.getElementById("hero-meter"), phone = document.querySelector(".phone");
-  var hn = 4;
-  function heroRender() {
-    var ahead = Math.max(0, 7 - hn);
-    heroNow.firstElementChild.textContent = pad(hn);
-    heroAhead.textContent = ahead;
-    heroWait.textContent = (ahead * 8 + 1) + " min";
-    heroMeter.style.width = (100 - ahead * 20) + "%";
-    phone.setAttribute("aria-label", x().phone(ahead));
+  /* Reveal on scroll */
+  var revs = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (reduce || !("IntersectionObserver" in window)) revs.forEach(function (e) { e.classList.add("in"); });
+  else {
+    var ro = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); ro.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    revs.forEach(function (e) { ro.observe(e); });
+  }
+
+  /* "Today" screen queue */
+  var AQN = ["Rania B.", "Sofiane K.", "Imane D.", "Walid T.", "Meriem A.", "Hamza L.", "Amel Z.", "Karim D."], VT = ["vt1", "vt2", "vt4", "vt3"];
+  var aq = [{ t: 4, n: "Yacine M.", v: "vt1" }, { t: 5, n: "Lina H.", v: "vt2" }, { t: 6, n: "Nadia F.", v: "vt4" }, { t: 7, n: "Omar S.", v: "vt3" }], aqNext = 8, aqI = 0;
+  function aqRender() {
+    var ol = document.getElementById("aq"); ol.innerHTML = "";
+    aq.forEach(function (p, i) {
+      var li = document.createElement("li"); li.className = i === 0 ? "cur" : i < 3 ? "arr" : "";
+      var st = i === 0 ? x().stNow : i < 3 ? x().stArr : x().stRoute;
+      [["t", pad(p.t)], ["n", p.n], ["v", T[current][p.v] || ""], ["s", st]].forEach(function (c) { var s = document.createElement("span"); s.className = c[0]; s.textContent = c[1]; li.appendChild(s); });
+      ol.appendChild(li);
+    });
   }
   if (!reduce) setInterval(function () {
-    var el = heroNow.firstElementChild; el.style.transform = "translateY(-110%)";
+    aq.shift(); aq.push({ t: aqNext, n: AQN[aqI % AQN.length], v: VT[aqI % VT.length] });
+    aqNext = aqNext >= 40 ? 8 : aqNext + 1; aqI++; aqRender();
+  }, 3600);
+
+  /* Patient ticket card: the queue moves */
+  var tkNow = document.getElementById("tk-now"), tk = document.getElementById("tk"), hn = 4;
+  function tkRender() {
+    var ahead = Math.max(0, 7 - hn);
+    tkNow.firstElementChild.textContent = pad(hn);
+    document.getElementById("tk-ahead").textContent = ahead;
+    document.getElementById("tk-wait").textContent = (ahead * 8 + 1) + " min";
+    document.getElementById("tk-meter").style.width = (100 - ahead * 20) + "%";
+    tk.setAttribute("aria-label", x().phone(ahead));
+  }
+  if (!reduce) setInterval(function () {
+    var el = tkNow.firstElementChild; el.style.transform = "translateY(-110%)";
     setTimeout(function () {
       hn = hn >= 6 ? 4 : hn + 1;
-      el.style.transition = "none"; el.style.transform = "translateY(110%)"; heroRender();
+      el.style.transition = "none"; el.style.transform = "translateY(110%)"; tkRender();
       void el.offsetHeight; el.style.transition = ""; el.style.transform = "translateY(0)";
     }, 380);
   }, 3600);
 
-  /* Morning toggle */
-  var morning = document.getElementById("matin"), mw = document.getElementById("mode-without"), mwi = document.getElementById("mode-with");
+  /* Morning: without / with Medica, and the four moments of the day */
+  var story = document.getElementById("matin"), mw = document.getElementById("mode-without"), mwi = document.getElementById("mode-with");
+  var steps = Array.prototype.slice.call(story.querySelectorAll(".step-btn")), sIdx = 0, sTimer = null, sView = false;
   function setMode(m) {
-    morning.dataset.mode = m;
+    story.dataset.mode = m;
     mw.setAttribute("aria-pressed", String(m === "without")); mwi.setAttribute("aria-pressed", String(m === "with"));
-    morning.querySelectorAll(".face.bad").forEach(function (f) { f.setAttribute("aria-hidden", String(m === "with")); });
-    morning.querySelectorAll(".face.good").forEach(function (f) { f.setAttribute("aria-hidden", String(m !== "with")); });
-    morning.querySelector(".cap.bad").setAttribute("aria-hidden", String(m === "with"));
-    morning.querySelector(".cap.good").setAttribute("aria-hidden", String(m !== "with"));
   }
+  function setStep(i) {
+    sIdx = i;
+    steps.forEach(function (b, k) { b.setAttribute("aria-current", String(k === i)); });
+    story.style.setProperty("--fill", ((i + 1) / steps.length * 100) + "%");
+  }
+  function autoStep() { clearInterval(sTimer); if (reduce) return; sTimer = setInterval(function () { if (sView) setStep((sIdx + 1) % steps.length); }, 5200); }
+  steps.forEach(function (b, k) { b.addEventListener("click", function () { setStep(k); autoStep(); }); });
   mw.addEventListener("click", function () { setMode("without"); });
   mwi.addEventListener("click", function () { setMode("with"); });
-  setMode("without");
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { sView = es[0].isIntersecting; }, { threshold: 0.3 }).observe(story);
+  setMode("without"); setStep(0); autoStep();
+
+  /* Simple rules carousel */
+  var track = document.getElementById("stat-track");
+  function stepBy(dir) {
+    var card = track.querySelector(".stat-card"), w = card ? card.getBoundingClientRect().width + 16 : 320;
+    track.scrollBy({ left: dir * w * (root.dir === "rtl" ? -1 : 1), behavior: reduce ? "auto" : "smooth" });
+  }
+  document.getElementById("st-prev").addEventListener("click", function () { stepBy(-1); });
+  document.getElementById("st-next").addEventListener("click", function () { stepBy(1); });
 
   /* Live demo */
   var NAMES = ["Rania B.", "Sofiane K.", "Imane D.", "Walid T.", "Meriem A.", "Hamza L.", "Amel Z.", "Karim D."];
@@ -1503,10 +1640,6 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   });
   document.getElementById("d-reset").addEventListener("click", demoReset);
 
-  /* Spotlight tiles */
-  document.querySelectorAll(".tile").forEach(function (t) {
-    t.addEventListener("pointermove", function (e) { var r = t.getBoundingClientRect(); t.style.setProperty("--mx", (e.clientX - r.left) + "px"); t.style.setProperty("--my", (e.clientY - r.top) + "px"); });
-  });
 
   /* Typing assistant example */
   var typed = document.getElementById("typed"), tIdx = 0, typer;
@@ -1521,19 +1654,26 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     })();
   }
 
-  /* Pricing calculator */
+
+  /* Pricing: plan cards and the estimate slider */
   var C = {
-    fr: { cur: function (v) { return new Intl.NumberFormat("fr-FR").format(v).replace(/ /g, " ") + " DA"; }, m: "/ mois", y: "/ an", one: "Pour un médecin, avec comptes réception illimités.", per: function (d, n) { return "Soit " + d + " par médecin et par mois, pour " + n + " médecins."; }, save: function (s) { return " Vous économisez " + s + " par an."; }, quote: "Sur devis", quoteNote: "Plus de 10 médecins, plusieurs sites ou centre d'imagerie : contactez-nous." },
-    ar: { cur: function (v) { return new Intl.NumberFormat("en-US").format(v) + " دج"; }, m: "/ شهريًا", y: "/ سنويًا", one: "لطبيب واحد، مع حسابات استقبال غير محدودة.", per: function (d, n) { return "أي " + d + " لكل طبيب شهريًا، لـ" + n + " أطباء."; }, save: function (s) { return " توفّرون " + s + " في السنة."; }, quote: "حسب العرض", quoteNote: "أكثر من 10 أطباء، فروع متعدّدة أو مركز أشعة: تواصلوا معنا." },
-    en: { cur: function (v) { return new Intl.NumberFormat("en-US").format(v) + " DZD"; }, m: "/ month", y: "/ year", one: "For one doctor, with unlimited reception accounts.", per: function (d, n) { return "That's " + d + " per doctor per month, for " + n + " doctors."; }, save: function (s) { return " You save " + s + " a year."; }, quote: "On quote", quoteNote: "More than 10 doctors, multiple sites or an imaging centre: get in touch." }
+    fr: { cur: function (v) { return new Intl.NumberFormat("fr-FR").format(v).replace(/\s/g, " ") + " DA"; }, m: "/ mois", y: "/ an", perDocM: "/ médecin / mois", perDocY: "/ médecin / an", from: "dès ", one: "Pour un médecin, avec comptes réception illimités.", per: function (d, n) { return "Soit " + d + " par médecin et par mois, pour " + n + " médecins."; }, save: function (s) { return " Vous économisez " + s + " par an."; }, quote: "Sur devis", quoteNote: "Plus de 10 médecins, plusieurs sites ou centre d'imagerie : contactez-nous.", docs: function (n) { return n > 10 ? "10+ médecins" : n + (n === 1 ? " médecin" : " médecins"); } },
+    ar: { cur: function (v) { return new Intl.NumberFormat("en-US").format(v) + " دج"; }, m: "/ شهريًا", y: "/ سنويًا", perDocM: "/ طبيب / شهريًا", perDocY: "/ طبيب / سنويًا", from: "ابتداءً من ", one: "لطبيب واحد، مع حسابات استقبال غير محدودة.", per: function (d, n) { return "أي " + d + " لكل طبيب شهريًا، لـ" + n + " أطباء."; }, save: function (s) { return " توفّرون " + s + " في السنة."; }, quote: "حسب العرض", quoteNote: "أكثر من 10 أطباء، فروع متعدّدة أو مركز أشعة: تواصلوا معنا.", docs: function (n) { return n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"; } },
+    en: { cur: function (v) { return new Intl.NumberFormat("en-US").format(v) + " DZD"; }, m: "/ month", y: "/ year", perDocM: "/ doctor / month", perDocY: "/ doctor / year", from: "from ", one: "For one doctor, with unlimited reception accounts.", per: function (d, n) { return "That's " + d + " per doctor per month, for " + n + " doctors."; }, save: function (s) { return " You save " + s + " a year."; }, quote: "On quote", quoteNote: "More than 10 doctors, multiple sites or an imaging centre: get in touch.", docs: function (n) { return n > 10 ? "10+ doctors" : n + (n === 1 ? " doctor" : " doctors"); } }
   };
   function monthly(n) { return n === 1 ? 2900 : n <= 5 ? 2200 * n : 11000 + 1000 * (n - 5); }
   var docs = 1, cycle = "m";
-  var countEl = document.getElementById("doc-count"), priceEl = document.getElementById("calc-price"), noteEl = document.getElementById("calc-note"), minus = document.getElementById("doc-minus"), plus = document.getElementById("doc-plus");
+  var range = document.getElementById("doc-range"), countEl = document.getElementById("doc-count"), priceEl = document.getElementById("calc-price"), noteEl = document.getElementById("calc-note");
+  function planPrices() {
+    var c = C[current], y = cycle === "y";
+    document.getElementById("pp1").textContent = c.cur(y ? 29000 : 2900); document.getElementById("pp1u").textContent = y ? c.y : c.m;
+    document.getElementById("pp2").textContent = c.cur(y ? 22000 : 2200); document.getElementById("pp2u").textContent = y ? c.perDocY : c.perDocM;
+    document.getElementById("pp3").textContent = c.from + c.cur(y ? 120000 : 12000); document.getElementById("pp3u").textContent = y ? c.y : c.m;
+  }
   function renderCalc() {
-    var c = C[current];
-    countEl.textContent = docs > 10 ? "10+" : String(docs);
-    minus.disabled = docs <= 1; plus.disabled = docs > 10;
+    var c = C[current], n = Math.min(docs, 11);
+    countEl.textContent = c.docs(n);
+    range.value = String(n); range.style.setProperty("--v", ((n - 1) / 10 * 100) + "%");
     if (docs > 10) { priceEl.textContent = c.quote; noteEl.textContent = c.quoteNote; }
     else {
       var m = monthly(docs), total = cycle === "y" ? m * 10 : m;
@@ -1542,15 +1682,16 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       if (cycle === "y") note += c.save(c.cur(m * 2));
       noteEl.textContent = note;
     }
-    document.getElementById("calc-pre").textContent = docs > 10 ? x().prQuote : x().calcPre(C[current].cur(Math.round(monthly(docs) * 0.9)));
-    var pd = document.getElementById("p-docs"); if (pd) { pd.value = String(Math.min(docs, 11)); renderPrereg(); }
+    document.getElementById("calc-pre").textContent = docs > 10 ? x().prQuote : x().calcPre(c.cur(Math.round(monthly(docs) * 0.9)));
+    var pd = document.getElementById("p-docs"); if (pd) { pd.value = String(n); renderPrereg(); }
     document.getElementById("cyc-m").setAttribute("aria-pressed", String(cycle === "m"));
     document.getElementById("cyc-y").setAttribute("aria-pressed", String(cycle === "y"));
+    planPrices();
   }
-  minus.addEventListener("click", function () { if (docs > 1) { docs--; renderCalc(); } });
-  plus.addEventListener("click", function () { if (docs <= 10) { docs++; renderCalc(); } });
+  range.addEventListener("input", function () { docs = Number(range.value) || 1; renderCalc(); });
   document.getElementById("cyc-m").addEventListener("click", function () { cycle = "m"; renderCalc(); });
   document.getElementById("cyc-y").addEventListener("click", function () { cycle = "y"; renderCalc(); });
+  document.querySelectorAll("[data-docs]").forEach(function (a) { a.addEventListener("click", function () { docs = Number(a.dataset.docs) || 1; renderCalc(); }); });
 
   /* Backend helpers */
   var hasBackend = !!(MEDICA_BACKEND.url && MEDICA_BACKEND.anonKey);
@@ -1693,7 +1834,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   });
 
 
-  /* Pre-registration (10% off for 12 months) */
+
+  /* Pre-registration (10% off the first 3 paid months) */
   var pForm = document.getElementById("prereg-form"), pBody = document.getElementById("pr-body"), pDone = document.getElementById("pr-done");
   var pDocs = document.getElementById("p-docs"), pSpec = document.getElementById("p-specialty"), pPhone = document.getElementById("p-phone"), pName = document.getElementById("p-name"), pConsent = document.getElementById("p-consent");
   if (!hasBackend) document.getElementById("pr-preview").hidden = false;
@@ -1704,6 +1846,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     document.getElementById("pr-price").textContent = v == null ? c.quote : c.cur(v);
     var was = document.getElementById("pr-was"); was.hidden = v == null; was.textContent = v == null ? "" : c.cur(monthly(n));
     document.getElementById("pr-per").textContent = x().prPer(n);
+    document.getElementById("pr-then").textContent = v == null ? "" : x().prThen(c.cur(monthly(n)));
   }
   pDocs.addEventListener("change", function () { docs = Number(pDocs.value) || 1; renderCalc(); });
   function normPhone(v) { return v.replace(/[\s.\-()]/g, "").replace(/^00213/, "+213").replace(/^\+213/, "0"); }
@@ -1726,7 +1869,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     if (document.getElementById("p-website").value) return;
     var v = prPrice();
     var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), specialty: pSpec.value, doctors: Number(pDocs.value) || 1,
-      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-12m", lang: current };
+      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-3m", lang: current };
     var btn = document.getElementById("p-submit"), label = document.getElementById("p-submit-label");
     function done(dup) {
       pBody.hidden = true; pDone.hidden = false;
@@ -1765,7 +1908,9 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     applyTheme(t); setStore("medica-theme", t);
   });
 
+
   /* Language */
+  var ARROW_LBL = { fr: ["Précédent", "Suivant"], ar: ["السابق", "التالي"], en: ["Previous", "Next"] };
   function setLang(l) {
     if (!T[l]) l = "fr";
     current = l;
@@ -1774,8 +1919,10 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     nodes.forEach(function (n) { var v = T[l][n.dataset.i18n]; if (v != null) n.innerHTML = v; });
     labelNodes.forEach(function (n) { var v = T[l][n.dataset.i18nLabel]; if (v != null) n.label = v; });
     document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
+    document.getElementById("st-prev").setAttribute("aria-label", ARROW_LBL[l][0]);
+    document.getElementById("st-next").setAttribute("aria-label", ARROW_LBL[l][1]);
     setStore("medica-lang", l);
-    buildRot(); heroRender(); demoRender(); renderCalc(); renderPrereg(); renderRoadmap(); typeLoop();
+    aqRender(); tkRender(); demoRender(); renderCalc(); renderPrereg(); renderRoadmap(); typeLoop();
     if (pForm.dataset.tried) pValidate();
     applyTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
     if (form.dataset.tried) validate(false);
@@ -1789,6 +1936,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     var fallback = function () { var r = document.createRange(); r.selectNodeContents(email); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(email.textContent).then(ok, fallback); else fallback();
   });
+
 
   demoReset();
   root.setAttribute("data-theme", getStore("medica-theme") === "dark" ? "dark" : "light");
