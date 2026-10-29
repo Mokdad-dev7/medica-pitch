@@ -392,7 +392,7 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius
 .field > label { font-weight: 600; font-size: .95rem; }
 .req { color: var(--danger); }
 .help { color: var(--muted); font-size: .85rem; }
-input[type="text"], input[type="tel"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--sans); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; min-height: 48px; }
+input[type="text"], input[type="tel"], input[type="email"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--sans); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; min-height: 48px; }
 textarea { min-height: 120px; resize: vertical; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 [aria-invalid="true"] { border-color: var(--danger) !important; }
@@ -868,6 +868,12 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
             <p class="help" id="h-p-phone" data-i18n="plPhoneH">WhatsApp de préférence. Nous l'utilisons seulement pour vous rappeler.</p>
             <p class="err" id="e-p-phone"></p>
           </div>
+          <div class="field">
+            <label for="p-email" data-i18n="plEmail">E-mail (facultatif)</label>
+            <input type="email" id="p-email" name="email" maxlength="120" autocomplete="email" inputmode="email" dir="ltr" aria-describedby="h-p-email e-p-email">
+            <p class="help" id="h-p-email" data-i18n="plEmailH">Pour recevoir tout de suite votre confirmation et votre tarif.</p>
+            <p class="err" id="e-p-email"></p>
+          </div>
           <div class="grid2">
             <div class="field">
               <label for="p-specialty"><span data-i18n="plSpec">Spécialité</span> <span class="req" aria-hidden="true">*</span></label>
@@ -1037,7 +1043,8 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
             </div>
             <div class="field">
               <label for="f-contact" data-i18n="lContact">Téléphone ou e-mail (facultatif)</label>
-              <input type="text" id="f-contact" name="contact" maxlength="120" autocomplete="email" aria-describedby="e-contact">
+              <input type="text" id="f-contact" name="contact" maxlength="120" autocomplete="email" aria-describedby="h-contact e-contact">
+              <p class="help" id="h-contact" data-i18n="hContact">Avec un e-mail, vous recevez une réponse tout de suite.</p>
               <p class="err" id="e-contact"></p>
             </div>
           </div>
@@ -1109,13 +1116,19 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
 </footer>
 
 <script>
-/* Backend for the idea form, roadmap votes and pre-registrations (Supabase). Leave empty for preview mode.
-   Schema: docs/feature-requests.sql. Use the PUBLIC anon key only, never the service key. */
+/* Where the forms send their data. Leave both empty for preview mode (nothing is sent).
+   1. Google Sheet + auto-replies (recommended now): paste the Apps Script web app URL (ends with /exec).
+      Setup: backend/google-apps-script/SETUP.md
+   2. Supabase (later): schema in docs/feature-requests.sql. Use the PUBLIC anon key only, never the service key. */
+var MEDICA_SHEETS = { url: "" };
 var MEDICA_BACKEND = { url: "", anonKey: "" };
 
 (function () {
   var T = {
     ar: {
+      hContact: "مع بريد إلكتروني، تصلكم إجابة فورًا.",
+      plEmailH: "لتتلقّوا فورًا تأكيدكم وسعركم.",
+      plEmail: "البريد الإلكتروني (اختياري)",
       photosBy: "الصور",
       fcContact: "تواصل",
       fcProduct: "المنتج",
@@ -1286,6 +1299,9 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       copy: "نسخ العنوان", footer: "صُنع في الجزائر · العربية · Français · English"
     },
     en: {
+      hContact: "With an email, you get a reply straight away.",
+      plEmailH: "To get your confirmation and price straight away.",
+      plEmail: "Email (optional)",
       photosBy: "Photos",
       fcContact: "Contact",
       fcProduct: "Product",
@@ -1458,18 +1474,21 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   };
   var EXTRA = {
     fr: { rot: ["organisée.", "calme.", "à l'heure."], copied: "Adresse copiée", phone: function (a) { return "Ticket 07, " + a + " patients avant vous"; },
+          errEmail: "Cette adresse e-mail ne semble pas valide.",
           stNow: "En consultation", stArr: "Arrivé", stRoute: "En route", prThen: function (p) { return "puis " + p + " / mois"; },
           errPhone: "Entrez un numéro algérien valide, par exemple 0551 23 45 67.", errName: "Écrivez au moins 2 caractères.", prDup: "Ce numéro est déjà pré-inscrit : votre −10 % est bien réservé.", prQuote: "Sur devis, −10 %", prPer: function (n) { return "/ mois · " + (n > 10 ? "plus de 10 médecins" : n + (n === 1 ? " médecin" : " médecins")); }, calcPre: function (p) { return "Pré-inscrit : " + p + " / mois les 3 premiers mois →"; }, prYour: function (p) { return "Vos 3 premiers mois : " + p; },
           typed: ["Déplace les patients de jeudi du Dr. B à la semaine prochaine", "Prépare chaque soir la liste des absents", "Bloque le Dr. A de 12 h à 14 h tous les mardis"],
           errReq: "Ce champ est obligatoire.", errSpecOther: "Précisez votre spécialité.", errTitle: "Écrivez au moins 5 caractères.", errDetails: "Décrivez votre besoin en 20 caractères minimum.", errCat: "Choisissez ce que cela concerne.", errFreq: "Choisissez une fréquence.", errConsent: "Votre accord est nécessaire pour envoyer.", errContact: "Entrez un e-mail ou un numéro valide.", errSend: "L'envoi a échoué. Réessayez dans un instant.", sending: "Envoi…",
           vote: "Voter", voted: "Voté", st: { considering: "À l'étude", planned: "Prévu", in_progress: "En cours", shipped: "Disponible" } },
     ar: { rot: ["منظّمة أخيرًا.", "هادئة أخيرًا.", "في الموعد أخيرًا."], copied: "تمّ النسخ", phone: function (a) { return "التذكرة 07، أمامك " + a + " مرضى"; },
+          errEmail: "يبدو أن هذا البريد الإلكتروني غير صحيح.",
           stNow: "في الفحص", stArr: "وصل", stRoute: "في الطريق", prThen: function (p) { return "ثم " + p + " شهريًا"; },
           errPhone: "أدخلوا رقمًا جزائريًا صحيحًا، مثل 0551 23 45 67.", errName: "اكتبوا حرفين على الأقل.", prDup: "هذا الرقم مسجّل مسبقًا: خصم 10% محجوز لكم.", prQuote: "حسب العرض، مع خصم 10%", prPer: function (n) { return "/ شهريًا · " + (n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"); }, calcPre: function (p) { return "مع التسجيل المسبق: " + p + " شهريًا لأوّل 3 أشهر ←"; }, prYour: function (p) { return "أوّل 3 أشهر: " + p; },
           typed: ["انقل مرضى الخميس للدكتور ب إلى الأسبوع القادم", "حضّر كل مساء قائمة الغائبين", "احجب الدكتور أ من 12 إلى 14 كل ثلاثاء"],
           errReq: "هذا الحقل إلزامي.", errSpecOther: "حدّدوا تخصّصكم.", errTitle: "اكتبوا 5 أحرف على الأقل.", errDetails: "صفوا حاجتكم في 20 حرفًا على الأقل.", errCat: "اختاروا ما يتعلّق به الأمر.", errFreq: "اختاروا التكرار.", errConsent: "موافقتكم ضرورية للإرسال.", errContact: "أدخلوا بريدًا أو رقمًا صحيحًا.", errSend: "فشل الإرسال. أعيدوا المحاولة بعد قليل.", sending: "جارٍ الإرسال…",
           vote: "صوّت", voted: "تمّ التصويت", st: { considering: "قيد الدراسة", planned: "مُبرمَج", in_progress: "قيد الإنجاز", shipped: "متاح" } },
     en: { rot: ["organised.", "calm.", "on time."], copied: "Address copied", phone: function (a) { return "Ticket 07, " + a + " patients ahead"; },
+          errEmail: "This email address doesn't look right.",
           stNow: "In consultation", stArr: "Arrived", stRoute: "On the way", prThen: function (p) { return "then " + p + " / month"; },
           errPhone: "Enter a valid Algerian number, e.g. 0551 23 45 67.", errName: "Write at least 2 characters.", prDup: "This number is already pre-registered: your 10% off is saved.", prQuote: "On quote, 10% off", prPer: function (n) { return "/ month · " + (n > 10 ? "more than 10 doctors" : n + (n === 1 ? " doctor" : " doctors")); }, calcPre: function (p) { return "Pre-registered: " + p + " / month for your first 3 months →"; }, prYour: function (p) { return "Your first 3 months: " + p; },
           typed: ["Move Dr. B's Thursday patients to next week", "Prepare the no-show list every evening", "Block Dr. A from 12:00 to 14:00 every Tuesday"],
@@ -1694,7 +1713,19 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   document.querySelectorAll("[data-docs]").forEach(function (a) { a.addEventListener("click", function () { docs = Number(a.dataset.docs) || 1; renderCalc(); }); });
 
   /* Backend helpers */
-  var hasBackend = !!(MEDICA_BACKEND.url && MEDICA_BACKEND.anonKey);
+  var hasSheets = !!MEDICA_SHEETS.url, hasBackend = !hasSheets && !!(MEDICA_BACKEND.url && MEDICA_BACKEND.anonKey), live = hasSheets || hasBackend;
+  /* Google Sheet web app: a plain-text POST avoids a CORS preflight; the script answers JSON. */
+  function sheets(action, data) {
+    return fetch(MEDICA_SHEETS.url, { method: "POST", body: JSON.stringify({ action: action, data: data }) })
+      .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (j) { if (!j || !j.ok) throw new Error((j && j.error) || "error"); return j; });
+  }
+  function submit(kind, payload) {
+    if (hasSheets) return sheets(kind, payload);
+    var table = { idea: "feature_requests", prereg: "preregistrations", vote: "roadmap_votes" }[kind];
+    return api(table, { method: "POST", prefer: "return=minimal", body: payload })
+      .then(function () { return { ok: true }; }, function (e) { if (String(e && e.message) === "409") return { ok: true, duplicate: true }; throw e; });
+  }
   function api(path, opts) {
     opts = opts || {};
     var headers = { apikey: MEDICA_BACKEND.anonKey, Authorization: "Bearer " + MEDICA_BACKEND.anonKey, "Content-Type": "application/json" };
@@ -1722,7 +1753,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       var on = !!myVotes[it.slug]; b.setAttribute("aria-pressed", String(on));
       b.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2l5 6H9v4H5V8H2z" fill="currentColor"/></svg>';
       var lbl = document.createElement("span"); lbl.textContent = on ? x().voted : x().vote; b.appendChild(lbl);
-      if (hasBackend && counts[it.slug] != null) { var cnt = document.createElement("span"); cnt.className = "count"; cnt.textContent = counts[it.slug]; b.appendChild(cnt); }
+      if (live && counts[it.slug] != null) { var cnt = document.createElement("span"); cnt.className = "count"; cnt.textContent = counts[it.slug]; b.appendChild(cnt); }
       b.setAttribute("aria-label", (on ? x().voted : x().vote) + " : " + it[current]);
       b.addEventListener("click", function () { if (!myVotes[it.slug]) vote(it.slug); });
       li.appendChild(info); li.appendChild(b); ul.appendChild(li);
@@ -1733,10 +1764,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     if (counts[slug] != null) counts[slug]++;
     renderRoadmap();
     var btn = document.getElementById("vote-" + slug); if (btn) btn.focus();
-    if (hasBackend && window.crypto && crypto.subtle) sha256(voterId() + ":" + slug).then(function (h) {
-      return api("roadmap_votes", { method: "POST", prefer: "return=minimal", body: { slug: slug, voter_hash: h, specialty: document.getElementById("f-specialty").value || null } });
+    if (live && window.crypto && crypto.subtle) sha256(voterId() + ":" + slug).then(function (h) {
+      return submit("vote", { slug: slug, voter_hash: h, specialty: document.getElementById("f-specialty").value || null });
     }).catch(function () {});
   }
+  if (hasSheets) fetch(MEDICA_SHEETS.url + "?action=roadmap").then(function (r) { return r.json(); }).then(function (j) {
+    if (j && j.ok && j.counts) { Object.keys(j.counts).forEach(function (k) { counts[k] = j.counts[k]; }); renderRoadmap(); }
+  }).catch(function () {});
   if (hasBackend) api("roadmap_public?select=slug,status,votes").then(function (rows) {
     (rows || []).forEach(function (r) { counts[r.slug] = r.votes; ROADMAP.forEach(function (it) { if (it.slug === r.slug) it.status = r.status; }); });
     renderRoadmap();
@@ -1750,7 +1784,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   spec.addEventListener("change", function () { otherWrap.hidden = spec.value !== "other"; });
   var details = document.getElementById("f-details"), cDetails = document.getElementById("c-details");
   details.addEventListener("input", function () { cDetails.textContent = details.value.length + " / 2000"; });
-  if (!hasBackend) document.getElementById("fm-preview").hidden = false;
+  if (!live) document.getElementById("fm-preview").hidden = false;
 
   function radioVal(name) { var r = form.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ""; }
   function setErr(id, msg, field) {
@@ -1818,10 +1852,10 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     };
     var btn = document.getElementById("f-submit"), label = document.getElementById("f-submit-label");
     function done() { body.hidden = true; sum.hidden = true; doneBox.hidden = false; doneBox.focus(); }
-    if (!hasBackend) { done(); return; }
+    if (!live) { done(); return; }
     btn.disabled = true; label.textContent = x().sending;
-    api("feature_requests", { method: "POST", prefer: "return=minimal", body: payload })
-      .then(done)
+    submit("idea", payload)
+      .then(function () { done(); })
       .catch(function () { document.getElementById("e-send").textContent = x().errSend; })
       .then(function () { btn.disabled = false; label.innerHTML = T[current].fmSend; });
   });
@@ -1838,7 +1872,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   /* Pre-registration (10% off the first 3 paid months) */
   var pForm = document.getElementById("prereg-form"), pBody = document.getElementById("pr-body"), pDone = document.getElementById("pr-done");
   var pDocs = document.getElementById("p-docs"), pSpec = document.getElementById("p-specialty"), pPhone = document.getElementById("p-phone"), pName = document.getElementById("p-name"), pConsent = document.getElementById("p-consent");
-  if (!hasBackend) document.getElementById("pr-preview").hidden = false;
+  if (!live) document.getElementById("pr-preview").hidden = false;
   function prPrice() { var n = Number(document.getElementById("p-docs").value) || 1; return n > 10 ? null : Math.round(monthly(n) * 0.9); }
   function renderPrereg() {
     var pDocs = document.getElementById("p-docs");
@@ -1855,11 +1889,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     function check(id, ok, msg, field) { document.getElementById("e-" + id).textContent = ok ? "" : msg; field.setAttribute("aria-invalid", ok ? "false" : "true"); if (!ok && !first) first = field; }
     check("p-name", pName.value.trim().length >= 2, e.errName, pName);
     check("p-phone", /^0\d{8,9}$/.test(normPhone(pPhone.value)), e.errPhone, pPhone);
+    var pEmail = document.getElementById("p-email"), em = pEmail.value.trim();
+    check("p-email", !em || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em), e.errEmail, pEmail);
     check("p-specialty", !!pSpec.value, e.errReq, pSpec);
     check("p-consent", pConsent.checked, e.errConsent, pConsent);
     return first;
   }
-  ["p-name", "p-phone", "p-specialty"].forEach(function (id) { document.getElementById(id).addEventListener("blur", function () { if (pForm.dataset.tried) pValidate(); }); });
+  ["p-name", "p-phone", "p-email", "p-specialty"].forEach(function (id) { document.getElementById(id).addEventListener("blur", function () { if (pForm.dataset.tried) pValidate(); }); });
   pForm.addEventListener("change", function () { if (pForm.dataset.tried) pValidate(); });
   pForm.addEventListener("submit", function (ev) {
     ev.preventDefault();
@@ -1868,7 +1904,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     var bad = pValidate(); if (bad) { bad.focus(); return; }
     if (document.getElementById("p-website").value) return;
     var v = prPrice();
-    var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), specialty: pSpec.value, doctors: Number(pDocs.value) || 1,
+    var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), email: document.getElementById("p-email").value.trim() || null, specialty: pSpec.value, doctors: Number(pDocs.value) || 1,
       wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-3m", lang: current };
     var btn = document.getElementById("p-submit"), label = document.getElementById("p-submit-label");
     function done(dup) {
@@ -1876,11 +1912,11 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       document.getElementById("pr-done-price").textContent = dup ? x().prDup : v == null ? x().prQuote : x().prYour(C[current].cur(v) + " " + x().prPer(Number(pDocs.value) || 1));
       pDone.focus();
     }
-    if (!hasBackend) { done(false); return; }
+    if (!live) { done(false); return; }
     btn.disabled = true; label.textContent = x().sending;
-    api("preregistrations", { method: "POST", prefer: "return=minimal", body: payload })
-      .then(function () { done(false); })
-      .catch(function (err) { if (String(err && err.message) === "409") done(true); else sendErr.textContent = x().errSend; })
+    submit("prereg", payload)
+      .then(function (j) { done(!!(j && j.duplicate)); })
+      .catch(function () { sendErr.textContent = x().errSend; })
       .then(function () { btn.disabled = false; label.innerHTML = T[current].prSend; });
   });
 
