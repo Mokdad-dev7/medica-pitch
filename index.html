@@ -1157,6 +1157,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <div class="foot-bottom">
       <span>© 2026 Medica · app.medica.dz</span>
       <span data-i18n="footer">Fait en Algérie · العربية · Français · English</span>
+      <span data-i18n="audience">Mesure d'audience anonyme, sans cookie.</span>
       <span><span data-i18n="photosBy">Photos</span> : Unsplash · Scott Goodwill, Navy Medicine, Zulfugar Karimov, Harold Hisona, Vitaly Gariev, Irshad Pathan, D Dental Office, Sawyer Bergeron</span>
     </div>
   </div>
@@ -1173,6 +1174,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
 (function () {
   var T = {
     ar: {
+      audience: "قياس جمهور مجهول الهوية، دون ملفات تعريف الارتباط.",
       a10: "نعم. نستورد مرضاكم ومواعيدكم مجانًا، وتحتفظون بالأداة القديمة 30 يومًا بالتوازي، ونقدّم لكم مجانًا في ميديكا الأشهر التي دفعتموها لغيرنا، حتى 3 أشهر. وإن أردتم الإبقاء على ملفكم الطبي الحالي، تتولّى ميديكا الاستقبال بجانبه.",
       q10: "أستعمل برنامجًا آخر. هل يمكنني الانتقال بسهولة؟",
       a9: "في الجزائر، مع نسخ احتياطية مشفّرة. تُسجَّل كل عملية في سجلّ مختوم يمكنكم تقديمه عند أي تفتيش. ولا تمرّ الرسائل عبر واتساب إلا إذا اختار المريض هذه القناة؛ ويمكنه تفضيل الرسائل القصيرة أو الرابط.",
@@ -1419,6 +1421,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       copy: "نسخ العنوان", footer: "صُنع في الجزائر · العربية · Français · English"
     },
     en: {
+      audience: "Anonymous audience counts, no cookies.",
       a10: "Yes. We import your patients and appointments for free, you keep the old tool for 30 days side by side, and the months you've already paid elsewhere are free at Medica, up to 3 months. If you want to keep your current medical records, Medica runs the front desk alongside them.",
       q10: "I already use software. Can I switch easily?",
       a9: "In Algeria, with encrypted backups. Every action goes into a sealed log you can show during an inspection. Messages go through WhatsApp only if the patient chooses that channel; they can prefer SMS or the link.",
@@ -1905,6 +1908,19 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   document.getElementById("cyc-y").addEventListener("click", function () { cycle = "y"; renderCalc(); });
   document.querySelectorAll("[data-docs]").forEach(function (a) { a.addEventListener("click", function () { docs = Number(a.dataset.docs) || 1; renderCalc(); }); });
 
+  /* Where the visit came from: the ?src= tag on a shared link, else the referring site. Session only, no cookie. */
+  var visitSource = (function () {
+    var q = new URLSearchParams(location.search).get("src") || "";
+    q = q.toLowerCase().replace(/[^a-z0-9._-]/g, "").slice(0, 40);
+    if (!q) { try { q = sessionStorage.getItem("medica-src") || ""; } catch (e) {} }
+    if (!q && document.referrer) {
+      try { var h = new URL(document.referrer).hostname.replace(/^www\./, ""); if (h && h !== location.hostname) q = h.slice(0, 40); } catch (e) {}
+    }
+    q = q || "direct";
+    try { sessionStorage.setItem("medica-src", q); } catch (e) {}
+    return q;
+  })();
+
   /* Backend helpers */
   var hasSheets = !!MEDICA_SHEETS.url, hasBackend = !hasSheets && !!(MEDICA_BACKEND.url && MEDICA_BACKEND.anonKey), live = hasSheets || hasBackend;
   /* Google Sheet web app: a plain-text POST avoids a CORS preflight; the script answers JSON. */
@@ -2041,7 +2057,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       contact: document.getElementById("f-contact").value.trim() || null,
       wants_updates: document.getElementById("f-updates").checked,
       consent: true,
-      lang: current
+      lang: current,
+      src: visitSource
     };
     var btn = document.getElementById("f-submit"), label = document.getElementById("f-submit-label");
     function done() { body.hidden = true; sum.hidden = true; doneBox.hidden = false; doneBox.focus(); }
@@ -2098,7 +2115,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     if (document.getElementById("p-website").value) return;
     var v = prPrice();
     var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), email: document.getElementById("p-email").value.trim() || null, specialty: pSpec.value, doctors: Number(pDocs.value) || 1,
-      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-3m", lang: current };
+      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-3m", lang: current, src: visitSource };
     var btn = document.getElementById("p-submit"), label = document.getElementById("p-submit-label");
     function done(dup) {
       pBody.hidden = true; pDone.hidden = false;
@@ -2171,6 +2188,21 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   root.setAttribute("data-theme", getStore("medica-theme") === "dark" ? "dark" : "light");
   var saved = getStore("medica-lang");
   setLang(saved && T[saved] ? saved : "fr");
+
+  /* Anonymous audience: counts per day, source, language and event. No cookie, no identifier. */
+  function hit(ev) {
+    if (!hasSheets) return;
+    try { if (sessionStorage.getItem("medica-hit-" + ev)) return; sessionStorage.setItem("medica-hit-" + ev, "1"); } catch (e) {}
+    fetch(MEDICA_SHEETS.url + "?action=hit&ev=" + ev + "&src=" + encodeURIComponent(visitSource) + "&lang=" + current,
+      { mode: "no-cors", keepalive: true }).catch(function () {});
+  }
+  hit("view");
+  var pricing = document.querySelector("#tarifs .plans");
+  if (pricing && "IntersectionObserver" in window) {
+    // Fires when the plans reach the middle of the screen, whatever their height (they stack tall on phones).
+    var po = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { hit("pricing"); po.disconnect(); } }, { rootMargin: "0px 0px -50% 0px", threshold: 0 });
+    po.observe(pricing);
+  }
 })();
 </script>
 </body>
