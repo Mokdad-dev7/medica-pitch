@@ -364,6 +364,26 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius
 .addon-price { font: 600 1.15rem var(--sans); color: var(--ink) !important; white-space: nowrap; }
 .fine { margin-top: 16px; font-size: .86rem; color: var(--muted); max-width: 90ch; }
 
+/* Free plan + switching */
+.free-plan { display: grid; grid-template-columns: 1.1fr 1.4fr auto; gap: 24px 32px; align-items: center; padding: 24px 26px; border-radius: var(--r); background: var(--mint-soft); margin: 12px 0 28px; }
+.free-plan > * { min-width: 0; }
+.free-head { display: grid; gap: 6px; }
+.free-head h3 { font: 600 1.2rem var(--sans); }
+.free-price b { font: 600 1.6rem/1 var(--sans); }
+.free-price span { color: var(--muted); font-size: .95rem; }
+.free-desc { color: var(--muted); font-size: .95rem; }
+.free-plan ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+.free-plan li { break-inside: avoid; padding: 8px 0; border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); font-size: .95rem; }
+@media (max-width: 980px) { .free-plan { grid-template-columns: 1fr; } .free-plan .btn { justify-self: start; } }
+@media (max-width: 560px) { .free-plan ul { columns: 1; } }
+.sw-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.sw-steps li { background: var(--surface); border-radius: var(--r); padding: 22px; display: grid; gap: 8px; align-content: start; }
+.sw-steps .mono { font-weight: 600; color: var(--accent); }
+.sw-steps p { color: var(--muted); font-size: .95rem; }
+.sw-foot { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.sw-foot p { color: var(--muted); max-width: 70ch; font-size: .95rem; }
+@media (max-width: 980px) { .sw-steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .sw-steps { grid-template-columns: 1fr; } }
 /* Pre-registration */
 .prereg-sec { background: var(--sky); }
 .prereg { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
@@ -539,7 +559,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       </div>
     </div>
     <div class="hero-side">
-      <p data-i18n="heroLede">Rendez-vous, patients sans rendez-vous et file d'attente sur un seul écran. Vos patients réservent par lien, QR code ou application, reçoivent leur ticket et arrivent au bon moment. Votre réception respire.</p>
+      <p data-i18n="heroLede">Rendez-vous, patients sans rendez-vous et file d'attente sur un seul écran. Vos patients réservent par lien, QR code ou WhatsApp, sans application, reçoivent leur ticket et arrivent au bon moment. Votre réception respire.</p>
       <p class="hero-micro" data-i18n="heroMicro">Gratuit · 30 secondes · sans engagement</p>
     </div>
     <div class="hero-rail" aria-hidden="true"><span>001</span><i class="l"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>008</span></div>
@@ -587,7 +607,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       <p class="story-cap"><b>08:30</b><span class="cap bad" data-i18n="roomBad">11 personnes pour 6 chaises. Le téléphone sonne, les questions fusent.</span><span class="cap good" data-i18n="roomGood">Ticket 05 en consultation. 3 patients attendent, les autres arrivent à leur heure.</span></p>
     </div>
     <div class="story-copy">
-      <h2 class="reveal"><span data-i18n="mTitle1">Vous reconnaissez cette matinée ?</span> <em data-i18n="mTitle2">Elle peut changer dès lundi.</em></h2>
+      <h2 class="reveal"><span data-i18n="mTitle1">Vous reconnaissez cette matinée ?</span> <em data-i18n="mTitle2">Elle peut changer dès lundi.</em></h2>
       <div class="seg reveal" role="group" aria-label="Medica">
         <button type="button" id="mode-without" aria-pressed="true" data-i18n="mWithout">Sans Medica</button>
         <button type="button" id="mode-with" aria-pressed="false" data-i18n="mWith">Avec Medica</button>
@@ -596,8 +616,8 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
         <span class="rail" aria-hidden="true"><i></i></span>
         <ol class="steps-list">
         <li><button type="button" class="step-btn"><span class="clock">07:55</span><span class="face bad"><strong data-i18n="s1bt">Le téléphone sonne avant l'ouverture</strong><span class="p" data-i18n="s1bp">Votre secrétaire note les rendez-vous au crayon, entre deux patients, sur un cahier que personne d'autre ne peut lire.</span></span><span class="face good"><strong data-i18n="s1gt">Votre journée est déjà prête</strong><span class="p" data-i18n="s1gp">Vos patients ont réservé hier soir par lien ou QR code. Les appels restants vont dans le même agenda, en quelques secondes.</span></span></button></li>
-        <li><button type="button" class="step-btn"><span class="clock">08:30</span><span class="face bad"><strong data-i18n="s2bt">Une salle pleine à craquer</strong><span class="p" data-i18n="s2bp">Tout le monde est arrivé à 8 h « pour passer en premier ». Les chaises manquent, la patience aussi.</span></span><span class="face good"><strong data-i18n="s2gt">Chacun arrive au bon moment</strong><span class="p" data-i18n="s2gp">Chaque patient a son ticket et son heure de passage, et suit son tour depuis son téléphone. La salle reste calme.</span></span></button></li>
-        <li><button type="button" class="step-btn"><span class="clock">10:40</span><span class="face bad"><strong data-i18n="s3bt">Le docteur a du retard</strong><span class="p" data-i18n="s3bp">Personne n'est prévenu. On demande à l'accueil toutes les cinq minutes, et la tension monte.</span></span><span class="face good"><strong data-i18n="s3gt">Un geste, tout le monde est prévenu</strong><span class="p" data-i18n="s3gp">« Le docteur a du retard » : les prochains patients reçoivent l'information et leurs estimations se mettent à jour seules.</span></span></button></li>
+        <li><button type="button" class="step-btn"><span class="clock">08:30</span><span class="face bad"><strong data-i18n="s2bt">Une salle pleine à craquer</strong><span class="p" data-i18n="s2bp">Tout le monde est arrivé à 8 h « pour passer en premier ». Les chaises manquent, la patience aussi.</span></span><span class="face good"><strong data-i18n="s2gt">Chacun arrive au bon moment</strong><span class="p" data-i18n="s2gp">Chaque patient a son ticket et son heure de passage, et suit son tour depuis son téléphone. La salle reste calme.</span></span></button></li>
+        <li><button type="button" class="step-btn"><span class="clock">10:40</span><span class="face bad"><strong data-i18n="s3bt">Le docteur a du retard</strong><span class="p" data-i18n="s3bp">Personne n'est prévenu. On demande à l'accueil toutes les cinq minutes, et la tension monte.</span></span><span class="face good"><strong data-i18n="s3gt">Un geste, tout le monde est prévenu</strong><span class="p" data-i18n="s3gp">« Le docteur a du retard » : les prochains patients reçoivent l'information et leurs estimations se mettent à jour seules.</span></span></button></li>
         <li><button type="button" class="step-btn"><span class="clock">17:00</span><span class="face bad"><strong data-i18n="s4bt">Des absents, des créneaux perdus</strong><span class="p" data-i18n="s4bp">Ils n'ont pas prévenu, et personne ne sait qui récidive. Le créneau est perdu pour tout le monde.</span></span><span class="face good"><strong data-i18n="s4gt">Moins d'absents, plus de créneaux</strong><span class="p" data-i18n="s4gp">Rappels la veille, 1 h et 15 min avant. Une annulation libère le créneau en ligne, et les absences répétées sont signalées.</span></span></button></li>
       </ol>
       </div>
@@ -610,7 +630,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="wrap">
     <div class="center-head reveal">
       <h2><span data-i18n="bTitle1">Pensé pour la façon dont votre cabinet</span> <em data-i18n="bTitle2">travaille vraiment.</em></h2>
-      <p class="lede" data-i18n="bLede">De la réservation au dernier patient : un seul écran pour la réception, le médecin et le patient.</p>
+      <p class="lede" data-i18n="bLede">De la réservation au dernier patient : un seul écran pour la réception, le médecin et le patient.</p>
     </div>
     <div class="bento">
       <article class="card c-a reveal">
@@ -623,7 +643,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
             <div class="vt-row"><span data-i18n="vt3">Soin carie</span><span class="bar"><i style="--w:100%"></i></span><span class="min">40 min</span></div>
             <div class="vt-row"><span data-i18n="vt4">Contrôle</span><span class="bar"><i style="--w:37.5%"></i></span><span class="min">15 min</span></div>
           </div>
-          <div class="learn"><span data-i18n="vtLearn">Votre moyenne réelle pour « Contrôle » : <b>12 min</b></span><span class="apply" data-i18n="vtApply">Appliquer</span></div>
+          <div class="learn"><span data-i18n="vtLearn">Votre moyenne réelle pour « Contrôle » : <b>12 min</b></span><span class="apply" data-i18n="vtApply">Appliquer</span></div>
         </div>
       </article>
       <article class="card c-b reveal" style="--d:.08s">
@@ -637,19 +657,19 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       </article>
       <article class="card c-c reveal" style="--d:.16s">
         <h3 data-i18n="b3t">Avec ou sans application</h3>
-        <p data-i18n="b3p">Un lien suffit pour réserver, pour soi, un enfant ou un parent. Chacun suit son tour en direct.</p>
+        <p data-i18n="b3p">Par un lien, un QR code ou WhatsApp, sans application ni frais. Pour soi, un enfant ou un parent, et chacun suit son tour en direct.</p>
         <div class="ui tk" id="tk" role="img" aria-label="Ticket 07, 3 patients avant vous">
           <div class="tk-board"><div><small data-i18n="pNowS">En consultation</small><span data-i18n="pNow">Ticket appelé</span></div><div class="digits" id="tk-now"><span>04</span></div></div>
           <div class="tk-row"><div><div data-i18n="pYours">Votre ticket</div><div class="when" data-i18n="pWhen">Détartrage · Dr. Exemple</div></div><span class="num">07</span></div>
           <div class="meter" aria-hidden="true"><span id="tk-meter"></span></div>
-          <div class="tk-meta"><span><span data-i18n="pAhead1">Avant vous :</span> <b class="mono" id="tk-ahead">3</b></span><span><span data-i18n="pWait1">Attente ≈</span> <b class="mono" id="tk-wait">25 min</b></span></div>
+          <div class="tk-meta"><span><span data-i18n="pAhead1">Avant vous :</span> <b class="mono" id="tk-ahead">3</b></span><span><span data-i18n="pWait1">Attente ≈</span> <b class="mono" id="tk-wait">25 min</b></span></div>
         </div>
         <p class="note" data-i18n="b3s">Application Android après la phase pilote</p>
       </article>
       <article class="card c-f reveal">
         <div>
           <p class="later" data-i18n="b6s">Option · bientôt</p>
-          <h3 data-i18n="b6t">Assistant Medica : vos tâches répétitives en un geste</h3>
+          <h3 data-i18n="b6t">Assistant Medica : vos tâches répétitives en un geste</h3>
           <p class="note" data-i18n="b6p">Écrivez ce que vous voulez faire, avec vos mots. L'assistant prépare l'action, vous montre ce qui va changer et attend votre confirmation.</p>
         </div>
         <div class="ui typing" role="img" aria-label="Assistant Medica">
@@ -673,11 +693,13 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <div class="center-head reveal"><h2 id="st-title" data-i18n="stTitle">Des règles simples, pour des journées calmes.</h2></div>
     <div class="stat-track reveal" id="stat-track" tabindex="0">
       <article class="stat-card"><span class="num" data-i18n="sn1">3</span><h3 data-i18n="st1t">gestes pour ajouter un patient sans rendez-vous</h3><p data-i18n="st1p">Nom, téléphone facultatif, type de visite. Il reçoit son ticket aussitôt.</p></article>
-      <article class="stat-card"><span class="num" data-i18n="sn2">15 min</span><h3 data-i18n="st2t">avant la visite : le dernier rappel</h3><p data-i18n="st2p">La veille, 1 h puis 15 min avant. Vos patients arrivent à leur heure, pas tous à 8 h.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn2">15 min</span><h3 data-i18n="st2t">avant la visite : le dernier rappel</h3><p data-i18n="st2p">La veille, 1 h puis 15 min avant. Vos patients arrivent à leur heure, pas tous à 8 h.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn3">0</span><h3 data-i18n="st3t">double réservation possible</h3><p data-i18n="st3p">C'est une règle de la base de données, même quand deux personnes réservent à la même seconde.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn4">15 min</span><h3 data-i18n="st4t">pour créer votre cabinet</h3><p data-i18n="st4p">Puis 48 h au plus pour vérifier votre numéro d'inscription à l'Ordre et votre carte professionnelle.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn5">3</span><h3 data-i18n="st5t">langues sur chaque écran</h3><p data-i18n="st5p">Arabe de droite à gauche, français et anglais. Chacun choisit la sienne.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn6">0 DA</span><h3 data-i18n="st6t">de commission par rendez-vous</h3><p data-i18n="st6p">Un abonnement par médecin. Les comptes réception sont gratuits et illimités.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn7">100 %</span><h3 data-i18n="st7t">de vos données hébergées en Algérie</h3><p data-i18n="st7p">Sauvegardes chiffrées, et un journal d'activité scellé que vous pouvez présenter en cas de contrôle.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn8">0</span><h3 data-i18n="st8t">application à installer, et 0 DA à payer pour vos patients</h3><p data-i18n="st8p">Ils réservent et suivent leur tour par WhatsApp, par un lien ou avec leur ticket imprimé.</p></article>
     </div>
     <div class="stat-foot">
       <p data-i18n="stFoot">Ce sont des règles du produit, pas des promesses.</p>
@@ -734,50 +756,52 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <div class="center-head reveal" style="margin-bottom:12px"><h2 data-i18n="faTitle">Tout ce que nous avons prévu, en un coup d'œil</h2><p class="lede" data-i18n="faLede">Ce qui arrive au lancement, ce qui suit juste après, et ce qui vient ensuite.</p></div>
     <div class="fidx-cols reveal">
         <div class="fcol fa-now"><h3 class="fhead" data-i18n="faNow">Au lancement</h3><ul>
-          <li data-i18n="fa_now0">File d'attente en direct : rendez-vous et sans rendez-vous dans la même file</li>
-          <li data-i18n="fa_now1">Un ticket et une heure de passage pour chaque patient</li>
-          <li data-i18n="fa_now2">La position en direct sur le téléphone du patient</li>
-          <li data-i18n="fa_now3">Écran d'appel pour la salle d'attente</li>
-          <li data-i18n="fa_now4">Réservation par lien, QR code ou page web installable, sans mot de passe</li>
-          <li data-i18n="fa_now5">Réservation pour un enfant ou un parent</li>
-          <li data-i18n="fa_now6">« Mes rendez-vous » : annuler ou déplacer sans appeler</li>
-          <li data-i18n="fa_now7">Types de visite par spécialité, durées réglées par chaque médecin</li>
-          <li data-i18n="fa_now8">Aucune double réservation possible</li>
-          <li data-i18n="fa_now9">Patient sans rendez-vous ajouté en 3 gestes</li>
-          <li data-i18n="fa_now10">« Le docteur a du retard » : patients prévenus automatiquement</li>
-          <li data-i18n="fa_now11">Rappels automatiques la veille, 1 h et 15 min avant : notification, SMS ou WhatsApp, chaque envoi suivi</li>
-          <li data-i18n="fa_now12">Import de vos patients et rendez-vous depuis Excel ou CSV, avec aperçu et retour arrière</li>
-          <li data-i18n="fa_now13">Prochain rendez-vous fixé en fin de consultation</li>
-          <li data-i18n="fa_now14">Suivi des absences, patient par patient</li>
-          <li data-i18n="fa_now15">Feuille du jour imprimable, ticket disponible hors connexion</li>
-          <li data-i18n="fa_now16">Si internet coupe : alerte claire, heure de dernière synchronisation, rattrapage guidé</li>
-          <li data-i18n="fa_now17">Médecins vérifiés par leur numéro d'inscription à l'Ordre</li>
-          <li data-i18n="fa_now18">Arabe, français et anglais</li>
-          <li data-i18n="fa_now19">Page du cabinet, logo et affiche QR pour l'accueil</li>
-          <li data-i18n="fa_now20">Tableau de bord : patients vus, absences, réservations en ligne</li>
-          <li data-i18n="fa_now21">Écran « Aujourd'hui » pour la réception, application Android pour le médecin</li>
-          <li data-i18n="fa_now22">Comptes réception gratuits, rôles et historique des changements</li>
-          <li data-i18n="fa_now23">Vos patients et rendez-vous exportables à tout moment</li>
+          <li data-i18n="fx_now0">File d'attente en direct : rendez-vous et sans rendez-vous dans la même file</li>
+          <li data-i18n="fx_now1">Un ticket et une heure de passage pour chaque patient, imprimé avec un QR code</li>
+          <li data-i18n="fx_now2">La position en direct sur le téléphone du patient, sans application</li>
+          <li data-i18n="fx_now3">La ligne WhatsApp du cabinet, sur votre propre numéro</li>
+          <li data-i18n="fx_now4">Boîte WhatsApp partagée pour l'accueil : fini le téléphone personnel</li>
+          <li data-i18n="fx_now5">Réservation par lien, QR code ou WhatsApp, pour soi, un enfant ou un parent</li>
+          <li data-i18n="fx_now6">« Mes rendez-vous » : annuler ou déplacer sans appeler</li>
+          <li data-i18n="fx_now7">Types de visite par spécialité, durées réglées par chaque médecin</li>
+          <li data-i18n="fx_now8">Aucune double réservation possible, même hors connexion</li>
+          <li data-i18n="fx_now9">Patient sans rendez-vous ajouté en 3 gestes</li>
+          <li data-i18n="fx_now10">« Le docteur a du retard » : les bons patients prévenus en un geste</li>
+          <li data-i18n="fx_now11">Rappels automatiques la veille, 1 h et 15 min avant, chaque envoi suivi</li>
+          <li data-i18n="fx_now12">Plusieurs médecins : répartition des patients, salles et écran d'appel commun</li>
+          <li data-i18n="fx_now13">Écran d'appel avec annonce vocale en arabe et en français</li>
+          <li data-i18n="fx_now14">Prochain rendez-vous fixé en fin de consultation</li>
+          <li data-i18n="fx_now15">Caisse : tarifs, encaissements, reçus et clôture du jour scellée</li>
+          <li data-i18n="fx_now16">Si internet coupe, le poste d'accueil continue, puis tout se resynchronise</li>
+          <li data-i18n="fx_now17">Données hébergées en Algérie, journal d'activité scellé</li>
+          <li data-i18n="fx_now18">Import de vos patients depuis Excel, CSV ou votre logiciel actuel</li>
+          <li data-i18n="fx_now19">Médecins vérifiés : carte de l'Ordre et documents contrôlés</li>
+          <li data-i18n="fx_now20">Arabe, français et anglais</li>
+          <li data-i18n="fx_now21">Page du cabinet, logo et affiche QR pour l'accueil</li>
+          <li data-i18n="fx_now22">Comptes réception gratuits, rôles et historique des changements</li>
+          <li data-i18n="fx_now23">Vos patients et rendez-vous exportables à tout moment</li>
         </ul></div>
         <div class="fcol fa-soon"><h3 class="fhead" data-i18n="faSoon">Bientôt</h3><ul>
-          <li data-i18n="fa_soon0">Application patients Android, si nos premiers cabinets la demandent</li>
-          <li data-i18n="fa_soon1">Avis vérifiés après une vraie visite</li>
-          <li data-i18n="fa_soon2">Assistant Medica (option) et aide « Comment faire… ? »</li>
-          <li data-i18n="fa_soon3">« Votre rythme » : vos durées réelles proposées</li>
-          <li data-i18n="fa_soon4">Paiement de l'abonnement par carte CIB / Edahabia, après certification</li>
-          <li data-i18n="fa_soon5">Notes de consultation structurées, réservées au médecin, activées cabinet par cabinet après validation juridique</li>
-          <li data-i18n="fa_soon6">Créneaux libérés reproposés aux patients en attente</li>
-          <li data-i18n="fa_soon7">Connexion en deux étapes pour l'équipe</li>
+          <li data-i18n="fx_soon0">Pack dentaire : fauteuils, plans de traitement en plusieurs séances, paiements échelonnés, laboratoires</li>
+          <li data-i18n="fx_soon1">Rappels de suivi : contrôle à 6 mois, détartrage annuel</li>
+          <li data-i18n="fx_soon2">Liste d'attente : les créneaux libérés reproposés automatiquement</li>
+          <li data-i18n="fx_soon3">Medica Edge : tout le cabinet continue sans internet, écran et imprimante compris</li>
+          <li data-i18n="fx_soon4">Bouton d'appel pour le médecin, sans toucher d'écran</li>
+          <li data-i18n="fx_soon5">Statistiques : attente réelle, absences, revenus par médecin, comparaison anonyme</li>
+          <li data-i18n="fx_soon6">Paiement de l'abonnement par carte CIB / Edahabia, après certification</li>
+          <li data-i18n="fx_soon7">Assistant Medica (option) et aide « Comment faire… ? »</li>
+          <li data-i18n="fx_soon8">Application patients Android, si nos premiers cabinets la demandent</li>
+          <li data-i18n="fx_soon9">Avis vérifiés après une vraie visite</li>
         </ul></div>
         <div class="fcol fa-later"><h3 class="fhead" data-i18n="faLater">Ensuite</h3><ul>
-          <li data-i18n="fa_later0">Automatisations proposées par l'assistant</li>
-          <li data-i18n="fa_later1">Applications iOS</li>
-          <li data-i18n="fa_later2">Cliniques multi-sites</li>
-          <li data-i18n="fa_later3">Recherche de médecins dans l'application patients</li>
-          <li data-i18n="fa_later4">Statistiques d'activité et retards prévus avant qu'ils arrivent</li>
-          <li data-i18n="fa_later5">Réception qui continue de réserver sans internet</li>
-          <li data-i18n="fa_later6">Pour les groupes : connexion unique, engagement de service, API</li>
-          <li data-i18n="fa_later7">Hébergement en Algérie</li>
+          <li data-i18n="fx_later0">Ordonnances avec la nomenclature nationale, certificats et courriers, après autorisation de l'ANPDP</li>
+          <li data-i18n="fx_later1">Notes de consultation chiffrées avec vos propres clés</li>
+          <li data-i18n="fx_later2">Tableau de bord du propriétaire sur téléphone</li>
+          <li data-i18n="fx_later3">Un seul agenda pour toutes vos sources de réservation</li>
+          <li data-i18n="fx_later4">API et liens avec la comptabilité</li>
+          <li data-i18n="fx_later5">Cliniques multi-sites</li>
+          <li data-i18n="fx_later6">Centres d'imagerie et laboratoires</li>
+          <li data-i18n="fx_later7">Applications iOS</li>
         </ul></div>
       </div>
   </div>
@@ -788,32 +812,41 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="wrap">
     <div class="center-head reveal">
       <h2><span data-i18n="priceTitle1">Un seul abonnement.</span> <em data-i18n="priceTitle2">Au nombre de médecins.</em></h2>
-      <p class="lede" data-i18n="priceLede">2 900 DA pour un médecin, 2 200 DA par médecin dès deux. Toutes les fonctionnalités pour tous, comptes réception gratuits, aucune commission.</p>
+      <p class="lede" data-i18n="priceLede">Commencez gratuitement. Pour la ligne WhatsApp, la réservation en ligne et les tickets à distance : 2 900 DA pour un médecin, 2 200 DA par médecin dès deux. Aucune commission, et rien à payer pour vos patients.</p>
       <div class="seg" role="group" aria-label="Medica" style="justify-self:center">
         <button type="button" id="cyc-m" aria-pressed="true" data-i18n="cycM">Mensuel</button>
         <button type="button" id="cyc-y" aria-pressed="false" data-i18n="cycY">Annuel · 2 mois offerts</button>
       </div>
+    </div>
+    <div class="free-plan reveal">
+      <div class="free-head">
+        <h3 data-i18n="frT">Medica Gratuit</h3>
+        <p class="free-price"><b data-i18n="frP">0 DA</b> <span data-i18n="frPs">sans limite de durée</span></p>
+        <p class="free-desc" data-i18n="frD">L'essentiel de l'accueil pour un médecin, sans payer. Passez à Solo quand vous voulez la ligne WhatsApp automatique, la réservation en ligne et les tickets à distance.</p>
+      </div>
+      <ul><li data-i18n="ps1">1 médecin, comptes réception illimités</li><li data-i18n="frB">Agenda, file d'attente et patients sans rendez-vous</li><li data-i18n="frC">Tickets imprimés avec QR et suivi en direct sur le téléphone</li><li data-i18n="frE">Écran d'appel et fonctionnement hors connexion</li><li data-i18n="frF">Messages WhatsApp déjà rédigés, envoyés depuis votre téléphone</li><li data-i18n="frG">Import et export de vos données</li></ul>
+      <a class="btn btn-dark" href="#preinscription" data-docs="1" data-i18n="stickyB">Me pré-inscrire</a>
     </div>
     <div class="plans">
       <article class="plan reveal">
         <div class="plan-photo"><img src="https://images.unsplash.com/photo-1758691462651-611d730c5272?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
           <div class="plan-top"><h3 data-i18n="plSolo">Solo</h3><div class="plan-price"><b id="pp1">2 900 DA</b><small id="pp1u">/ mois</small></div></div>
           <p class="plan-for" data-i18n="plSoloFor">Pour un médecin qui reçoit seul</p></div>
-        <ul><li data-i18n="ps1">1 médecin, comptes réception illimités</li><li data-i18n="ps2">File d'attente, tickets et rappels</li><li data-i18n="ps3">Page de réservation et affiche QR</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <ul><li data-i18n="ps1">1 médecin, comptes réception illimités</li><li data-i18n="ps2">Ligne WhatsApp automatique, 400 messages par mois inclus</li><li data-i18n="ps3">Réservation en ligne et tickets à distance, sans application</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
         <a class="btn btn-ghost" href="#preinscription" data-docs="1" data-i18n="stickyB">Me pré-inscrire</a>
       </article>
       <article class="plan featured reveal" style="--d:.08s">
         <div class="plan-photo"><img src="https://images.unsplash.com/photo-1758691463203-cce9d415b2b5?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
           <div class="plan-top"><h3 data-i18n="plCab">Cabinet</h3><div class="plan-price"><b id="pp2">2 200 DA</b><small id="pp2u">/ médecin / mois</small></div></div>
           <p class="plan-for" data-i18n="plCabFor">De 2 à 5 médecins</p></div>
-        <ul><li data-i18n="pc1">Un agenda et une file par médecin</li><li data-i18n="pc2">Un écran d'appel commun pour la salle</li><li data-i18n="pc3">Rôles et historique des changements</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <ul><li data-i18n="pc1">Un agenda et une file par médecin</li><li data-i18n="pc2">Répartition des patients, salles et écran d'appel commun</li><li data-i18n="pc3">Caisse avec la part de chaque médecin</li><li data-i18n="pcW">400 messages WhatsApp inclus par médecin et par mois</li></ul>
         <a class="btn btn-primary" href="#preinscription" data-docs="3" data-i18n="stickyB">Me pré-inscrire</a>
       </article>
       <article class="plan reveal" style="--d:.16s">
         <div class="plan-photo"><img src="https://images.unsplash.com/photo-1778151270886-f227700b0eba?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
           <div class="plan-top"><h3 data-i18n="plCli">Clinique</h3><div class="plan-price"><b id="pp3">dès 12 000 DA</b><small id="pp3u">/ mois</small></div></div>
           <p class="plan-for" data-i18n="plCliFor">De 6 à 10 médecins</p></div>
-        <ul><li data-i18n="pk1">11 000 DA pour 5 médecins, puis 1 000 DA par médecin</li><li data-i18n="pk2">Tableau de bord par médecin</li><li data-i18n="pk3">Plus de 10 médecins ou plusieurs sites : sur devis</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <ul><li data-i18n="pk1">11 000 DA pour 5 médecins, puis 1 000 DA par médecin</li><li data-i18n="pk2">Tableau de bord par médecin</li><li data-i18n="pk3">Plus de 10 médecins ou plusieurs sites : sur devis</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
         <a class="btn btn-ghost" href="#preinscription" data-docs="6" data-i18n="stickyB">Me pré-inscrire</a>
       </article>
     </div>
@@ -828,12 +861,24 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       <div class="est-r">
         <small data-i18n="estYour">Votre tarif</small>
         <div class="price" id="calc-price">2 900 DA <small>/ mois</small></div>
-        <a class="calc-pre" id="calc-pre" href="#preinscription">Pré-inscrit : 2 610 DA / mois les 3 premiers mois →</a>
+        <a class="calc-pre" id="calc-pre" href="#preinscription">Pré-inscrit : 2 610 DA / mois les 3 premiers mois →</a>
       </div>
     </div>
     <p class="trial reveal"><b data-i18n="pl1t">Essai gratuit</b><span data-i18n="pl1c">Les 14 jours démarrent à votre premier vrai rendez-vous</span><span data-i18n="pl1d">Sans carte, sans engagement</span></p>
     <div class="addon reveal"><div><b data-i18n="addonT">Option Assistant Medica</b><span data-i18n="addonP">Tâches en un geste, demandes écrites et automatisations. Incluse pendant l'essai.</span></div><span class="addon-price" data-i18n="addonPrice">+600 DA / mois par cabinet</span></div>
-    <p class="fine" data-i18n="priceFine">Un médecin compte quand il a des horaires réservables dans le mois ; mettez en pause un médecin vacataire à tout moment. Rappels par notification inclus ; SMS et WhatsApp automatiques par crédits prépayés. Plus de 10 médecins, plusieurs sites ou centres d'imagerie : sur devis. Paiement par virement, CCP/BaridiMob ou espèces avec facture ; la carte CIB / Edahabia arrive après certification.</p>
+    <p class="fine" data-i18n="priceFine">Un médecin compte quand il a des horaires réservables dans le mois ; mettez en pause un médecin vacataire à tout moment. Rappels par notification inclus, et 400 messages WhatsApp automatiques par médecin et par mois ; au-delà, et pour les SMS, crédits prépayés. Données hébergées en Algérie. Plus de 10 médecins, plusieurs sites ou centres d'imagerie : sur devis. Paiement par virement, CCP/BaridiMob ou espèces avec facture ; la carte CIB / Edahabia arrive après certification.</p>
+  </div>
+</section>
+
+<!-- SWITCHING -->
+<section id="changer" class="band">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <h2><span data-i18n="swT1">Vous utilisez déjà un logiciel ?</span> <em data-i18n="swT2">Passez à Medica en un jour.</em></h2>
+      <p class="lede" data-i18n="swL">Import gratuit, mise en route accompagnée, et vos mois déjà payés ailleurs offerts chez Medica, jusqu'à 3 mois.</p>
+    </div>
+    <ol class="sw-steps reveal"><li><span class="mono">01</span><h3 data-i18n="swS1t">On fait le point</h3><p data-i18n="swS1p">20 minutes au téléphone : votre outil actuel, vos données, ce qui vous gêne.</p></li><li><span class="mono">02</span><h3 data-i18n="swS2t">Vous exportez, on vous guide</h3><p data-i18n="swS2p">Vos patients et rendez-vous sortent de votre logiciel ou de votre fichier Excel. Vos données restent entre vos mains.</p></li><li><span class="mono">03</span><h3 data-i18n="swS3t">On importe avec vous</h3><p data-i18n="swS3p">Aperçu, doublons repérés, retour arrière possible. Rien n'est enregistré sans votre accord.</p></li><li><span class="mono">04</span><h3 data-i18n="swS4t">30 jours en parallèle</h3><p data-i18n="swS4p">Gardez l'ancien outil le temps d'être sûr. Vous tenez à votre dossier médical actuel ? Medica gère l'accueil à côté.</p></li></ol>
+    <div class="sw-foot reveal"><p data-i18n="swC">Les mois déjà payés à votre logiciel actuel vous sont offerts chez Medica, jusqu'à 3 mois. Non cumulable avec l'offre de pré-inscription : vous gardez la plus avantageuse.</p><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
   </div>
 </section>
 
@@ -847,11 +892,11 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <div class="prereg-main">
       <p class="kicker reveal" data-i18n="prEyebrow">Pré-inscription · avant le lancement</p>
       <h2 class="reveal"><span data-i18n="prTitle1">Réservez votre place.</span> <em data-i18n="prTitle2">−10 % les 3 premiers mois.</em></h2>
-      <p class="lede reveal" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Rien à payer aujourd'hui : la réduction s'applique automatiquement à vos 3 premiers mois payants.</p>
+      <p class="lede reveal" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Rien à payer aujourd'hui : la réduction s'applique automatiquement à vos 3 premiers mois payants.</p>
       <ul class="prereg-list reveal">
         <li data-i18n="prB1"><b>−10 %</b> sur vos 3 premiers mois d'abonnement</li>
         <li data-i18n="prB2">Les 14 jours d'essai gratuits, en plus</li>
-        <li data-i18n="prB3">Priorité pour rejoindre nos cabinets pilotes : installation sur place et import de vos patients</li>
+        <li data-i18n="prB3">Priorité pour rejoindre nos cabinets pilotes : installation sur place et import de vos patients</li>
         <li data-i18n="prB4">Ni paiement, ni carte, ni engagement</li>
       </ul>
       <form class="form reveal" id="prereg-form" novalidate aria-labelledby="pr-form-title">
@@ -897,7 +942,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           <button type="submit" class="btn btn-primary" id="p-submit" style="justify-self:stretch"><span id="p-submit-label" data-i18n="prSend">Réserver mes −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <p class="form-micro" data-i18n="prMicro">Nous vous appelons avant le lancement. Rien à payer aujourd'hui.</p>
           <p class="err" id="e-p-send" role="alert"></p>
-          <p class="preview-note" id="pr-preview" hidden data-i18n="prPreview">Aperçu : ce formulaire n'est pas encore relié à notre serveur. Les envois ne sont pas transmis.</p>
+          <p class="preview-note" id="pr-preview" hidden data-i18n="prPreview">Aperçu : ce formulaire n'est pas encore relié à notre serveur. Les envois ne sont pas transmis.</p>
         </div>
         <div class="done" id="pr-done" tabindex="-1" hidden role="status">
           <h3 data-i18n="prDoneT">C'est noté, votre place est réservée</h3>
@@ -913,8 +958,8 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
 <section id="idees">
   <div class="wrap">
     <div class="center-head reveal">
-      <h2><span data-i18n="iTitle1">Il vous manque quelque chose ?</span> <em data-i18n="iTitle2">Dites-le-nous.</em></h2>
-      <p class="lede" data-i18n="iLede">Un dentiste, un pédiatre et un centre d'imagerie n'ont pas les mêmes besoins. Indiquez votre spécialité : chaque idée est lue, classée par spécialité, et les plus demandées entrent dans la feuille de route.</p>
+      <h2><span data-i18n="iTitle1">Il vous manque quelque chose ?</span> <em data-i18n="iTitle2">Dites-le-nous.</em></h2>
+      <p class="lede" data-i18n="iLede">Un dentiste, un pédiatre et un centre d'imagerie n'ont pas les mêmes besoins. Indiquez votre spécialité : chaque idée est lue, classée par spécialité, et les plus demandées entrent dans la feuille de route.</p>
     </div>
     <div class="ideas">
       <div class="reveal">
@@ -925,13 +970,13 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           <li><div><h3 data-i18n="f4t">On livre, on vous prévient</h3><p data-i18n="f4p">Si vous le souhaitez, nous vous écrivons quand votre idée est disponible.</p></div></li>
         </ol>
         <div class="roadmap">
-          <div class="roadmap-head"><h3 data-i18n="rmTitle">Feuille de route : votez</h3><span class="help" data-i18n="rmHelp">Un vote par idée</span></div>
+          <div class="roadmap-head"><h3 data-i18n="rmTitle">Feuille de route : votez</h3><span class="help" data-i18n="rmHelp">Un vote par idée</span></div>
           <ul class="rm-list" id="rm-list"></ul>
         </div>
       </div>
       <form class="form reveal" id="idea-form" novalidate aria-labelledby="form-title">
         <h3 id="form-title" data-i18n="fmTitle">Proposer une fonctionnalité</h3>
-        <div class="summary" id="fm-summary" tabindex="-1" hidden><b data-i18n="fmSummary">Vérifiez ces champs :</b><ul id="fm-summary-list"></ul></div>
+        <div class="summary" id="fm-summary" tabindex="-1" hidden><b data-i18n="fmSummary">Vérifiez ces champs :</b><ul id="fm-summary-list"></ul></div>
 
         <div class="fm-body" id="fm-body" style="display:grid;gap:18px">
           <div class="grid2">
@@ -1015,11 +1060,11 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           <div class="field">
             <label for="f-title"><span data-i18n="lTitle">Votre idée en une phrase</span> <span class="req" aria-hidden="true">*</span></label>
             <input type="text" id="f-title" name="title" maxlength="120" required aria-describedby="h-title e-title">
-            <p class="help" id="h-title" data-i18n="hTitle">Exemple : « Imprimer le ticket du patient à l'accueil »</p>
+            <p class="help" id="h-title" data-i18n="hTitle">Exemple : « Imprimer le ticket du patient à l'accueil »</p>
             <p class="err" id="e-title"></p>
           </div>
           <div class="field">
-            <label for="f-details"><span data-i18n="lDetails">Quel problème cela résoudrait-il pour vous ?</span> <span class="req" aria-hidden="true">*</span></label>
+            <label for="f-details"><span data-i18n="lDetails">Quel problème cela résoudrait-il pour vous ?</span> <span class="req" aria-hidden="true">*</span></label>
             <textarea id="f-details" name="details" maxlength="2000" required aria-describedby="h-details e-details"></textarea>
             <p class="help" id="h-details" data-i18n="hDetails">Décrivez comment vous faites aujourd'hui et ce qui vous ferait gagner du temps. 20 caractères minimum.</p>
             <span class="counter" id="c-details">0 / 2000</span>
@@ -1029,7 +1074,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           <div>
             <fieldset class="chips-pick" aria-describedby="e-frequency">
               <legend><span data-i18n="lFreq">Vous en auriez besoin</span> <span class="req" aria-hidden="true">*</span></legend>
-              <label><input type="radio" id="fr-daily" name="frequency" value="daily"><span data-i18n="frD">Tous les jours</span></label>
+              <label><input type="radio" id="fr-daily" name="frequency" value="daily"><span data-i18n="frD">L'essentiel de l'accueil pour un médecin, sans payer. Passez à Solo quand vous voulez la ligne WhatsApp automatique, la réservation en ligne et les tickets à distance.</span></label>
               <label><input type="radio" id="fr-weekly" name="frequency" value="weekly"><span data-i18n="frW">Chaque semaine</span></label>
               <label><input type="radio" id="fr-some" name="frequency" value="sometimes"><span data-i18n="frS">De temps en temps</span></label>
             </fieldset>
@@ -1057,7 +1102,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
 
           <button type="submit" class="btn btn-primary" id="f-submit" style="justify-self:start"><span id="f-submit-label" data-i18n="fmSend">Envoyer mon idée</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <p class="err" id="e-send" role="alert"></p>
-          <p class="preview-note" id="fm-preview" hidden data-i18n="fmPreview">Aperçu : ce formulaire n'est pas encore relié à notre serveur. Les envois ne sont pas transmis.</p>
+          <p class="preview-note" id="fm-preview" hidden data-i18n="fmPreview">Aperçu : ce formulaire n'est pas encore relié à notre serveur. Les envois ne sont pas transmis.</p>
         </div>
 
         <div class="done" id="fm-done" tabindex="-1" hidden role="status">
@@ -1075,14 +1120,16 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="wrap faq-grid">
     <h2 class="reveal" data-i18n="faqTitle">Ce que les médecins nous demandent.</h2>
     <div class="faq reveal">
-      <details><summary data-i18n="q1">Mes patients doivent-ils installer une application ?</summary><p data-i18n="a1">Non. Ils réservent par lien ou QR code, sans rien installer. Ceux qui préfèrent une application ajoutent la page Medica à leur écran d'accueil pour retrouver tickets, rendez-vous et rappels.</p></details>
-      <details><summary data-i18n="q2">Et les patients qui continuent d'appeler ?</summary><p data-i18n="a2">C'est normal. La réception les inscrit dans le même agenda en quelques secondes. Vous gardez un seul planning, quelle que soit l'origine du rendez-vous.</p></details>
-      <details><summary data-i18n="q3">Combien de temps pour démarrer ?</summary><p data-i18n="a3">Environ 15 minutes pour créer votre cabinet, et 48 h maximum pour vérifier vos documents. L'essai de 14 jours démarre à votre premier vrai rendez-vous.</p></details>
-      <details><summary data-i18n="q4">Les patients peuvent-ils me noter publiquement ?</summary><p data-i18n="a4">Seuls les patients venus en consultation peuvent laisser un avis. Les avis sur votre cabinet sont publics. Les avis sur vous en tant que médecin vous sont réservés, et vous choisissez de les publier.</p></details>
-      <details><summary data-i18n="q5">Et si internet coupe au cabinet ?</summary><p data-i18n="a5">Medica affiche tout de suite une alerte et l'heure de la dernière synchronisation. Vous continuez sur la feuille du jour imprimée, ou sur le téléphone du médecin en 4G, puis Medica vous guide pour tout remettre à jour. Le ticket du patient reste affiché sur son téléphone même sans connexion.</p></details>
-      <details><summary data-i18n="q6">L'assistant envoie-t-il mes données à une IA extérieure ?</summary><p data-i18n="a6">Non. Assistant Medica fonctionne sur nos propres serveurs. Il trouve la bonne tâche et vous la montre avant d'agir. Les noms et numéros de vos patients ne servent jamais à l'entraîner.</p></details>
-      <details><summary data-i18n="q7">Puis-je reprendre mes patients actuels ?</summary><p data-i18n="a7">Oui. Importez votre fichier Excel ou CSV : Medica montre un aperçu, repère les doublons et les erreurs, et vous pouvez tout annuler. Pour nos cabinets pilotes, nous faisons l'import avec vous.</p></details>
-      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, puis −10 % s'applique automatiquement à vos 3 premiers mois payants. Vous pouvez annuler à tout moment.</p></details>
+      <details><summary data-i18n="q1">Mes patients doivent-ils installer une application ?</summary><p data-i18n="a1">Non. Ils réservent et suivent leur tour par WhatsApp, par un lien ou un QR code, sans rien installer et sans rien payer. Ceux qui le souhaitent ajoutent la page Medica à leur écran d'accueil.</p></details>
+      <details><summary data-i18n="q2">Et les patients qui continuent d'appeler ?</summary><p data-i18n="a2">C'est normal. La réception les inscrit dans le même agenda en quelques secondes. Vous gardez un seul planning, quelle que soit l'origine du rendez-vous.</p></details>
+      <details><summary data-i18n="q3">Combien de temps pour démarrer ?</summary><p data-i18n="a3">Environ 15 minutes pour créer votre cabinet, et 48 h maximum pour vérifier vos documents. L'essai de 14 jours démarre à votre premier vrai rendez-vous.</p></details>
+      <details><summary data-i18n="q4">Les patients peuvent-ils me noter publiquement ?</summary><p data-i18n="a4">Seuls les patients venus en consultation peuvent laisser un avis. Les avis sur votre cabinet sont publics. Les avis sur vous en tant que médecin vous sont réservés, et vous choisissez de les publier.</p></details>
+      <details><summary data-i18n="q5">Et si internet coupe au cabinet ?</summary><p data-i18n="a5">Le poste d'accueil continue de fonctionner : réservations, arrivées, appels et tickets imprimés. Un bandeau indique l'heure de la dernière synchronisation, et tout se remet à jour au retour de la connexion. Le téléphone du médecin reste souvent connecté en 4G. Bientôt, la box Medica Edge gardera tout le cabinet relié sans internet : accueil, médecin, écran et imprimante.</p></details>
+      <details><summary data-i18n="q6">L'assistant envoie-t-il mes données à une IA extérieure ?</summary><p data-i18n="a6">Non. Assistant Medica fonctionne sur nos propres serveurs. Il trouve la bonne tâche et vous la montre avant d'agir. Les noms et numéros de vos patients ne servent jamais à l'entraîner.</p></details>
+      <details><summary data-i18n="q7">Puis-je reprendre mes patients actuels ?</summary><p data-i18n="a7">Oui. Importez votre fichier Excel ou CSV : Medica montre un aperçu, repère les doublons et les erreurs, et vous pouvez tout annuler. Pour nos cabinets pilotes, nous faisons l'import avec vous.</p></details>
+      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, puis −10 % s'applique automatiquement à vos 3 premiers mois payants. Vous pouvez annuler à tout moment.</p></details>
+      <details><summary data-i18n="q9">Où sont hébergées les données de mes patients ?</summary><p data-i18n="a9">En Algérie, avec des sauvegardes chiffrées. Chaque action est inscrite dans un journal scellé que vous pouvez présenter en cas de contrôle. Les messages passent par WhatsApp seulement si le patient choisit ce canal ; il peut préférer le SMS ou le lien.</p></details>
+      <details><summary data-i18n="q10">J'utilise déjà un logiciel. Puis-je changer facilement ?</summary><p data-i18n="a10">Oui. Nous importons vos patients et rendez-vous gratuitement, vous gardez l'ancien outil 30 jours en parallèle, et les mois déjà payés ailleurs vous sont offerts chez Medica, jusqu'à 3 mois. Si vous tenez à votre dossier médical actuel, Medica gère l'accueil à côté.</p></details>
     </div>
   </div>
 </section>
@@ -1110,7 +1157,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <div class="foot-bottom">
       <span>© 2026 Medica · app.medica.dz</span>
       <span data-i18n="footer">Fait en Algérie · العربية · Français · English</span>
-      <span><span data-i18n="photosBy">Photos</span> : Unsplash · Scott Goodwill, Navy Medicine, Zulfugar Karimov, Harold Hisona, Vitaly Gariev, Irshad Pathan, D Dental Office, Sawyer Bergeron</span>
+      <span><span data-i18n="photosBy">Photos</span> : Unsplash · Scott Goodwill, Navy Medicine, Zulfugar Karimov, Harold Hisona, Vitaly Gariev, Irshad Pathan, D Dental Office, Sawyer Bergeron</span>
     </div>
   </div>
 </footer>
@@ -1126,6 +1173,79 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
 (function () {
   var T = {
     ar: {
+      a10: "نعم. نستورد مرضاكم ومواعيدكم مجانًا، وتحتفظون بالأداة القديمة 30 يومًا بالتوازي، ونقدّم لكم مجانًا في ميديكا الأشهر التي دفعتموها لغيرنا، حتى 3 أشهر. وإن أردتم الإبقاء على ملفكم الطبي الحالي، تتولّى ميديكا الاستقبال بجانبه.",
+      q10: "أستعمل برنامجًا آخر. هل يمكنني الانتقال بسهولة؟",
+      a9: "في الجزائر، مع نسخ احتياطية مشفّرة. تُسجَّل كل عملية في سجلّ مختوم يمكنكم تقديمه عند أي تفتيش. ولا تمرّ الرسائل عبر واتساب إلا إذا اختار المريض هذه القناة؛ ويمكنه تفضيل الرسائل القصيرة أو الرابط.",
+      q9: "أين تُستضاف بيانات مرضاي؟",
+      st8p: "يحجزون ويتابعون دورهم عبر واتساب أو رابط أو بتذكرتهم المطبوعة.",
+      st8t: "تطبيق للتثبيت، و0 دج يدفعها مرضاكم",
+      sn8: "0",
+      st7p: "نسخ احتياطية مشفّرة، وسجلّ نشاط مختوم يمكنكم تقديمه عند أي تفتيش.",
+      st7t: "من بياناتكم مستضافة في الجزائر",
+      sn7: "100%",
+      swS4p: "احتفظوا بالأداة القديمة حتى تطمئنّوا. تريدون الإبقاء على ملفكم الطبي الحالي؟ تتولّى ميديكا الاستقبال بجانبه.",
+      swS4t: "30 يومًا بالتوازي",
+      swS3p: "معاينة، وكشف التكرارات، وإمكانية التراجع. لا يُحفظ شيء دون موافقتكم.",
+      swS3t: "نستوردها معكم",
+      swS2p: "تُخرجون مرضاكم ومواعيدكم من برنامجكم أو من ملف Excel. تبقى بياناتكم بين أيديكم.",
+      swS2t: "تصدّرون بياناتكم ونرشدكم",
+      swS1p: "20 دقيقة عبر الهاتف: أداتكم الحالية، بياناتكم، وما يزعجكم.",
+      swS1t: "نقيّم وضعكم",
+      swC: "الأشهر التي دفعتموها لبرنامجكم الحالي نقدّمها لكم مجانًا في ميديكا، حتى 3 أشهر. لا تُجمع مع عرض التسجيل المسبق: تحتفظون بالأفضل لكم.",
+      swL: "استيراد مجاني، ومرافقة في الانطلاق، والأشهر التي دفعتموها لبرنامجكم الحالي نقدّمها لكم مجانًا في ميديكا، حتى 3 أشهر.",
+      swT2: "انتقلوا إلى ميديكا في يوم واحد.",
+      swT1: "تستعملون برنامجًا آخر؟",
+      pcW: "400 رسالة واتساب لكل طبيب شهريًا",
+      frG: "استيراد بياناتكم وتصديرها",
+      frF: "رسائل واتساب جاهزة، تُرسل من هاتفكم",
+      frE: "شاشة النداء والعمل دون اتصال",
+      frC: "تذاكر مطبوعة برمز QR ومتابعة مباشرة على الهاتف",
+      frB: "جدول المواعيد وطابور الانتظار والمرضى بدون موعد",
+      frPs: "دون حدّ زمني",
+      frP: "0 دج",
+      frT: "ميديكا المجاني",
+      fx_later7: "تطبيقات iOS",
+      fx_later6: "مراكز الأشعة والمخابر",
+      fx_later5: "عيادات متعدّدة الفروع",
+      fx_later4: "واجهة API وربط بالمحاسبة",
+      fx_later3: "جدول واحد لكل مصادر الحجز",
+      fx_later2: "لوحة قيادة المالك على الهاتف",
+      fx_later1: "ملاحظات الفحص مشفّرة بمفاتيحكم الخاصة",
+      fx_later0: "الوصفات وفق القائمة الوطنية للأدوية، والشهادات والرسائل، بعد ترخيص السلطة الوطنية لحماية المعطيات",
+      fx_soon9: "آراء موثَّقة بعد زيارة حقيقية",
+      fx_soon8: "تطبيق المرضى على أندرويد، إذا طلبته عياداتنا الأولى",
+      fx_soon7: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»",
+      fx_soon6: "دفع الاشتراك ببطاقة CIB / الذهبية، بعد الاعتماد",
+      fx_soon5: "إحصائيات: الانتظار الفعلي، والغيابات، والمداخيل لكل طبيب، ومقارنة مجهولة الهوية",
+      fx_soon4: "زرّ نداء للطبيب، دون لمس الشاشة",
+      fx_soon3: "Medica Edge: تواصل العيادة كلها العمل دون إنترنت، مع الشاشة والطابعة",
+      fx_soon2: "قائمة انتظار: اقتراح المواعيد المُحرَّرة تلقائيًا",
+      fx_soon1: "تذكيرات المتابعة: مراقبة بعد 6 أشهر، تنظيف الجير السنوي",
+      fx_soon0: "حزمة الأسنان: الكراسي، وخطط العلاج على عدّة جلسات، والدفع بالتقسيط، والمخابر",
+      fx_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت",
+      fx_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات",
+      fx_now21: "صفحة العيادة وشعارها وملصق QR للاستقبال",
+      fx_now20: "العربية والفرنسية والإنجليزية",
+      fx_now19: "أطباء موثَّقون: بطاقة المجلس والوثائق مراجَعة",
+      fx_now18: "استيراد مرضاكم من Excel أو CSV أو برنامجكم الحالي",
+      fx_now17: "بيانات مستضافة في الجزائر، وسجلّ نشاط مختوم",
+      fx_now16: "إذا انقطع الإنترنت، يواصل جهاز الاستقبال العمل ثم يتزامن كل شيء",
+      fx_now15: "الصندوق: التعريفات، والتحصيل، والإيصالات، وإغلاق يومي مختوم",
+      fx_now14: "تحديد الموعد القادم في نهاية الفحص",
+      fx_now13: "شاشة النداء مع إعلان صوتي بالعربية والفرنسية",
+      fx_now12: "عدّة أطباء: توزيع المرضى والقاعات وشاشة نداء مشتركة",
+      fx_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة، مع تتبّع كل رسالة",
+      fx_now10: "«الطبيب متأخّر»: إعلام المرضى المعنيين بنقرة واحدة",
+      fx_now9: "إضافة مريض بدون موعد في 3 نقرات",
+      fx_now8: "لا حجز مزدوج أبدًا، حتى دون اتصال",
+      fx_now7: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب",
+      fx_now6: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال",
+      fx_now5: "الحجز عبر رابط أو رمز QR أو واتساب، لنفسه أو لطفل أو لأحد الوالدين",
+      fx_now4: "صندوق واتساب مشترك للاستقبال: لا حاجة بعد الآن للهاتف الشخصي",
+      fx_now3: "خط واتساب العيادة، على رقمكم الخاص",
+      fx_now2: "الدور مباشرة على هاتف المريض، دون تطبيق",
+      fx_now1: "تذكرة ووقت مرور لكل مريض، مطبوعة برمز QR",
+      fx_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور",
       hContact: "مع بريد إلكتروني، تصلكم إجابة فورًا.",
       plEmailH: "لتتلقّوا فورًا تأكيدكم وسعركم.",
       plEmail: "البريد الإلكتروني (اختياري)",
@@ -1139,13 +1259,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       pk1: "11,000 دج لـ5 أطباء، ثم 1,000 دج لكل طبيب إضافي",
       plCliFor: "من 6 إلى 10 أطباء",
       plCli: "مصحّة",
-      pc3: "أدوار وسجلّ للتغييرات",
-      pc2: "شاشة نداء مشتركة للقاعة",
+      pc3: "صندوق مع حصّة كل طبيب",
+      pc2: "توزيع المرضى والقاعات وشاشة نداء مشتركة",
       pc1: "جدول وطابور لكل طبيب",
       plCabFor: "من 2 إلى 5 أطباء",
       plCab: "عيادة",
-      ps3: "صفحة الحجز وملصق QR",
-      ps2: "طابور الانتظار والتذاكر والتذكيرات",
+      ps3: "الحجز عبر الإنترنت والتذاكر عن بُعد، دون تطبيق",
+      ps2: "خط واتساب تلقائي، مع 400 رسالة شهريًا",
       ps1: "طبيب واحد، وحسابات استقبال غير محدودة",
       plSoloFor: "لطبيب يستقبل وحده",
       plSolo: "منفرد",
@@ -1230,7 +1350,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       brand: "ميديكا", nav1: "المشكلة", nav2: "العرض", nav3: "المنتج", nav4: "الأسعار", nav5: "أفكاركم", navCta: "تسجيل مسبق −10%",
       heroPillB: "−10%", heroPill: "التسجيل المسبق مفتوح · خصم 10% لأوّل 3 أشهر",
       heroTitle: "قاعة انتظارك،",
-      heroLede: "المواعيد والمرضى بدون موعد وطابور الانتظار في شاشة واحدة. يحجز مرضاكم عبر رابط أو رمز QR أو التطبيق، يستلمون تذكرتهم ويصلون في الوقت المناسب. ويتنفّس الاستقبال.",
+      heroLede: "المواعيد والمرضى بدون موعد وطابور الانتظار في شاشة واحدة. يحجز مرضاكم عبر رابط أو رمز QR أو واتساب دون أي تطبيق، يتلقّون تذكرتهم ويصلون في الوقت المناسب. ويرتاح الاستقبال.",
       heroCta1: "سجّلوا مسبقًا بخصم 10%", heroCta2: "جرّبوا العرض",
       tr1: "أطباء موثَّقون", tr2: "العربية والفرنسية والإنجليزية", tr3: "بدون عمولة على المواعيد",
       pNowS: "في الفحص الآن", pNow: "التذكرة المنادى عليها", pYours: "تذكرتك", pWhen: "تنظيف الجير · د. مثال", pAhead1: "أمامك:", pWait1: "الانتظار ≈",
@@ -1254,18 +1374,18 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       b1e: "المدّة حسب نوع الزيارة", b1t: "المراقبة ليست كالقلع", b1p: "أنواع زيارات تخصّصكم جاهزة. عدّلوا الدقائق، وتقترح عليكم ميديكا متوسّطكم الحقيقي بعد 20 زيارة.",
       vt1: "فحص", vt2: "تنظيف الجير", vt3: "علاج تسوّس", vt4: "مراقبة", vtLearn: "متوسّطكم الحقيقي لـ«المراقبة»: <b>12 دقيقة</b>", vtApply: "تطبيق",
       b2e: "التذكيرات", b2t: "ثلاثة تذكيرات، عبر القناة المناسبة", r1: "قبل يوم · 18:00", r2: "−1 سا", r3: "−15 د", r1c: "إشعار · SMS · واتساب", r2c: "إشعار · SMS · واتساب", r3c: "إشعار", b2p: "تُرسَل تلقائيًا دون أي تدخّل. ولا يُذكر سبب الزيارة أبدًا في أي رسالة.",
-      b3e: "لكل مريض", b3t: "بتطبيق أو بدونه", b3p: "يكفي رابط للحجز، لنفسه أو لطفل أو لأحد الوالدين. ويتابع كلٌّ دوره مباشرة.", b3s: "تطبيق أندرويد بعد المرحلة التجريبية",
+      b3e: "لكل مريض", b3t: "بتطبيق أو بدونه", b3p: "عبر رابط أو رمز QR أو واتساب، دون تطبيق ودون رسوم. لنفسه أو لطفل أو لأحد الوالدين، ويتابع كلٌّ دوره مباشرة.", b3s: "تطبيق أندرويد بعد المرحلة التجريبية",
       b4b: "هوية مهنية موثَّقة", b4t: "أطباء حقيقيون فقط", b4p: "يُتحقَّق من رقم التسجيل في مجلس أخلاقيات الطب ومن البطاقة المهنية قبل أي نشر. والآراء لا تأتي إلا من مرضى حضروا فعلًا.",
       b5e: "ثلاث لغات", b5p: "كل شاشة مصمَّمة بالعربية من اليمين إلى اليسار، وبالفرنسية والإنجليزية. ولكلٍّ لغته.",
       b6s: "خيار · قريبًا", b6t: "مساعد ميديكا: مهامكم المتكرّرة بنقرة", b6p: "اكتبوا ما تريدون فعله بكلماتكم. يحضّر المساعد العملية، ويُريكم ما سيتغيّر، وينتظر تأكيدكم.",
       b6a1: "<b>14 موعدًا</b> نُقلت إلى الخميس الموالي", b6a2: "<b>14 مريضًا</b> أُعلِموا بإشعار", b6a3: "<b>0 تعارض</b>", b6ok: "تأكيد",
       priceEyebrow: "الأسعار", priceTitle1: "اشتراك واحد.", priceTitle2: "حسب عدد الأطباء.",
-      priceLede: "2900 دج لطبيب واحد، و2200 دج لكل طبيب ابتداءً من طبيبين. كل الميزات للجميع، حسابات استقبال مجانية، بدون عمولة.",
+      priceLede: "ابدؤوا مجانًا. لخط واتساب والحجز عبر الإنترنت والتذاكر عن بُعد: 2,900 دج لطبيب واحد، و2,200 دج لكل طبيب ابتداءً من طبيبين. دون عمولة، ودون أي رسوم على مرضاكم.",
       pl1t: "تجربة مجانية", pl1p: "14 يومًا", pl1a: "كل الميزات", pl1b: "حتى 5 أطباء", pl1c: "تبدأ الأيام الـ14 مع أوّل موعد حقيقي", pl1d: "بدون بطاقة، بدون التزام",
       calcTitle: "احسبوا سعركم", calcDocs: "عدد الأطباء", cycM: "شهري", cycY: "سنوي · شهران مجانًا",
       incTitle: "كل شيء مشمول", inc1: "طابور مباشر وتذاكر", inc2: "أنواع زيارات ومدد مخصّصة", inc3: "صفحة، رمز QR وتطبيق للمرضى", inc4: "تذكيرات تلقائية، دون إرسال يدوي", inc5: "شاشة النداء، ورقة اليوم ولوحة القيادة", inc6: "حسابات استقبال مجانية وغير محدودة", inc7: "مساعدة مدمجة «كيف أفعل…؟»",
       addonT: "خيار مساعد ميديكا", addonP: "مهام بنقرة، طلبات مكتوبة ومهام تلقائية. مشمول خلال التجربة.", addonPrice: "+600 دج / شهريًا لكل عيادة",
-      priceFine: "يُحتسب الطبيب عندما تكون لديه أوقات حجز خلال الشهر، ويمكن إيقاف طبيب متعاقد مؤقتًا في أي وقت. التذكيرات بالإشعار مشمولة، وSMS وواتساب تلقائيًا برصيد مسبق الدفع. أكثر من 10 أطباء، فروع متعدّدة أو مراكز أشعة: حسب العرض. الدفع بالتحويل البنكي أو CCP/بريدي موب أو نقدًا مع فاتورة؛ والدفع ببطاقة CIB / الذهبية بعد الاعتماد.",
+      priceFine: "يُحتسب الطبيب عندما تكون لديه أوقات حجز خلال الشهر، ويمكن إيقاف طبيب متعاقد مؤقتًا في أي وقت. التذكيرات بالإشعار مشمولة، مع 400 رسالة واتساب تلقائية لكل طبيب شهريًا؛ وما زاد عنها والرسائل القصيرة برصيد مسبق الدفع. البيانات مستضافة في الجزائر. أكثر من 10 أطباء، فروع متعدّدة أو مراكز أشعة: حسب العرض. الدفع بالتحويل البنكي أو CCP/بريدي موب أو نقدًا مع فاتورة؛ والدفع ببطاقة CIB / الذهبية بعد الاعتماد.",
       iEyebrow: "لنبنِ ميديكا معًا", iTitle1: "ينقصكم شيء؟", iTitle2: "أخبرونا.",
       iLede: "طبيب الأسنان وطبيب الأطفال ومركز الأشعة لا يحتاجون نفس الأشياء. اختاروا تخصّصكم: كل فكرة تُقرأ وتُصنَّف حسب التخصّص، والأكثر طلبًا تدخل خارطة الطريق.",
       f1t: "تقترحون", f1p: "تخصّصكم، حاجتكم، وكم مرة ستحتاجونها.", f2t: "نقرأ كل أسبوع", f2p: "تُصنَّف كل فكرة حسب التخصّص وتكرار الاستعمال. الاحتياجات اليومية أوّلًا.",
@@ -1280,7 +1400,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lCat: "يتعلّق الأمر بـ", cAgenda: "جدول المواعيد", cQueue: "طابور الانتظار", cPatients: "ملفات المرضى", cRem: "التذكيرات", cApp: "تطبيق المرضى", cRep: "الإحصائيات", cAss: "المساعد", cBill: "الفوترة", cOther: "آخر",
       lTitle: "فكرتكم في جملة", hTitle: "مثال: «طباعة تذكرة المريض في الاستقبال»",
       lDetails: "ما المشكلة التي ستحلّها لكم؟", hDetails: "صفوا كيف تعملون اليوم وما الذي سيوفّر عليكم الوقت. 20 حرفًا على الأقل.",
-      lFreq: "ستحتاجونها", frD: "كل يوم", frW: "كل أسبوع", frS: "من حين لآخر",
+      lFreq: "ستحتاجونها", frD: "أساسيات الاستقبال لطبيب واحد، مجانًا. انتقلوا إلى «منفرد» عندما تريدون خط واتساب التلقائي والحجز عبر الإنترنت والتذاكر عن بُعد.", frW: "كل أسبوع", frS: "من حين لآخر",
       lName: "اسمكم (اختياري)", lContact: "الهاتف أو البريد الإلكتروني (اختياري)", lUpdates: "أعلموني عندما تصبح هذه الفكرة متاحة",
       lConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات لدراسة طلبي، وللتواصل معي إن طلبت ذلك.",
       fmSend: "أرسل فكرتي", fmPreview: "معاينة: هذا النموذج غير مربوط بخادمنا بعد. لا تُرسَل المعلومات.",
@@ -1288,17 +1408,90 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       faTitle: "كل ما خطّطنا له، في لمحة", faLede: "ما يصل عند الإطلاق، وما يليه مباشرة، وما يأتي بعد ذلك.", faNow: "عند الإطلاق", faSoon: "قريبًا", faLater: "لاحقًا", themeDark: "الوضع الداكن", themeLight: "الوضع الفاتح", fa_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور", fa_now1: "تذكرة ووقت مرور لكل مريض", fa_now2: "الدور مباشرة على هاتف المريض", fa_now3: "شاشة النداء لقاعة الانتظار", fa_now4: "الحجز عبر رابط أو رمز QR أو صفحة ويب قابلة للتثبيت، بدون كلمة سر", fa_now5: "الحجز لطفل أو لأحد الوالدين", fa_now6: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال", fa_now7: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب", fa_now8: "لا حجز مزدوج أبدًا", fa_now9: "إضافة مريض بدون موعد في 3 نقرات", fa_now10: "«الطبيب متأخّر»: إعلام المرضى تلقائيًا", fa_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة: إشعار أو SMS أو واتساب، مع تتبّع كل رسالة", fa_now12: "استيراد مرضاكم ومواعيدكم من Excel أو CSV، مع معاينة وإمكانية التراجع", fa_now13: "تحديد الموعد القادم في نهاية الفحص", fa_now14: "متابعة الغيابات مريضًا بمريض", fa_now15: "ورقة اليوم للطباعة، والتذكرة متاحة دون اتصال", fa_now16: "إذا انقطع الإنترنت: تنبيه واضح، ووقت آخر مزامنة، واستدراك موجَّه", fa_now17: "أطباء موثَّقون برقم التسجيل في مجلس أخلاقيات الطب", fa_now18: "العربية والفرنسية والإنجليزية", fa_now19: "صفحة العيادة وشعارها وملصق QR للاستقبال", fa_now20: "لوحة القيادة: المرضى، الغيابات، الحجوزات عبر الإنترنت", fa_now21: "شاشة «اليوم» للاستقبال، وتطبيق أندرويد للطبيب", fa_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات", fa_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت", fa_soon0: "تطبيق المرضى على أندرويد، إذا طلبته عياداتنا الأولى", fa_soon1: "آراء موثَّقة بعد زيارة حقيقية", fa_soon2: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»", fa_soon3: "«وتيرتكم»: اقتراح مددكم الحقيقية", fa_later0: "مهام تلقائية يقترحها المساعد", fa_later1: "تطبيقات iOS", fa_later2: "عيادات متعدّدة الفروع", fa_later3: "البحث عن الأطباء في تطبيق المرضى",
       roomBad: "11 شخصًا لـ6 كراسٍ. الهاتف يرنّ، والأسئلة لا تتوقّف.", roomGood: "التذكرة 05 في الفحص. 3 مرضى ينتظرون، والآخرون يصلون في وقتهم.",
       faqEyebrow: "أسئلة شائعة", faqTitle: "ما يسألنا عنه الأطباء.",
-      q1: "هل يجب على مرضاي تثبيت تطبيق؟", a1: "لا. يحجزون عبر رابط أو رمز QR دون تثبيت أي شيء. ومن يفضّل التطبيق يضيف صفحة ميديكا إلى شاشته الرئيسية ليجد تذاكره ومواعيده وتذكيراته.",
+      q1: "هل يجب على مرضاي تثبيت تطبيق؟", a1: "لا. يحجزون ويتابعون دورهم عبر واتساب أو رابط أو رمز QR، دون تثبيت أي شيء ودون دفع أي شيء. ومن يرغب يضيف صفحة ميديكا إلى شاشته الرئيسية.",
       q2: "وماذا عن المرضى الذين يواصلون الاتصال؟", a2: "هذا طبيعي. يسجّلهم الاستقبال في نفس الجدول خلال ثوانٍ. يبقى لديكم جدول واحد مهما كان مصدر الموعد.",
       q3: "كم يستغرق البدء؟", a3: "حوالي 15 دقيقة لإنشاء عيادتكم، و48 ساعة كحدّ أقصى للتحقّق من وثائقكم. وتبدأ تجربة الـ14 يومًا مع أوّل موعد حقيقي.",
       q4: "هل يمكن للمرضى تقييمي علنًا؟", a4: "وحدهم المرضى الذين حضروا الفحص يمكنهم ترك رأي. آراء عيادتكم علنية، أما الآراء حولكم كطبيب فهي لكم، وأنتم من يختار نشرها.",
-      q5: "وإذا انقطع الإنترنت في العيادة؟", a5: "تعرض ميديكا فورًا تنبيهًا ووقت آخر مزامنة. تواصلون العمل بورقة اليوم المطبوعة أو على هاتف الطبيب عبر 4G، ثم ترشدكم ميديكا لتحديث كل شيء. وتبقى تذكرة المريض ظاهرة على هاتفه حتى دون اتصال.",
+      q5: "وإذا انقطع الإنترنت في العيادة؟", a5: "يواصل جهاز الاستقبال العمل: الحجوزات، والوصول، والنداء، والتذاكر المطبوعة. يُظهر شريط وقت آخر مزامنة، ويتحدّث كل شيء عند عودة الاتصال. وغالبًا ما يبقى هاتف الطبيب متصلًا عبر 4G. وقريبًا، سيُبقي جهاز Medica Edge العيادة كلها مترابطة دون إنترنت: الاستقبال والطبيب والشاشة والطابعة.",
       q6: "هل يرسل المساعد بياناتي إلى ذكاء اصطناعي خارجي؟", a6: "لا. يعمل مساعد ميديكا على خوادمنا الخاصة. يجد المهمة المناسبة ويعرضها عليكم قبل التنفيذ. لا تُستعمل أسماء مرضاكم وأرقامهم أبدًا في تدريبه.",
       finEyebrow: "الجزائر العاصمة · وهران · قسنطينة · عنابة", finTitle1: "صباح الإثنين، يمكن لقاعتكم أن تكون", finTitle2: "هادئة.",
       finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. سجّلوا مسبقًا لخصم 10% على أوّل 3 أشهر، أو راسلونا لعرض توضيحي مدّته 10 دقائق.",
       copy: "نسخ العنوان", footer: "صُنع في الجزائر · العربية · Français · English"
     },
     en: {
+      a10: "Yes. We import your patients and appointments for free, you keep the old tool for 30 days side by side, and the months you've already paid elsewhere are free at Medica, up to 3 months. If you want to keep your current medical records, Medica runs the front desk alongside them.",
+      q10: "I already use software. Can I switch easily?",
+      a9: "In Algeria, with encrypted backups. Every action goes into a sealed log you can show during an inspection. Messages go through WhatsApp only if the patient chooses that channel; they can prefer SMS or the link.",
+      q9: "Where is my patients' data hosted?",
+      st8p: "They book and follow their turn on WhatsApp, by link or with their printed ticket.",
+      st8t: "apps to install, and 0 DZD for your patients to pay",
+      sn8: "0",
+      st7p: "Encrypted backups, and a sealed activity log you can show during an inspection.",
+      st7t: "of your data hosted in Algeria",
+      sn7: "100%",
+      swS4p: "Keep the old tool until you're sure. Attached to your current medical records? Medica runs the front desk alongside them.",
+      swS4t: "30 days side by side",
+      swS3p: "Preview, duplicates flagged, undo available. Nothing is saved without your OK.",
+      swS3t: "We import with you",
+      swS2p: "Your patients and appointments come out of your software or Excel file. Your data stays in your hands.",
+      swS2t: "You export, we guide you",
+      swS1p: "20 minutes on the phone: your current tool, your data, what bothers you.",
+      swS1t: "We take stock",
+      swC: "The months you've already paid for your current software are free at Medica, up to 3 months. Not combined with the pre-registration offer: you keep whichever is better.",
+      swL: "Free import, a guided start, and the months you've already paid elsewhere given free at Medica, up to 3 months.",
+      swT2: "Move to Medica in a day.",
+      swT1: "Already using software?",
+      pcW: "400 WhatsApp messages per doctor per month included",
+      frG: "Import and export of your data",
+      frF: "Ready-written WhatsApp messages, sent from your phone",
+      frE: "Call screen and offline mode",
+      frC: "Printed tickets with QR and live tracking on the phone",
+      frB: "Calendar, queue and walk-ins",
+      frPs: "no time limit",
+      frP: "0 DZD",
+      frT: "Medica Free",
+      fx_later7: "iOS apps",
+      fx_later6: "Imaging centres and laboratories",
+      fx_later5: "Multi-site clinics",
+      fx_later4: "API and accounting links",
+      fx_later3: "One calendar for every booking source",
+      fx_later2: "Owner dashboard on the phone",
+      fx_later1: "Consultation notes encrypted with your own keys",
+      fx_later0: "Prescriptions from the national drug list, certificates and letters, after ANPDP authorisation",
+      fx_soon9: "Verified reviews after a real visit",
+      fx_soon8: "Patient Android app, if our first practices ask for it",
+      fx_soon7: "Assistant Medica (add-on) and \"How do I…?\" help",
+      fx_soon6: "Subscription paid by CIB / Edahabia card, after certification",
+      fx_soon5: "Statistics: real waits, no-shows, revenue per doctor, anonymous comparison",
+      fx_soon4: "A call button for the doctor, no screen to touch",
+      fx_soon3: "Medica Edge: the whole practice keeps working without internet, screen and printer included",
+      fx_soon2: "Waitlist: freed slots offered automatically",
+      fx_soon1: "Recall reminders: 6-month check-up, yearly scaling",
+      fx_soon0: "Dental pack: chairs, multi-session treatment plans, instalments, labs",
+      fx_now23: "Export your patients and appointments any time",
+      fx_now22: "Free reception accounts, roles and change history",
+      fx_now21: "Practice page, logo and QR poster for the desk",
+      fx_now20: "Arabic, French and English",
+      fx_now19: "Verified doctors: Medical Council card and documents checked",
+      fx_now18: "Import your patients from Excel, CSV or your current software",
+      fx_now17: "Data hosted in Algeria, sealed activity log",
+      fx_now16: "If the internet drops, the front desk keeps working, then everything resyncs",
+      fx_now15: "Cash desk: fees, payments, receipts and a sealed daily close",
+      fx_now14: "Next appointment set at the end of each visit",
+      fx_now13: "Call screen with voice announcements in Arabic and French",
+      fx_now12: "Several doctors: patient dispatch, rooms and one shared call screen",
+      fx_now11: "Automatic reminders the day before, 1 hour and 15 minutes before, each one tracked",
+      fx_now10: "\"Doctor running late\": the right patients told in one tap",
+      fx_now9: "Walk-ins added in 3 taps",
+      fx_now8: "No double booking, even offline",
+      fx_now7: "Visit types by specialty, durations set by each doctor",
+      fx_now6: "\"My appointments\": cancel or move without calling",
+      fx_now5: "Booking by link, QR code or WhatsApp, for yourself, a child or a parent",
+      fx_now4: "A shared WhatsApp inbox for the front desk: no more personal phones",
+      fx_now3: "The practice's WhatsApp line, on your own number",
+      fx_now2: "Live position on the patient's phone, with no app",
+      fx_now1: "A ticket and a visit time for every patient, printed with a QR code",
+      fx_now0: "Live queue: appointments and walk-ins in the same line",
       hContact: "With an email, you get a reply straight away.",
       plEmailH: "To get your confirmation and price straight away.",
       plEmail: "Email (optional)",
@@ -1312,13 +1505,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       pk1: "11,000 DZD for 5 doctors, then 1,000 DZD per extra doctor",
       plCliFor: "6 to 10 doctors",
       plCli: "Clinic",
-      pc3: "Roles and change history",
-      pc2: "One shared call screen for the room",
+      pc3: "Cash desk with each doctor's share",
+      pc2: "Patient dispatch, rooms and one shared call screen",
       pc1: "A calendar and a queue per doctor",
       plCabFor: "2 to 5 doctors",
       plCab: "Practice",
-      ps3: "Booking page and QR poster",
-      ps2: "Queue, tickets and reminders",
+      ps3: "Online booking and remote tickets, with no app",
+      ps2: "Automatic WhatsApp line, 400 messages a month included",
       ps1: "1 doctor, unlimited reception accounts",
       plSoloFor: "For a doctor working alone",
       plSolo: "Solo",
@@ -1403,7 +1596,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       brand: "medica", nav1: "The problem", nav2: "Demo", nav3: "Product", nav4: "Pricing", nav5: "Your ideas", navCta: "Pre-register −10%",
       heroPillB: "−10%", heroPill: "Pre-registration open · 10% off your first 3 months",
       heroTitle: "Your waiting room, finally",
-      heroLede: "Appointments, walk-ins and the queue on one screen. Patients book by link, QR code or the app, get their ticket and arrive at the right time. Your front desk can breathe.",
+      heroLede: "Appointments, walk-ins and the queue on one screen. Patients book by link, QR code or WhatsApp, with no app, get their ticket and arrive at the right time. Your front desk can breathe.",
       heroCta1: "Pre-register, save 10%", heroCta2: "Try the demo",
       tr1: "Verified doctors", tr2: "Arabic, French, English", tr3: "No commission per appointment",
       pNowS: "In consultation", pNow: "Ticket called", pYours: "Your ticket", pWhen: "Scaling · Dr. Example", pAhead1: "Ahead of you:", pWait1: "Wait ≈",
@@ -1427,18 +1620,18 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       b1e: "Durations by visit type", b1t: "A check-up is not an extraction", b1p: "Your specialty's visit types are ready. Adjust the minutes, and after 20 visits Medica suggests your real average.",
       vt1: "Consultation", vt2: "Scaling", vt3: "Cavity filling", vt4: "Check-up", vtLearn: "Your real average for \"Check-up\": <b>12 min</b>", vtApply: "Apply",
       b2e: "Reminders", b2t: "Three reminders, through the right channel", r1: "D-1 · 18:00", r2: "−1 h", r3: "−15 min", r1c: "Push · SMS · WhatsApp", r2c: "Push · SMS · WhatsApp", r3c: "Push", b2p: "Sent automatically, nothing to do. Never the reason for the visit in a message.",
-      b3e: "For every patient", b3t: "With or without the app", b3p: "A link is enough to book, for yourself, a child or a parent. Everyone follows their turn live.", b3s: "Android app after the pilot",
+      b3e: "For every patient", b3t: "With or without the app", b3p: "By link, QR code or WhatsApp, with no app and no fees. For yourself, a child or a parent, and everyone follows their turn live.", b3s: "Android app after the pilot",
       b4b: "Professional identity verified", b4t: "Real doctors only", b4p: "Medical Council registration number and professional card checked before anything goes public. Reviews only come from patients who actually came.",
       b5e: "Three languages", b5p: "Every screen is designed in right-to-left Arabic, French and English. Everyone picks their language.",
       b6s: "Add-on · coming soon", b6t: "Assistant Medica: your repetitive tasks in one tap", b6p: "Write what you want to do, in your own words. The assistant prepares the action, shows you what will change and waits for your confirmation.",
       b6a1: "<b>14 appointments</b> moved to next Thursday", b6a2: "<b>14 patients</b> notified", b6a3: "<b>0 conflicts</b>", b6ok: "Confirm",
       priceEyebrow: "Pricing", priceTitle1: "One subscription.", priceTitle2: "Priced by doctors.",
-      priceLede: "2,900 DZD for one doctor, 2,200 DZD per doctor from two. Every feature for everyone, free reception accounts, no commission.",
+      priceLede: "Start free. For the WhatsApp line, online booking and remote tickets: 2,900 DZD for one doctor, 2,200 DZD per doctor from two. No commission, and nothing for your patients to pay.",
       pl1t: "Free trial", pl1p: "14 days", pl1a: "Every feature", pl1b: "Up to 5 doctors", pl1c: "The 14 days start at your first real appointment", pl1d: "No card, no commitment",
       calcTitle: "Work out your price", calcDocs: "Number of doctors", cycM: "Monthly", cycY: "Yearly · 2 months free",
       incTitle: "Everything included", inc1: "Live queue and tickets", inc2: "Custom visit types and durations", inc3: "Page, QR code and patient app", inc4: "Automatic reminders, nothing to send by hand", inc5: "Call screen, day sheet and dashboard", inc6: "Free, unlimited reception accounts", inc7: "Built-in \"How do I…?\" help",
       addonT: "Assistant Medica add-on", addonP: "One-tap tasks, typed requests and automations. Included during the trial.", addonPrice: "+600 DZD / month per practice",
-      priceFine: "A doctor counts when they have bookable hours in the month; pause a visiting doctor any time. Push reminders included; automatic SMS and WhatsApp with prepaid credits. More than 10 doctors, multiple sites or imaging centres: on quote. Pay by bank transfer, CCP/BaridiMob or cash with an invoice; CIB / Edahabia card payment follows after certification.",
+      priceFine: "A doctor counts when they have bookable hours in the month; pause a visiting doctor any time. Push reminders included, plus 400 automatic WhatsApp messages per doctor per month; beyond that, and for SMS, prepaid credits. Data hosted in Algeria. More than 10 doctors, multiple sites or imaging centres: on quote. Pay by bank transfer, CCP/BaridiMob or cash with an invoice; CIB / Edahabia card payment follows after certification.",
       iEyebrow: "Let's build Medica together", iTitle1: "Missing something?", iTitle2: "Tell us.",
       iLede: "A dentist, a pediatrician and an imaging centre don't need the same things. Tell us your specialty: every idea is read, sorted by specialty, and the most requested ones join the roadmap.",
       f1t: "You suggest", f1p: "Your specialty, your need, and how often you'd use it.", f2t: "We read every week", f2p: "Each idea is sorted by specialty and how often it's needed. Daily needs come first.",
@@ -1453,7 +1646,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lCat: "It's about", cAgenda: "Agenda", cQueue: "Queue", cPatients: "Patient records", cRem: "Reminders", cApp: "Patient app", cRep: "Statistics", cAss: "Assistant", cBill: "Billing", cOther: "Other",
       lTitle: "Your idea in one sentence", hTitle: "Example: \"Print the patient's ticket at the desk\"",
       lDetails: "What problem would it solve for you?", hDetails: "Describe how you do it today and what would save you time. 20 characters minimum.",
-      lFreq: "You'd need it", frD: "Every day", frW: "Every week", frS: "Now and then",
+      lFreq: "You'd need it", frD: "The front-desk essentials for one doctor, free. Move to Solo when you want the automatic WhatsApp line, online booking and remote tickets.", frW: "Every week", frS: "Now and then",
       lName: "Your name (optional)", lContact: "Phone or email (optional)", lUpdates: "Let me know when this idea is available",
       lConsent: "I agree that Medica may use this information to study my request and, if I asked, to contact me.",
       fmSend: "Send my idea", fmPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
@@ -1461,11 +1654,11 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       faTitle: "Everything we have planned, at a glance", faLede: "What arrives at launch, what follows right after, and what comes next.", faNow: "At launch", faSoon: "Coming soon", faLater: "Next", themeDark: "Dark theme", themeLight: "Light theme", fa_now0: "Live queue: appointments and walk-ins in the same line", fa_now1: "A ticket and a visit time for every patient", fa_now2: "Live position on the patient's phone", fa_now3: "Call screen for the waiting room", fa_now4: "Booking by link, QR code or installable web page, no password", fa_now5: "Book for a child or a parent", fa_now6: "\"My appointments\": cancel or move without calling", fa_now7: "Visit types by specialty, durations set by each doctor", fa_now8: "No double booking, ever", fa_now9: "Walk-ins added in 3 taps", fa_now10: "\"Doctor running late\": patients told automatically", fa_now11: "Automatic reminders the day before, 1 hour and 15 minutes before: push, SMS or WhatsApp, each one tracked", fa_now12: "Import your patients and appointments from Excel or CSV, with preview and undo", fa_now13: "Next appointment set at the end of each visit", fa_now14: "No-show tracking, patient by patient", fa_now15: "Printable day sheet, ticket available offline", fa_now16: "If the internet drops: a clear banner, last-sync time and a guided catch-up", fa_now17: "Doctors verified by their Medical Council number", fa_now18: "Arabic, French and English", fa_now19: "Practice page, logo and QR poster for the desk", fa_now20: "Dashboard: patients seen, no-shows, online bookings", fa_now21: "\"Today\" screen for reception, Android app for the doctor", fa_now22: "Free reception accounts, roles and change history", fa_now23: "Export your patients and appointments any time", fa_soon0: "Patient Android app, if our first practices ask for it", fa_soon1: "Verified reviews after a real visit", fa_soon2: "Assistant Medica (add-on) and \"How do I…?\" help", fa_soon3: "\"Your pace\": your real durations suggested", fa_later0: "Automations suggested by the assistant", fa_later1: "iOS apps", fa_later2: "Multi-site clinics", fa_later3: "Doctor search in the patient app",
       roomBad: "11 people for 6 chairs. The phone rings, the questions keep coming.", roomGood: "Ticket 05 in consultation. 3 patients waiting, the others arrive on time.",
       faqEyebrow: "FAQ", faqTitle: "What doctors ask us.",
-      q1: "Do my patients have to install an app?", a1: "No. They book by link or QR code without installing anything. Patients who prefer an app add the Medica page to their home screen for tickets, appointments and reminders.",
+      q1: "Do my patients have to install an app?", a1: "No. They book and follow their turn on WhatsApp, by link or QR code, with nothing to install and nothing to pay. Those who want can add the Medica page to their home screen.",
       q2: "What about patients who keep calling?", a2: "That's normal. Reception adds them to the same agenda in seconds. You keep one schedule, wherever the booking came from.",
       q3: "How long does it take to start?", a3: "About 15 minutes to set up your practice, and up to 48 hours to verify your documents. The 14-day trial starts at your first real appointment.",
       q4: "Can patients rate me publicly?", a4: "Only patients who came for a consultation can leave a review. Practice reviews are public. Reviews of you as a doctor are yours, and you choose whether to publish them.",
-      q5: "What if the internet goes down?", a5: "Medica shows a banner straight away with the last-sync time. You carry on with the printed day sheet, or on the doctor's phone over 4G, then Medica guides you to bring everything up to date. The patient's ticket stays on their phone even offline.",
+      q5: "What if the internet goes down?", a5: "The front-desk computer keeps working: bookings, arrivals, calls and printed tickets. A banner shows the last sync time, and everything catches up when the connection returns. The doctor's phone often stays online over 4G. Soon, the Medica Edge box will keep the whole practice connected without internet: desk, doctor, screen and printer.",
       q6: "Does the assistant send my data to an outside AI?", a6: "No. Assistant Medica runs on our own servers. It finds the right task and shows it to you before acting. Your patients' names and numbers are never used to train it.",
       finEyebrow: "Algiers · Oran · Constantine · Annaba", finTitle1: "On Monday morning, your waiting room can be", finTitle2: "calm.",
       finText: "We're choosing our first 5 to 8 pilot practices. Pre-register for 10% off your first 3 months, or write to us for a 10-minute demo.",
