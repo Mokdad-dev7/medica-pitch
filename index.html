@@ -698,7 +698,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       <article class="stat-card"><span class="num" data-i18n="sn4">15 min</span><h3 data-i18n="st4t">pour créer votre cabinet</h3><p data-i18n="st4p">Puis 48 h au plus pour vérifier votre numéro d'inscription à l'Ordre et votre carte professionnelle.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn5">3</span><h3 data-i18n="st5t">langues sur chaque écran</h3><p data-i18n="st5p">Arabe de droite à gauche, français et anglais. Chacun choisit la sienne.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn6">0 DA</span><h3 data-i18n="st6t">de commission par rendez-vous</h3><p data-i18n="st6p">Un abonnement par médecin. Les comptes réception sont gratuits et illimités.</p></article>
-      <article class="stat-card"><span class="num" data-i18n="sn7">100 %</span><h3 data-i18n="st7t">de vos données hébergées en Algérie</h3><p data-i18n="st7p">Sauvegardes chiffrées, et un journal d'activité scellé que vous pouvez présenter en cas de contrôle.</p></article>
+      <article class="stat-card"><span class="num" data-i18n="sn7">100 %</span><h3 data-i18n="st7t">des données de vos patients hébergées en Algérie</h3><p data-i18n="st7p">Dès le lancement : sauvegardes chiffrées, et un journal d'activité scellé que vous pouvez présenter en cas de contrôle.</p></article>
       <article class="stat-card"><span class="num" data-i18n="sn8">0</span><h3 data-i18n="st8t">application à installer, et 0 DA à payer pour vos patients</h3><p data-i18n="st8p">Ils réservent et suivent leur tour par WhatsApp, par un lien ou avec leur ticket imprimé.</p></article>
     </div>
     <div class="stat-foot">
@@ -866,7 +866,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     </div>
     <p class="trial reveal"><b data-i18n="pl1t">Essai gratuit</b><span data-i18n="pl1c">Les 14 jours démarrent à votre premier vrai rendez-vous</span><span data-i18n="pl1d">Sans carte, sans engagement</span></p>
     <div class="addon reveal"><div><b data-i18n="addonT">Option Assistant Medica</b><span data-i18n="addonP">Tâches en un geste, demandes écrites et automatisations. Incluse pendant l'essai.</span></div><span class="addon-price" data-i18n="addonPrice">+600 DA / mois par cabinet</span></div>
-    <p class="fine" data-i18n="priceFine">Un médecin compte quand il a des horaires réservables dans le mois ; mettez en pause un médecin vacataire à tout moment. Rappels par notification inclus, et 400 messages WhatsApp automatiques par médecin et par mois ; au-delà, et pour les SMS, crédits prépayés. Données hébergées en Algérie. Plus de 10 médecins, plusieurs sites ou centres d'imagerie : sur devis. Paiement par virement, CCP/BaridiMob ou espèces avec facture ; la carte CIB / Edahabia arrive après certification.</p>
+    <p class="fine" data-i18n="priceFine">Un médecin compte quand il a des horaires réservables dans le mois ; mettez en pause un médecin vacataire à tout moment. Rappels par notification inclus, et 400 messages WhatsApp automatiques par médecin et par mois ; au-delà, et pour les SMS, crédits prépayés. Données des patients hébergées en Algérie. Plus de 10 médecins, plusieurs sites ou centres d'imagerie : sur devis. Paiement par virement, CCP/BaridiMob ou espèces avec facture ; la carte CIB / Edahabia arrive après certification.</p>
   </div>
 </section>
 
@@ -935,7 +935,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
             <input type="text" id="p-wilaya" name="wilaya" list="wilayas" maxlength="40" autocomplete="address-level1">
           </div>
           <div>
-            <label class="check"><input type="checkbox" id="p-consent" name="consent" aria-describedby="e-p-consent"><span data-i18n="plConsent">J'accepte que Medica utilise ces informations pour me recontacter au sujet du lancement.</span></label>
+            <label class="check"><input type="checkbox" id="p-consent" name="consent" aria-describedby="e-p-consent"><span data-i18n="plConsent">J'accepte que Medica utilise ces informations pour me recontacter au sujet du lancement. Jusqu'au lancement, elles sont conservées dans l'espace Google de Medica.</span></label>
             <p class="err" id="e-p-consent"></p>
           </div>
           <div class="hp" aria-hidden="true"><label for="p-website">Website</label><input type="text" id="p-website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -1095,7 +1095,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           </div>
           <label class="check"><input type="checkbox" id="f-updates" name="wants_updates"><span data-i18n="lUpdates">Prévenez-moi quand cette idée est disponible</span></label>
           <div>
-            <label class="check"><input type="checkbox" id="f-consent" name="consent" aria-describedby="e-consent"><span data-i18n="lConsent">J'accepte que Medica utilise ces informations pour étudier ma demande et, si je l'ai demandé, me recontacter.</span></label>
+            <label class="check"><input type="checkbox" id="f-consent" name="consent" aria-describedby="e-consent"><span data-i18n="lConsent">J'accepte que Medica utilise ces informations pour étudier ma demande et, si je l'ai demandé, me recontacter. Jusqu'au lancement, elles sont conservées dans l'espace Google de Medica.</span></label>
             <p class="err" id="e-consent"></p>
           </div>
           <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -1180,8 +1180,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       st8p: "يحجزون ويتابعون دورهم عبر واتساب أو رابط أو بتذكرتهم المطبوعة.",
       st8t: "تطبيق للتثبيت، و0 دج يدفعها مرضاكم",
       sn8: "0",
-      st7p: "نسخ احتياطية مشفّرة، وسجلّ نشاط مختوم يمكنكم تقديمه عند أي تفتيش.",
-      st7t: "من بياناتكم مستضافة في الجزائر",
+      st7p: "منذ الإطلاق: نسخ احتياطية مشفّرة، وسجلّ نشاط مختوم يمكنكم تقديمه عند أي تفتيش.",
+      st7t: "من بيانات مرضاكم مستضافة في الجزائر",
       sn7: "100%",
       swS4p: "احتفظوا بالأداة القديمة حتى تطمئنّوا. تريدون الإبقاء على ملفكم الطبي الحالي؟ تتولّى ميديكا الاستقبال بجانبه.",
       swS4t: "30 يومًا بالتوازي",
@@ -1319,7 +1319,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       prPreview: "معاينة: هذا النموذج غير مرتبط بخادمنا بعد. لا تُرسَل البيانات.",
       prMicro: "نتصل بكم قبل الإطلاق. لا شيء للدفع اليوم.",
       prSend: "احجزوا خصم 10%",
-      plConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات للتواصل معي بخصوص الإطلاق.",
+      plConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات للتواصل معي بخصوص الإطلاق. وإلى غاية الإطلاق، تُحفظ في فضاء Google الخاص بميديكا.",
       plWilaya: "الولاية (اختياري)",
       plDocs: "عدد الأطباء",
       plSpec: "التخصّص",
@@ -1385,7 +1385,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       calcTitle: "احسبوا سعركم", calcDocs: "عدد الأطباء", cycM: "شهري", cycY: "سنوي · شهران مجانًا",
       incTitle: "كل شيء مشمول", inc1: "طابور مباشر وتذاكر", inc2: "أنواع زيارات ومدد مخصّصة", inc3: "صفحة، رمز QR وتطبيق للمرضى", inc4: "تذكيرات تلقائية، دون إرسال يدوي", inc5: "شاشة النداء، ورقة اليوم ولوحة القيادة", inc6: "حسابات استقبال مجانية وغير محدودة", inc7: "مساعدة مدمجة «كيف أفعل…؟»",
       addonT: "خيار مساعد ميديكا", addonP: "مهام بنقرة، طلبات مكتوبة ومهام تلقائية. مشمول خلال التجربة.", addonPrice: "+600 دج / شهريًا لكل عيادة",
-      priceFine: "يُحتسب الطبيب عندما تكون لديه أوقات حجز خلال الشهر، ويمكن إيقاف طبيب متعاقد مؤقتًا في أي وقت. التذكيرات بالإشعار مشمولة، مع 400 رسالة واتساب تلقائية لكل طبيب شهريًا؛ وما زاد عنها والرسائل القصيرة برصيد مسبق الدفع. البيانات مستضافة في الجزائر. أكثر من 10 أطباء، فروع متعدّدة أو مراكز أشعة: حسب العرض. الدفع بالتحويل البنكي أو CCP/بريدي موب أو نقدًا مع فاتورة؛ والدفع ببطاقة CIB / الذهبية بعد الاعتماد.",
+      priceFine: "يُحتسب الطبيب عندما تكون لديه أوقات حجز خلال الشهر، ويمكن إيقاف طبيب متعاقد مؤقتًا في أي وقت. التذكيرات بالإشعار مشمولة، مع 400 رسالة واتساب تلقائية لكل طبيب شهريًا؛ وما زاد عنها والرسائل القصيرة برصيد مسبق الدفع. بيانات المرضى مستضافة في الجزائر. أكثر من 10 أطباء، فروع متعدّدة أو مراكز أشعة: حسب العرض. الدفع بالتحويل البنكي أو CCP/بريدي موب أو نقدًا مع فاتورة؛ والدفع ببطاقة CIB / الذهبية بعد الاعتماد.",
       iEyebrow: "لنبنِ ميديكا معًا", iTitle1: "ينقصكم شيء؟", iTitle2: "أخبرونا.",
       iLede: "طبيب الأسنان وطبيب الأطفال ومركز الأشعة لا يحتاجون نفس الأشياء. اختاروا تخصّصكم: كل فكرة تُقرأ وتُصنَّف حسب التخصّص، والأكثر طلبًا تدخل خارطة الطريق.",
       f1t: "تقترحون", f1p: "تخصّصكم، حاجتكم، وكم مرة ستحتاجونها.", f2t: "نقرأ كل أسبوع", f2p: "تُصنَّف كل فكرة حسب التخصّص وتكرار الاستعمال. الاحتياجات اليومية أوّلًا.",
@@ -1402,7 +1402,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lDetails: "ما المشكلة التي ستحلّها لكم؟", hDetails: "صفوا كيف تعملون اليوم وما الذي سيوفّر عليكم الوقت. 20 حرفًا على الأقل.",
       lFreq: "ستحتاجونها", frD: "أساسيات الاستقبال لطبيب واحد، مجانًا. انتقلوا إلى «منفرد» عندما تريدون خط واتساب التلقائي والحجز عبر الإنترنت والتذاكر عن بُعد.", frW: "كل أسبوع", frS: "من حين لآخر",
       lName: "اسمكم (اختياري)", lContact: "الهاتف أو البريد الإلكتروني (اختياري)", lUpdates: "أعلموني عندما تصبح هذه الفكرة متاحة",
-      lConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات لدراسة طلبي، وللتواصل معي إن طلبت ذلك.",
+      lConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات لدراسة طلبي، والتواصل معي إن طلبت ذلك. وإلى غاية الإطلاق، تُحفظ في فضاء Google الخاص بميديكا.",
       fmSend: "أرسل فكرتي", fmPreview: "معاينة: هذا النموذج غير مربوط بخادمنا بعد. لا تُرسَل المعلومات.",
       fmDoneT: "شكرًا، وصلتنا فكرتكم", fmDoneP: "نقرؤها هذا الأسبوع ونصنّفها مع أفكار تخصّصكم. صوّتوا أيضًا على أفكار خارطة الطريق.", fmAgain: "اقتراح فكرة أخرى",
       faTitle: "كل ما خطّطنا له، في لمحة", faLede: "ما يصل عند الإطلاق، وما يليه مباشرة، وما يأتي بعد ذلك.", faNow: "عند الإطلاق", faSoon: "قريبًا", faLater: "لاحقًا", themeDark: "الوضع الداكن", themeLight: "الوضع الفاتح", fa_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور", fa_now1: "تذكرة ووقت مرور لكل مريض", fa_now2: "الدور مباشرة على هاتف المريض", fa_now3: "شاشة النداء لقاعة الانتظار", fa_now4: "الحجز عبر رابط أو رمز QR أو صفحة ويب قابلة للتثبيت، بدون كلمة سر", fa_now5: "الحجز لطفل أو لأحد الوالدين", fa_now6: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال", fa_now7: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب", fa_now8: "لا حجز مزدوج أبدًا", fa_now9: "إضافة مريض بدون موعد في 3 نقرات", fa_now10: "«الطبيب متأخّر»: إعلام المرضى تلقائيًا", fa_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة: إشعار أو SMS أو واتساب، مع تتبّع كل رسالة", fa_now12: "استيراد مرضاكم ومواعيدكم من Excel أو CSV، مع معاينة وإمكانية التراجع", fa_now13: "تحديد الموعد القادم في نهاية الفحص", fa_now14: "متابعة الغيابات مريضًا بمريض", fa_now15: "ورقة اليوم للطباعة، والتذكرة متاحة دون اتصال", fa_now16: "إذا انقطع الإنترنت: تنبيه واضح، ووقت آخر مزامنة، واستدراك موجَّه", fa_now17: "أطباء موثَّقون برقم التسجيل في مجلس أخلاقيات الطب", fa_now18: "العربية والفرنسية والإنجليزية", fa_now19: "صفحة العيادة وشعارها وملصق QR للاستقبال", fa_now20: "لوحة القيادة: المرضى، الغيابات، الحجوزات عبر الإنترنت", fa_now21: "شاشة «اليوم» للاستقبال، وتطبيق أندرويد للطبيب", fa_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات", fa_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت", fa_soon0: "تطبيق المرضى على أندرويد، إذا طلبته عياداتنا الأولى", fa_soon1: "آراء موثَّقة بعد زيارة حقيقية", fa_soon2: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»", fa_soon3: "«وتيرتكم»: اقتراح مددكم الحقيقية", fa_later0: "مهام تلقائية يقترحها المساعد", fa_later1: "تطبيقات iOS", fa_later2: "عيادات متعدّدة الفروع", fa_later3: "البحث عن الأطباء في تطبيق المرضى",
@@ -1426,8 +1426,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       st8p: "They book and follow their turn on WhatsApp, by link or with their printed ticket.",
       st8t: "apps to install, and 0 DZD for your patients to pay",
       sn8: "0",
-      st7p: "Encrypted backups, and a sealed activity log you can show during an inspection.",
-      st7t: "of your data hosted in Algeria",
+      st7p: "From launch: encrypted backups, and a sealed activity log you can show during an inspection.",
+      st7t: "of your patients' data hosted in Algeria",
       sn7: "100%",
       swS4p: "Keep the old tool until you're sure. Attached to your current medical records? Medica runs the front desk alongside them.",
       swS4t: "30 days side by side",
@@ -1565,7 +1565,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       prPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
       prMicro: "We'll call you before launch. Nothing to pay today.",
       prSend: "Claim my 10% off",
-      plConsent: "I agree that Medica may use this information to contact me about the launch.",
+      plConsent: "I agree that Medica may use this information to contact me about the launch. Until launch, it is kept in Medica's Google workspace.",
       plWilaya: "Wilaya (optional)",
       plDocs: "Number of doctors",
       plSpec: "Specialty",
@@ -1631,7 +1631,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       calcTitle: "Work out your price", calcDocs: "Number of doctors", cycM: "Monthly", cycY: "Yearly · 2 months free",
       incTitle: "Everything included", inc1: "Live queue and tickets", inc2: "Custom visit types and durations", inc3: "Page, QR code and patient app", inc4: "Automatic reminders, nothing to send by hand", inc5: "Call screen, day sheet and dashboard", inc6: "Free, unlimited reception accounts", inc7: "Built-in \"How do I…?\" help",
       addonT: "Assistant Medica add-on", addonP: "One-tap tasks, typed requests and automations. Included during the trial.", addonPrice: "+600 DZD / month per practice",
-      priceFine: "A doctor counts when they have bookable hours in the month; pause a visiting doctor any time. Push reminders included, plus 400 automatic WhatsApp messages per doctor per month; beyond that, and for SMS, prepaid credits. Data hosted in Algeria. More than 10 doctors, multiple sites or imaging centres: on quote. Pay by bank transfer, CCP/BaridiMob or cash with an invoice; CIB / Edahabia card payment follows after certification.",
+      priceFine: "A doctor counts when they have bookable hours in the month; pause a visiting doctor any time. Push reminders included, plus 400 automatic WhatsApp messages per doctor per month; beyond that, and for SMS, prepaid credits. Patient data hosted in Algeria. More than 10 doctors, multiple sites or imaging centres: on quote. Pay by bank transfer, CCP/BaridiMob or cash with an invoice; CIB / Edahabia card payment follows after certification.",
       iEyebrow: "Let's build Medica together", iTitle1: "Missing something?", iTitle2: "Tell us.",
       iLede: "A dentist, a pediatrician and an imaging centre don't need the same things. Tell us your specialty: every idea is read, sorted by specialty, and the most requested ones join the roadmap.",
       f1t: "You suggest", f1p: "Your specialty, your need, and how often you'd use it.", f2t: "We read every week", f2p: "Each idea is sorted by specialty and how often it's needed. Daily needs come first.",
@@ -1648,7 +1648,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lDetails: "What problem would it solve for you?", hDetails: "Describe how you do it today and what would save you time. 20 characters minimum.",
       lFreq: "You'd need it", frD: "The front-desk essentials for one doctor, free. Move to Solo when you want the automatic WhatsApp line, online booking and remote tickets.", frW: "Every week", frS: "Now and then",
       lName: "Your name (optional)", lContact: "Phone or email (optional)", lUpdates: "Let me know when this idea is available",
-      lConsent: "I agree that Medica may use this information to study my request and, if I asked, to contact me.",
+      lConsent: "I agree that Medica may use this information to study my request and, if I asked, to contact me. Until launch, it is kept in Medica's Google workspace.",
       fmSend: "Send my idea", fmPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
       fmDoneT: "Thank you, your idea is in", fmDoneP: "We'll read it this week and sort it with others from your specialty. Vote for roadmap ideas too.", fmAgain: "Suggest another idea",
       faTitle: "Everything we have planned, at a glance", faLede: "What arrives at launch, what follows right after, and what comes next.", faNow: "At launch", faSoon: "Coming soon", faLater: "Next", themeDark: "Dark theme", themeLight: "Light theme", fa_now0: "Live queue: appointments and walk-ins in the same line", fa_now1: "A ticket and a visit time for every patient", fa_now2: "Live position on the patient's phone", fa_now3: "Call screen for the waiting room", fa_now4: "Booking by link, QR code or installable web page, no password", fa_now5: "Book for a child or a parent", fa_now6: "\"My appointments\": cancel or move without calling", fa_now7: "Visit types by specialty, durations set by each doctor", fa_now8: "No double booking, ever", fa_now9: "Walk-ins added in 3 taps", fa_now10: "\"Doctor running late\": patients told automatically", fa_now11: "Automatic reminders the day before, 1 hour and 15 minutes before: push, SMS or WhatsApp, each one tracked", fa_now12: "Import your patients and appointments from Excel or CSV, with preview and undo", fa_now13: "Next appointment set at the end of each visit", fa_now14: "No-show tracking, patient by patient", fa_now15: "Printable day sheet, ticket available offline", fa_now16: "If the internet drops: a clear banner, last-sync time and a guided catch-up", fa_now17: "Doctors verified by their Medical Council number", fa_now18: "Arabic, French and English", fa_now19: "Practice page, logo and QR poster for the desk", fa_now20: "Dashboard: patients seen, no-shows, online bookings", fa_now21: "\"Today\" screen for reception, Android app for the doctor", fa_now22: "Free reception accounts, roles and change history", fa_now23: "Export your patients and appointments any time", fa_soon0: "Patient Android app, if our first practices ask for it", fa_soon1: "Verified reviews after a real visit", fa_soon2: "Assistant Medica (add-on) and \"How do I…?\" help", fa_soon3: "\"Your pace\": your real durations suggested", fa_later0: "Automations suggested by the assistant", fa_later1: "iOS apps", fa_later2: "Multi-site clinics", fa_later3: "Doctor search in the patient app",
