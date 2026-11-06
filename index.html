@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Medica</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Medica : rendez-vous, file d'attente en direct et rappels pour cabinets médicaux, dentaires et cliniques en Algérie.">
+<meta name="description" content="Medica : rendez-vous, file d'attente en direct et rappels pour cabinets, centres de soins et cliniques en Algérie, toutes spécialités.">
 <script>document.documentElement.classList.add("js");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -300,19 +300,94 @@ html[lang="ar"] .hero h1 { line-height: 1.25; max-width: 14ch; }
 .example-note { font-size: .85rem; color: var(--muted); margin-top: 14px; }
 @media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } .demo-visual { min-height: 520px; } }
 
-/* What's inside */
+/* Specialties explorer: a typical morning per specialty (navy band) */
+.spx { background: var(--night); color: #fff; --v0: #8FA8FF; --v1: #F5B547; --v2: #62D2AA; }
+.spx .lede { color: rgba(255, 255, 255, .76); }
+.spx-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.spx-tabs { display: grid; gap: 2px; padding-inline-end: clamp(12px, 2vw, 24px); border-inline-end: 1px solid rgba(255, 255, 255, .14); }
+.spx-tab { text-align: start; min-height: 44px; padding: 10px 14px; border: 0; border-radius: var(--r); background: transparent; color: rgba(255, 255, 255, .72); font: 500 .98rem/1.3 var(--sans); cursor: pointer; transition: background .25s, color .25s; }
+.spx-tab:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.spx-tab[aria-selected="true"] { background: rgba(255, 255, 255, .12); color: #fff; font-weight: 600; }
+.spx-tab:focus-visible, .spx-missing:focus-visible { outline: 2px solid var(--v0); outline-offset: 1px; }
+.spx-panel { display: grid; gap: 22px; min-width: 0; }
+.spx-panel:focus { outline: none; }
+.spx-panel:focus-visible { outline: 2px solid var(--v0); outline-offset: 10px; border-radius: var(--r); }
+.spx-day { display: grid; gap: 10px; }
+.spx-day-h { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; }
+.spx-day-h h3 { font: 400 clamp(1.8rem, 3.2vw, 2.6rem)/1.1 var(--serif); letter-spacing: -.01em; }
+html[lang="ar"] .spx-day-h h3 { line-height: 1.35; letter-spacing: 0; }
+.spx-day-h span { font-size: .9rem; color: rgba(255, 255, 255, .64); }
+.spx-track { display: flex; gap: 3px; height: 64px; }
+.spx-track i { flex: 1 1 0; min-width: 2px; border-radius: 4px; background: var(--c); transform-origin: left center; }
+[dir="rtl"] .spx-track i { transform-origin: right center; }
+.spx .v0 { --c: var(--v0); } .spx .v1 { --c: var(--v1); } .spx .v2 { --c: var(--v2); }
+.spx-track.go i { animation: spxGrow .9s var(--ease) both; }
+@keyframes spxGrow { from { transform: scaleX(0); opacity: 0; } }
+.spx-ruler { display: flex; justify-content: space-between; font: 500 .78rem var(--mono); color: rgba(255, 255, 255, .55); }
+.spx-visits { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 24px; }
+.spx-visits li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px 0; border-top: 1px solid rgba(255, 255, 255, .14); font-size: .95rem; }
+.spx-visits .sw { width: 12px; height: 12px; border-radius: 3px; background: var(--c); }
+.spx-visits .mono { color: rgba(255, 255, 255, .72); font-size: .85rem; white-space: nowrap; }
+.spx-note { font-size: .88rem; color: rgba(255, 255, 255, .62); margin-top: -10px; }
+.spx-cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px 40px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, .14); }
+.spx-cols h4 { font: 600 .9rem var(--sans); color: rgba(255, 255, 255, .64); margin-bottom: 12px; }
+.spx-cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.spx-cols li { line-height: 1.45; }
+.spx-cols .ph { color: var(--v1); font-weight: 600; margin-inline-end: 8px; }
+.spx-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding-top: 4px; }
+.spx-missing { color: #fff; font-weight: 600; text-underline-offset: 4px; }
+.spx-panel.swap .spx-anim { animation: spxFade .5s var(--ease) both; }
+@keyframes spxFade { from { opacity: 0; transform: translateY(8px); } }
+.spx-types { margin-top: clamp(56px, 7vw, 96px); display: grid; gap: 24px; }
+.spx-types h3 { font: 400 clamp(1.6rem, 2.6vw, 2.1rem)/1.15 var(--serif); }
+html[lang="ar"] .spx-types h3 { line-height: 1.4; }
+.spx-types ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+.spx-types li { display: grid; gap: 8px; align-content: start; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .24); }
+.spx-types b { font: 600 1.05rem/1.3 var(--sans); }
+.spx-types p { color: rgba(255, 255, 255, .74); font-size: .95rem; }
+@media (max-width: 900px) {
+  .spx-grid { grid-template-columns: 1fr; }
+  .spx-tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; border: 0; margin-inline: -16px; padding: 2px 16px 6px; scroll-padding-inline: 16px; }
+  .spx-tabs::-webkit-scrollbar { display: none; }
+  .spx-tab { flex: none; white-space: nowrap; border: 1px solid rgba(255, 255, 255, .22); min-height: 42px; }
+  .spx-tab[aria-selected="true"] { background: #fff; color: #0F1730; border-color: #fff; }
+  .spx-types ul { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  .spx-visits { grid-template-columns: 1fr; }
+  .spx-cols { grid-template-columns: 1fr; }
+  .spx-track { gap: 2px; height: 48px; }
+  .spx-types ul { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* What's inside: six areas, three stages */
 .fidx { display: grid; gap: 28px; }
-.fidx-cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
-.fcol { min-width: 0; }
-.fhead { font: 600 1.05rem var(--sans); padding-bottom: 12px; border-bottom: 2px solid var(--ink); display: flex; justify-content: space-between; }
-.fa-soon .fhead { border-color: var(--sun); } .fa-later .fhead { border-color: var(--line); }
-.fcol ul { list-style: none; margin: 0; padding: 0; }
-.fcol li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
-.fa-now ul { columns: 2; column-gap: 24px; }
-.fa-now li { break-inside: avoid; }
-.fa-soon li, .fa-later li { color: var(--muted); }
-@media (max-width: 1000px) { .fidx-cols { grid-template-columns: 1fr 1fr; } .fa-now { grid-column: 1 / -1; } }
-@media (max-width: 640px) { .fidx-cols { grid-template-columns: 1fr; } .fa-now ul { columns: 1; } }
+.fmx { display: grid; --cols: minmax(150px, .75fr) minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr); }
+.fmx-head, .fmx-row { display: grid; grid-template-columns: var(--cols); gap: 32px; }
+.fmx-head { position: sticky; top: 68px; z-index: 2; background: var(--sunk); padding: 16px 0 14px; border-bottom: 2px solid var(--ink); }
+.fmx-hc { display: flex; align-items: baseline; gap: 4px 10px; flex-wrap: wrap; }
+.fmx-hc b { font: 600 1.05rem var(--sans); display: inline-flex; align-items: center; gap: 8px; }
+.fmx-hc b::before, .fmx-ph::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex: none; }
+.fmx-hc small { font-size: .8rem; color: var(--muted); }
+.fmx [data-phase="now"] { --dot: var(--accent); }
+.fmx [data-phase="soon"] { --dot: var(--sun); }
+.fmx [data-phase="later"] { --dot: color-mix(in srgb, var(--muted) 60%, transparent); }
+.fmx-row { padding: 26px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.fmx-area { font: 400 1.4rem/1.2 var(--serif); }
+html[lang="ar"] .fmx-area { line-height: 1.45; }
+.fmx-ph { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.fmx-cell ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fmx-cell li { position: relative; padding-inline-start: 18px; font-size: .95rem; line-height: 1.45; }
+.fmx-cell li::before { content: ""; position: absolute; inset-inline-start: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--dot); }
+.fmx-cell[data-phase="soon"] li, .fmx-cell[data-phase="later"] li { color: var(--muted); }
+.fmx-none { grid-column: span 2; color: var(--muted); font-size: .95rem; }
+@media (max-width: 860px) {
+  .fmx-head { position: static; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .fmx-head > span:first-child, .fmx-empty { display: none; }
+  .fmx-row { grid-template-columns: 1fr; gap: 16px; padding: 24px 0; }
+  .fmx-ph { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; display: flex; align-items: center; gap: 8px; font: 600 .85rem var(--sans); color: var(--muted); margin-bottom: 8px; }
+  .fmx-none { grid-column: auto; }
+}
 
 /* Pricing */
 .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; margin-top: 12px; }
@@ -435,6 +510,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .done h3 { font: 400 1.5rem var(--serif); color: var(--ink); }
 .preview-note { font-size: .88rem; color: var(--muted); border-inline-start: 3px solid var(--sun); padding-inline-start: 10px; }
 .form-micro { font-size: .88rem; color: var(--muted); }
+.grid2:has(#spec-other-wrap[hidden]) .f-wil { grid-column: 1 / -1; }
 .counter { font-family: var(--mono); font-size: .8rem; color: var(--muted); justify-self: end; direction: ltr; }
 
 /* Ideas + roadmap */
@@ -527,7 +603,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <a class="brand" href="#top" data-i18n="brand">medica</a>
     <nav class="navlinks" aria-label="Medica">
       <a href="#matin" data-i18n="nav1">Le problème</a>
-      <a href="#produit" data-i18n="nav3">Produit</a>
+      <a href="#produit" data-i18n="nav3">Produit</a><a href="#specialites" data-i18n="nav6">Spécialités</a>
       <a href="#demo" data-i18n="nav2">Démo</a>
       <a href="#tarifs" data-i18n="nav4">Tarifs</a>
       <a href="#idees" data-i18n="nav5">Vos idées</a>
@@ -539,7 +615,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <button type="button" class="theme-btn" id="theme-toggle" aria-label="Thème sombre" aria-pressed="false"><svg class="sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
-      <a class="btn btn-light" href="#preinscription" data-i18n="navCta">Pré-inscription −10 %</a>
+      <a class="btn btn-light" href="#preinscription" data-i18n="navCta">Pré-inscription</a>
     </div>
   </div>
 </header>
@@ -551,10 +627,10 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="hero-media"><img src="https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=2000&q=78" srcset="https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=900&q=75 900w, https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=1500&q=76 1500w, https://images.unsplash.com/photo-1779378027650-3930e4d9f429?auto=format&fit=crop&w=2200&q=78 2200w" sizes="100vw" alt="" width="2200" height="1472" fetchpriority="high"></div>
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <p class="hero-kicker" data-i18n="heroPill">Pré-inscriptions ouvertes · −10 % les 3 premiers mois</p>
+      <p class="hero-kicker" data-i18n="heroPill">Pré-inscriptions ouvertes · 5 à 8 cabinets pilotes</p>
       <h1 data-i18n="heroH1">Votre salle d'attente, enfin calme.</h1>
       <div class="hero-cta">
-        <a class="btn btn-primary btn-split" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn-primary btn-split" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         <a class="btn btn-glass" href="#demo" data-i18n="heroCta2">Essayer la démo</a>
       </div>
     </div>
@@ -572,7 +648,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           <nav><span class="on" data-i18n="apToday">Aujourd'hui</span><span data-i18n="apAgenda">Agenda</span><span data-i18n="apPatients">Patients</span><span data-i18n="apRem">Rappels</span><span data-i18n="apStats">Statistiques</span></nav>
         </aside>
         <div class="app-main">
-          <div class="app-top"><div><h4 data-i18n="apHello">Bonjour, Dr Benali</h4><small data-i18n="apDate">Mardi · cabinet dentaire · données d'exemple</small></div><span class="app-search" data-i18n="apSearch">Rechercher un patient…</span></div>
+          <div class="app-top"><div><h4 data-i18n="apHello">Bonjour, Dr Benali</h4><small data-i18n="apDate">Mardi · cabinet de groupe · données d'exemple</small></div><span class="app-search" data-i18n="apSearch">Rechercher un patient…</span></div>
           <div class="kpis">
             <div class="kpi"><small data-i18n="k1">Patients aujourd'hui</small><b>18</b><span data-i18n="k1s">12 en ligne · 6 sur place</span></div>
             <div class="kpi"><small data-i18n="k2">En salle d'attente</small><b>3</b><span data-i18n="k2s">5 chaises libres</span></div>
@@ -634,14 +710,14 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     </div>
     <div class="bento">
       <article class="card c-a reveal">
-        <h3 data-i18n="b1t">Un contrôle n'est pas une extraction</h3>
+        <h3 data-i18n="b1t">Chaque visite à sa vraie durée</h3>
         <p data-i18n="b1p">Les types de visite de votre spécialité sont déjà prêts. Ajustez les minutes, et Medica vous propose votre vraie moyenne après 20 visites.</p>
         <div class="ui">
           <div class="vt">
-            <div class="vt-row"><span data-i18n="vt1">Consultation</span><span class="bar"><i style="--w:50%"></i></span><span class="min">20 min</span></div>
-            <div class="vt-row"><span data-i18n="vt2">Détartrage</span><span class="bar"><i style="--w:75%"></i></span><span class="min">30 min</span></div>
-            <div class="vt-row"><span data-i18n="vt3">Soin carie</span><span class="bar"><i style="--w:100%"></i></span><span class="min">40 min</span></div>
-            <div class="vt-row"><span data-i18n="vt4">Contrôle</span><span class="bar"><i style="--w:37.5%"></i></span><span class="min">15 min</span></div>
+            <div class="vt-row"><span data-i18n="vt1">Consultation</span><span class="bar"><i style="--w:66.7%"></i></span><span class="min">20 min</span></div>
+            <div class="vt-row"><span data-i18n="vt2">Vaccination</span><span class="bar"><i style="--w:33.3%"></i></span><span class="min">10 min</span></div>
+            <div class="vt-row"><span data-i18n="vt3">Échographie</span><span class="bar"><i style="--w:100%"></i></span><span class="min">30 min</span></div>
+            <div class="vt-row"><span data-i18n="vt4">Contrôle</span><span class="bar"><i style="--w:50%"></i></span><span class="min">15 min</span></div>
           </div>
           <div class="learn"><span data-i18n="vtLearn">Votre moyenne réelle pour « Contrôle » : <b>12 min</b></span><span class="apply" data-i18n="vtApply">Appliquer</span></div>
         </div>
@@ -660,7 +736,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
         <p data-i18n="b3p">Par un lien, un QR code ou WhatsApp, sans application ni frais. Pour soi, un enfant ou un parent, et chacun suit son tour en direct.</p>
         <div class="ui tk" id="tk" role="img" aria-label="Ticket 07, 3 patients avant vous">
           <div class="tk-board"><div><small data-i18n="pNowS">En consultation</small><span data-i18n="pNow">Ticket appelé</span></div><div class="digits" id="tk-now"><span>04</span></div></div>
-          <div class="tk-row"><div><div data-i18n="pYours">Votre ticket</div><div class="when" data-i18n="pWhen">Détartrage · Dr. Exemple</div></div><span class="num">07</span></div>
+          <div class="tk-row"><div><div data-i18n="pYours">Votre ticket</div><div class="when" data-i18n="pWhen">Consultation · Dr. Exemple</div></div><span class="num">07</span></div>
           <div class="meter" aria-hidden="true"><span id="tk-meter"></span></div>
           <div class="tk-meta"><span><span data-i18n="pAhead1">Avant vous :</span> <b class="mono" id="tk-ahead">3</b></span><span><span data-i18n="pWait1">Attente ≈</span> <b class="mono" id="tk-wait">25 min</b></span></div>
         </div>
@@ -750,60 +826,92 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   </div>
 </section>
 
-<!-- WHAT'S INSIDE -->
+<!-- SPECIALTIES: a typical morning, per specialty -->
+<section id="specialites" class="spx" aria-labelledby="spx-title">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <h2 id="spx-title"><span data-i18n="spxT1">Votre spécialité,</span> <em data-i18n="spxT2">votre façon de travailler.</em></h2>
+      <p class="lede" data-i18n="spxLede">Choisissez votre spécialité pour voir une matinée type : chaque visite à sa vraie durée, ce que Medica fait dès le lancement, et ce qui arrive pour vous.</p>
+    </div>
+    <div class="spx-grid reveal">
+      <div class="spx-tabs" role="tablist" aria-orientation="vertical" id="spx-tabs" aria-label="Spécialités"></div>
+      <div class="spx-panel" id="spx-panel" role="tabpanel" tabindex="0">
+        <div class="spx-day">
+          <div class="spx-day-h"><h3 id="spx-name" class="spx-anim"></h3><span data-i18n="spxMorning">Une matinée type</span></div>
+          <div class="spx-track" id="spx-track" aria-hidden="true"></div>
+          <div class="spx-ruler" aria-hidden="true"><span>08:00</span><span>09:00</span><span>10:00</span><span>11:00</span><span>12:00</span></div>
+        </div>
+        <ul class="spx-visits spx-anim" id="spx-visits"></ul>
+        <p class="spx-note" data-i18n="spxNote">Durées d'exemple : chaque médecin règle les siennes, et Medica propose sa vraie moyenne après 20 visites.</p>
+        <div class="spx-cols spx-anim">
+          <div><h4 data-i18n="spxNow">Dès le lancement</h4><ul id="spx-now"></ul></div>
+          <div><h4 data-i18n="spxPlan">Prévu pour vous</h4><ul id="spx-plan"></ul></div>
+        </div>
+        <div class="spx-foot">
+          <a class="btn btn-primary btn-split" href="#preinscription" id="spx-cta"><span data-i18n="heroCta1">Me pré-inscrire</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          <a class="spx-missing" href="#idees" data-i18n="spxMissing">Votre spécialité n'est pas dans la liste ? Dites-nous ce qu'il vous faut</a>
+        </div>
+      </div>
+    </div>
+    <div class="spx-types reveal">
+      <h3 data-i18n="spxTypes">Du cabinet seul à la polyclinique</h3>
+      <ul>
+        <li><b data-i18n="ty1t">Seul, sans secrétaire</b><p data-i18n="ty1p">Vos patients prennent leur ticket par QR code ou WhatsApp, et vous appelez le suivant depuis votre téléphone.</p></li>
+        <li><b data-i18n="ty2t">Cabinet de groupe, 2 à 5 médecins</b><p data-i18n="ty2p">Une file par médecin, des salles, un écran d'appel commun, et une caisse qui garde la part de chaque médecin.</p></li>
+        <li><b data-i18n="ty3t">Clinique ou polyclinique</b><p data-i18n="ty3p">Plusieurs services sur un même site. Bientôt, la box Medica Edge garde tout le site relié sans internet ; le multi-sites vient ensuite.</p></li>
+        <li><b data-i18n="ty4t">Centres d'imagerie et laboratoires</b><p data-i18n="ty4p">File d'examens et tickets dès le lancement, et la foule de 7 h disparaît. Un pack dédié vient ensuite.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE: six areas, three stages -->
 <section id="inside" class="band">
   <div class="wrap fidx">
-    <div class="center-head reveal" style="margin-bottom:12px"><h2 data-i18n="faTitle">Tout ce que nous avons prévu, en un coup d'œil</h2><p class="lede" data-i18n="faLede">Ce qui arrive au lancement, ce qui suit juste après, et ce qui vient ensuite.</p></div>
-    <div class="fidx-cols reveal">
-        <div class="fcol fa-now"><h3 class="fhead" data-i18n="faNow">Au lancement</h3><ul>
-          <li data-i18n="fx_now0">File d'attente en direct : rendez-vous et sans rendez-vous dans la même file</li>
-          <li data-i18n="fx_now1">Un ticket et une heure de passage pour chaque patient, imprimé avec un QR code</li>
-          <li data-i18n="fx_now2">La position en direct sur le téléphone du patient, sans application</li>
-          <li data-i18n="fx_now3">La ligne WhatsApp du cabinet, sur votre propre numéro</li>
-          <li data-i18n="fx_now4">Boîte WhatsApp partagée pour l'accueil : fini le téléphone personnel</li>
-          <li data-i18n="fx_now5">Réservation par lien, QR code ou WhatsApp, pour soi, un enfant ou un parent</li>
-          <li data-i18n="fx_now6">« Mes rendez-vous » : annuler ou déplacer sans appeler</li>
-          <li data-i18n="fx_now7">Types de visite par spécialité, durées réglées par chaque médecin</li>
-          <li data-i18n="fx_now8">Aucune double réservation possible, même hors connexion</li>
-          <li data-i18n="fx_now9">Patient sans rendez-vous ajouté en 3 gestes</li>
-          <li data-i18n="fx_now10">« Le docteur a du retard » : les bons patients prévenus en un geste</li>
-          <li data-i18n="fx_now11">Rappels automatiques la veille, 1 h et 15 min avant, chaque envoi suivi</li>
-          <li data-i18n="fx_now12">Plusieurs médecins : répartition des patients, salles et écran d'appel commun</li>
-          <li data-i18n="fx_now13">Écran d'appel avec annonce vocale en arabe et en français</li>
-          <li data-i18n="fx_now14">Prochain rendez-vous fixé en fin de consultation</li>
-          <li data-i18n="fx_now15">Caisse : tarifs, encaissements, reçus et clôture du jour scellée</li>
-          <li data-i18n="fx_now16">Si internet coupe, le poste d'accueil continue, puis tout se resynchronise</li>
-          <li data-i18n="fx_now17">Données hébergées en Algérie, journal d'activité scellé</li>
-          <li data-i18n="fx_now18">Import de vos patients depuis Excel, CSV ou votre logiciel actuel</li>
-          <li data-i18n="fx_now19">Médecins vérifiés : carte de l'Ordre et documents contrôlés</li>
-          <li data-i18n="fx_now20">Arabe, français et anglais</li>
-          <li data-i18n="fx_now21">Page du cabinet, logo et affiche QR pour l'accueil</li>
-          <li data-i18n="fx_now22">Comptes réception gratuits, rôles et historique des changements</li>
-          <li data-i18n="fx_now23">Vos patients et rendez-vous exportables à tout moment</li>
-        </ul></div>
-        <div class="fcol fa-soon"><h3 class="fhead" data-i18n="faSoon">Bientôt</h3><ul>
-          <li data-i18n="fx_soon0">Pack dentaire : fauteuils, plans de traitement en plusieurs séances, paiements échelonnés, laboratoires</li>
-          <li data-i18n="fx_soon1">Rappels de suivi : contrôle à 6 mois, détartrage annuel</li>
-          <li data-i18n="fx_soon2">Liste d'attente : les créneaux libérés reproposés automatiquement</li>
-          <li data-i18n="fx_soon3">Medica Edge : tout le cabinet continue sans internet, écran et imprimante compris</li>
-          <li data-i18n="fx_soon4">Bouton d'appel pour le médecin, sans toucher d'écran</li>
-          <li data-i18n="fx_soon5">Statistiques : attente réelle, absences, revenus par médecin, comparaison anonyme</li>
-          <li data-i18n="fx_soon6">Paiement de l'abonnement par carte CIB / Edahabia, après certification</li>
-          <li data-i18n="fx_soon7">Assistant Medica (option) et aide « Comment faire… ? »</li>
-          <li data-i18n="fx_soon8">Application patients Android, si nos premiers cabinets la demandent</li>
-          <li data-i18n="fx_soon9">Avis vérifiés après une vraie visite</li>
-        </ul></div>
-        <div class="fcol fa-later"><h3 class="fhead" data-i18n="faLater">Ensuite</h3><ul>
-          <li data-i18n="fx_later0">Ordonnances avec la nomenclature nationale, certificats et courriers, après autorisation de l'ANPDP</li>
-          <li data-i18n="fx_later1">Notes de consultation chiffrées avec vos propres clés</li>
-          <li data-i18n="fx_later2">Tableau de bord du propriétaire sur téléphone</li>
-          <li data-i18n="fx_later3">Un seul agenda pour toutes vos sources de réservation</li>
-          <li data-i18n="fx_later4">API et liens avec la comptabilité</li>
-          <li data-i18n="fx_later5">Cliniques multi-sites</li>
-          <li data-i18n="fx_later6">Centres d'imagerie et laboratoires</li>
-          <li data-i18n="fx_later7">Applications iOS</li>
-        </ul></div>
+    <div class="center-head reveal" style="margin-bottom:12px"><h2 data-i18n="faTitle">Tout ce que nous avons prévu, en un coup d'œil</h2><p class="lede" data-i18n="faLede">Six domaines, trois étapes : ce qui est prêt au lancement, ce qui suit juste après, et ce qui vient ensuite. Pour toutes les spécialités.</p></div>
+    <div class="fmx reveal" id="fmx">
+      <div class="fmx-head" aria-hidden="true">
+        <span></span>
+        <span class="fmx-hc" data-phase="now"><b data-i18n="faNow">Au lancement</b><small class="mono" data-count="now"></small></span>
+        <span class="fmx-hc" data-phase="soon"><b data-i18n="faSoon">Bientôt</b><small class="mono" data-count="soon"></small></span>
+        <span class="fmx-hc" data-phase="later"><b data-i18n="faLater">Ensuite</b><small class="mono" data-count="later"></small></span>
       </div>
+        <article class="fmx-row">
+          <h3 class="fmx-area" data-i18n="faA1">Accueil et file d'attente</h3>
+          <div class="fmx-cell" data-phase="now"><h4 class="fmx-ph" data-i18n="faNow">Au lancement</h4><ul><li data-i18n="fx_now0">File d'attente en direct : rendez-vous et sans rendez-vous dans la même file</li><li data-i18n="fx_now1">Un ticket et une heure de passage pour chaque patient, imprimé avec un QR code</li><li data-i18n="fx_now9">Patient sans rendez-vous ajouté en 3 gestes</li><li data-i18n="fx_now12">Plusieurs médecins : répartition des patients, salles et écran d'appel commun</li><li data-i18n="fx_now13">Écran d'appel avec annonce vocale en arabe, en français et en anglais</li></ul></div>
+          <div class="fmx-cell" data-phase="soon"><h4 class="fmx-ph" data-i18n="faSoon">Bientôt</h4><ul><li data-i18n="fx_soon2">Liste d'attente : les créneaux libérés reproposés automatiquement</li><li data-i18n="fx_soon4">Bouton d'appel pour le médecin, sans toucher d'écran</li></ul></div>
+          <div class="fmx-cell" data-phase="later"><h4 class="fmx-ph" data-i18n="faLater">Ensuite</h4><ul><li data-i18n="fx_later3">Un seul agenda pour toutes vos sources de réservation</li></ul></div>
+        </article>
+        <article class="fmx-row">
+          <h3 class="fmx-area" data-i18n="faA2">Patients et messages</h3>
+          <div class="fmx-cell" data-phase="now"><h4 class="fmx-ph" data-i18n="faNow">Au lancement</h4><ul><li data-i18n="fx_now2">La position en direct sur le téléphone du patient, sans application</li><li data-i18n="fx_now3">La ligne WhatsApp du cabinet, sur votre propre numéro</li><li data-i18n="fx_now4">Boîte WhatsApp partagée pour l'accueil : fini le téléphone personnel</li><li data-i18n="fx_now5">Réservation par lien, QR code ou WhatsApp, pour soi, un enfant ou un parent</li><li data-i18n="fx_now6">« Mes rendez-vous » : annuler ou déplacer sans appeler</li><li data-i18n="fx_now10">« Le docteur a du retard » : les bons patients prévenus en un geste</li><li data-i18n="fx_now11">Rappels automatiques la veille, 1 h et 15 min avant, chaque envoi suivi</li></ul></div>
+          <div class="fmx-cell" data-phase="soon"><h4 class="fmx-ph" data-i18n="faSoon">Bientôt</h4><ul><li data-i18n="fx_soon1">Rappels de suivi selon votre spécialité : contrôle annuel, bilan, séance à reprendre</li><li data-i18n="fx_soon10">Rappels de vaccination selon le calendrier national, pour les parents qui le souhaitent</li><li data-i18n="fx_soon9">Avis vérifiés après une vraie visite</li><li data-i18n="fx_soon8">Application patients Android, si nos premiers cabinets la demandent</li></ul></div>
+          <div class="fmx-cell" data-phase="later"><h4 class="fmx-ph" data-i18n="faLater">Ensuite</h4><ul><li data-i18n="fx_later7">Applications iOS</li></ul></div>
+        </article>
+        <article class="fmx-row">
+          <h3 class="fmx-area" data-i18n="faA3">Médecins et spécialités</h3>
+          <div class="fmx-cell" data-phase="now"><h4 class="fmx-ph" data-i18n="faNow">Au lancement</h4><ul><li data-i18n="fx_now7">Types de visite par spécialité, durées réglées par chaque médecin</li><li data-i18n="fx_now14">Prochain rendez-vous fixé en fin de consultation</li></ul></div>
+          <div class="fmx-cell" data-phase="soon"><h4 class="fmx-ph" data-i18n="faSoon">Bientôt</h4><ul><li data-i18n="fx_soon0">Pack dentaire : fauteuils, schéma dentaire, devis, plans de traitement en plusieurs séances, paiements échelonnés, laboratoires</li><li data-i18n="fx_soon7">Assistant Medica (option) et aide « Comment faire… ? »</li></ul></div>
+          <div class="fmx-cell" data-phase="later"><h4 class="fmx-ph" data-i18n="faLater">Ensuite</h4><ul><li data-i18n="fx_later0">Ordonnances avec la nomenclature nationale, certificats et courriers, après autorisation de l'ANPDP</li><li data-i18n="fx_later1">Notes de consultation chiffrées avec vos propres clés</li><li data-i18n="fx_later6">Centres d'imagerie et laboratoires</li></ul></div>
+        </article>
+        <article class="fmx-row">
+          <h3 class="fmx-area" data-i18n="faA4">Caisse et gestion</h3>
+          <div class="fmx-cell" data-phase="now"><h4 class="fmx-ph" data-i18n="faNow">Au lancement</h4><ul><li data-i18n="fx_now15">Caisse : tarifs, encaissements, reçus et clôture du jour scellée</li></ul></div>
+          <div class="fmx-cell" data-phase="soon"><h4 class="fmx-ph" data-i18n="faSoon">Bientôt</h4><ul><li data-i18n="fx_soon5">Statistiques : attente réelle, absences, revenus par médecin, comparaison anonyme</li><li data-i18n="fx_soon6">Paiement de l'abonnement par carte CIB / Edahabia, après certification</li></ul></div>
+          <div class="fmx-cell" data-phase="later"><h4 class="fmx-ph" data-i18n="faLater">Ensuite</h4><ul><li data-i18n="fx_later2">Tableau de bord du propriétaire sur téléphone</li><li data-i18n="fx_later4">API et liens avec la comptabilité</li><li data-i18n="fx_later5">Cliniques multi-sites</li></ul></div>
+        </article>
+        <article class="fmx-row">
+          <h3 class="fmx-area" data-i18n="faA5">Fiabilité et confiance</h3>
+          <div class="fmx-cell" data-phase="now"><h4 class="fmx-ph" data-i18n="faNow">Au lancement</h4><ul><li data-i18n="fx_now8">Aucune double réservation possible, même hors connexion</li><li data-i18n="fx_now16">Si internet coupe, le poste d'accueil continue, puis tout se resynchronise</li><li data-i18n="fx_now17">Données hébergées en Algérie, journal d'activité scellé</li><li data-i18n="fx_now19">Médecins vérifiés : carte de l'Ordre et documents contrôlés</li><li data-i18n="fx_now22">Comptes réception gratuits, rôles et historique des changements</li></ul></div>
+          <div class="fmx-cell" data-phase="soon"><h4 class="fmx-ph" data-i18n="faSoon">Bientôt</h4><ul><li data-i18n="fx_soon3">Medica Edge : tout le cabinet continue sans internet, écran et imprimante compris</li></ul></div>
+          <div class="fmx-cell fmx-empty" aria-hidden="true"></div>
+        </article>
+        <article class="fmx-row">
+          <h3 class="fmx-area" data-i18n="faA6">Mise en route</h3>
+          <div class="fmx-cell" data-phase="now"><h4 class="fmx-ph" data-i18n="faNow">Au lancement</h4><ul><li data-i18n="fx_now18">Import de vos patients depuis Excel, CSV ou votre logiciel actuel</li><li data-i18n="fx_now20">Arabe, français et anglais</li><li data-i18n="fx_now21">Page du cabinet, logo et affiche QR pour l'accueil</li><li data-i18n="fx_now23">Vos patients et rendez-vous exportables à tout moment</li></ul></div>
+          <p class="fmx-none" data-i18n="faAll">Tout est prêt dès le lancement.</p>
+        </article>
+    </div>
   </div>
 </section>
 
@@ -812,7 +920,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="wrap">
     <div class="center-head reveal">
       <h2><span data-i18n="priceTitle1">Un seul abonnement.</span> <em data-i18n="priceTitle2">Au nombre de médecins.</em></h2>
-      <p class="lede" data-i18n="priceLede">Commencez gratuitement. Pour la ligne WhatsApp, la réservation en ligne et les tickets à distance : 2 900 DA pour un médecin, 2 200 DA par médecin dès deux. Aucune commission, et rien à payer pour vos patients.</p>
+      <p class="lede" data-i18n="priceLede">Commencez gratuitement. Pour la ligne WhatsApp, la réservation en ligne et les tickets à distance : 6 900 DA pour un médecin, 5 900 DA par médecin de 2 à 5. Aucune commission, et rien à payer pour vos patients.</p>
       <div class="seg" role="group" aria-label="Medica" style="justify-self:center">
         <button type="button" id="cyc-m" aria-pressed="true" data-i18n="cycM">Mensuel</button>
         <button type="button" id="cyc-y" aria-pressed="false" data-i18n="cycY">Annuel · 2 mois offerts</button>
@@ -830,23 +938,23 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
     <div class="plans">
       <article class="plan reveal">
         <div class="plan-photo"><img src="https://images.unsplash.com/photo-1758691462651-611d730c5272?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
-          <div class="plan-top"><h3 data-i18n="plSolo">Solo</h3><div class="plan-price"><b id="pp1">2 900 DA</b><small id="pp1u">/ mois</small></div></div>
+          <div class="plan-top"><h3 data-i18n="plSolo">Solo</h3><div class="plan-price"><b id="pp1">6 900 DA</b><small id="pp1u">/ mois</small></div></div>
           <p class="plan-for" data-i18n="plSoloFor">Pour un médecin qui reçoit seul</p></div>
         <ul><li data-i18n="ps1">1 médecin, comptes réception illimités</li><li data-i18n="ps2">Ligne WhatsApp automatique, 400 messages par mois inclus</li><li data-i18n="ps3">Réservation en ligne et tickets à distance, sans application</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
         <a class="btn btn-ghost" href="#preinscription" data-docs="1" data-i18n="stickyB">Me pré-inscrire</a>
       </article>
       <article class="plan featured reveal" style="--d:.08s">
         <div class="plan-photo"><img src="https://images.unsplash.com/photo-1758691463203-cce9d415b2b5?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
-          <div class="plan-top"><h3 data-i18n="plCab">Cabinet</h3><div class="plan-price"><b id="pp2">2 200 DA</b><small id="pp2u">/ médecin / mois</small></div></div>
+          <div class="plan-top"><h3 data-i18n="plCab">Cabinet</h3><div class="plan-price"><b id="pp2">5 900 DA</b><small id="pp2u">/ médecin / mois</small></div></div>
           <p class="plan-for" data-i18n="plCabFor">De 2 à 5 médecins</p></div>
         <ul><li data-i18n="pc1">Un agenda et une file par médecin</li><li data-i18n="pc2">Répartition des patients, salles et écran d'appel commun</li><li data-i18n="pc3">Caisse avec la part de chaque médecin</li><li data-i18n="pcW">400 messages WhatsApp inclus par médecin et par mois</li></ul>
         <a class="btn btn-primary" href="#preinscription" data-docs="3" data-i18n="stickyB">Me pré-inscrire</a>
       </article>
       <article class="plan reveal" style="--d:.16s">
         <div class="plan-photo"><img src="https://images.unsplash.com/photo-1778151270886-f227700b0eba?auto=format&fit=crop&w=900&h=540&q=75" alt="" loading="lazy" decoding="async" width="900" height="540">
-          <div class="plan-top"><h3 data-i18n="plCli">Clinique</h3><div class="plan-price"><b id="pp3">dès 12 000 DA</b><small id="pp3u">/ mois</small></div></div>
+          <div class="plan-top"><h3 data-i18n="plCli">Clinique</h3><div class="plan-price"><b id="pp3">dès 34 400 DA</b><small id="pp3u">/ mois</small></div></div>
           <p class="plan-for" data-i18n="plCliFor">De 6 à 10 médecins</p></div>
-        <ul><li data-i18n="pk1">11 000 DA pour 5 médecins, puis 1 000 DA par médecin</li><li data-i18n="pk2">Tableau de bord par médecin</li><li data-i18n="pk3">Plus de 10 médecins ou plusieurs sites : sur devis</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
+        <ul><li data-i18n="pk1">29 500 DA pour 5 médecins, puis 4 900 DA par médecin</li><li data-i18n="pk2">Tableau de bord par médecin</li><li data-i18n="pk3">Plus de 10 médecins ou plusieurs sites : sur devis</li><li data-i18n="pl1a">Toutes les fonctionnalités</li></ul>
         <a class="btn btn-ghost" href="#preinscription" data-docs="6" data-i18n="stickyB">Me pré-inscrire</a>
       </article>
     </div>
@@ -860,8 +968,8 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       </div>
       <div class="est-r">
         <small data-i18n="estYour">Votre tarif</small>
-        <div class="price" id="calc-price">2 900 DA <small>/ mois</small></div>
-        <a class="calc-pre" id="calc-pre" href="#preinscription">Pré-inscrit : 2 610 DA / mois les 3 premiers mois →</a>
+        <div class="price" id="calc-price">6 900 DA <small>/ mois</small></div>
+        <a class="calc-pre" id="calc-pre" href="#preinscription">Me pré-inscrire : rien à payer avant le lancement →</a>
       </div>
     </div>
     <p class="trial reveal"><b data-i18n="pl1t">Essai gratuit</b><span data-i18n="pl1c">Les 14 jours démarrent à votre premier vrai rendez-vous</span><span data-i18n="pl1d">Sans carte, sans engagement</span></p>
@@ -878,7 +986,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       <p class="lede" data-i18n="swL">Import gratuit, mise en route accompagnée, et vos mois déjà payés ailleurs offerts chez Medica, jusqu'à 3 mois.</p>
     </div>
     <ol class="sw-steps reveal"><li><span class="mono">01</span><h3 data-i18n="swS1t">On fait le point</h3><p data-i18n="swS1p">20 minutes au téléphone : votre outil actuel, vos données, ce qui vous gêne.</p></li><li><span class="mono">02</span><h3 data-i18n="swS2t">Vous exportez, on vous guide</h3><p data-i18n="swS2p">Vos patients et rendez-vous sortent de votre logiciel ou de votre fichier Excel. Vos données restent entre vos mains.</p></li><li><span class="mono">03</span><h3 data-i18n="swS3t">On importe avec vous</h3><p data-i18n="swS3p">Aperçu, doublons repérés, retour arrière possible. Rien n'est enregistré sans votre accord.</p></li><li><span class="mono">04</span><h3 data-i18n="swS4t">30 jours en parallèle</h3><p data-i18n="swS4p">Gardez l'ancien outil le temps d'être sûr. Vous tenez à votre dossier médical actuel ? Medica gère l'accueil à côté.</p></li></ol>
-    <div class="sw-foot reveal"><p data-i18n="swC">Les mois déjà payés à votre logiciel actuel vous sont offerts chez Medica, jusqu'à 3 mois. Non cumulable avec l'offre de pré-inscription : vous gardez la plus avantageuse.</p><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
+    <div class="sw-foot reveal"><p data-i18n="swC">Les mois déjà payés à votre logiciel actuel vous sont offerts chez Medica, jusqu'à 3 mois.</p><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
   </div>
 </section>
 
@@ -887,16 +995,16 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="wrap prereg">
     <div class="prereg-media reveal">
       <img src="https://images.unsplash.com/photo-1663755787934-3742b0f5983a?auto=format&fit=crop&w=1100&h=1375&q=75" alt="" loading="lazy" decoding="async" width="1100" height="1375">
-      <div class="prereg-price" aria-live="polite"><span data-i18n="prPriceL">Vos 3 premiers mois</span><div class="row"><b id="pr-price">2 610 DA</b><s id="pr-was">2 900 DA</s></div><small id="pr-per">/ mois · 1 médecin</small><small id="pr-then">puis 2 900 DA / mois</small></div>
+      <div class="prereg-price" aria-live="polite"><span data-i18n="prPriceL">Votre tarif après l'essai</span><div class="row"><b id="pr-price">6 900 DA</b></div><small id="pr-per">/ mois · 1 médecin</small><small id="pr-then">ou 69 000 DA / an, 2 mois offerts</small></div>
     </div>
     <div class="prereg-main">
       <p class="kicker reveal" data-i18n="prEyebrow">Pré-inscription · avant le lancement</p>
-      <h2 class="reveal"><span data-i18n="prTitle1">Réservez votre place.</span> <em data-i18n="prTitle2">−10 % les 3 premiers mois.</em></h2>
-      <p class="lede reveal" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Rien à payer aujourd'hui : la réduction s'applique automatiquement à vos 3 premiers mois payants.</p>
+      <h2 class="reveal"><span data-i18n="prTitle1">Réservez votre place.</span> <em data-i18n="prTitle2">Rien à payer avant le lancement.</em></h2>
+      <p class="lede reveal" data-i18n="prLede">Pré-inscrivez votre cabinet en 30 secondes. Nous vous appelons avant le lancement pour choisir votre date de démarrage, et nos premiers cabinets pilotes viennent de cette liste.</p>
       <ul class="prereg-list reveal">
-        <li data-i18n="prB1"><b>−10 %</b> sur vos 3 premiers mois d'abonnement</li>
-        <li data-i18n="prB2">Les 14 jours d'essai gratuits, en plus</li>
-        <li data-i18n="prB3">Priorité pour rejoindre nos cabinets pilotes : installation sur place et import de vos patients</li>
+        <li data-i18n="prB1"><b>Priorité</b> pour nos 5 à 8 cabinets pilotes</li>
+        <li data-i18n="prB2">14 jours d'essai gratuits, qui démarrent à votre premier vrai rendez-vous</li>
+        <li data-i18n="prB3">Pour les cabinets pilotes : installation sur place et import de vos patients</li>
         <li data-i18n="prB4">Ni paiement, ni carte, ni engagement</li>
       </ul>
       <form class="form reveal" id="prereg-form" novalidate aria-labelledby="pr-form-title">
@@ -930,23 +1038,29 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
               <select id="p-docs" name="doctors"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">10+</option></select>
             </div>
           </div>
-          <div class="field">
-            <label for="p-wilaya" data-i18n="plWilaya">Wilaya (facultatif)</label>
-            <input type="text" id="p-wilaya" name="wilaya" list="wilayas" maxlength="40" autocomplete="address-level1">
+          <div class="grid2">
+            <div class="field">
+              <label for="p-structure" data-i18n="plStruct">Type de structure (facultatif)</label>
+              <select id="p-structure" name="structure"></select>
+            </div>
+            <div class="field">
+              <label for="p-wilaya" data-i18n="plWilaya">Wilaya (facultatif)</label>
+              <input type="text" id="p-wilaya" name="wilaya" list="wilayas" maxlength="40" autocomplete="address-level1">
+            </div>
           </div>
           <div>
             <label class="check"><input type="checkbox" id="p-consent" name="consent" aria-describedby="e-p-consent"><span data-i18n="plConsent">J'accepte que Medica utilise ces informations pour me recontacter au sujet du lancement. Jusqu'au lancement, elles sont conservées dans l'espace Google de Medica.</span></label>
             <p class="err" id="e-p-consent"></p>
           </div>
           <div class="hp" aria-hidden="true"><label for="p-website">Website</label><input type="text" id="p-website" name="website" tabindex="-1" autocomplete="off"></div>
-          <button type="submit" class="btn btn-primary" id="p-submit" style="justify-self:stretch"><span id="p-submit-label" data-i18n="prSend">Réserver mes −10 %</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="submit" class="btn btn-primary" id="p-submit" style="justify-self:stretch"><span id="p-submit-label" data-i18n="prSend">Réserver ma place</span><svg class="arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <p class="form-micro" data-i18n="prMicro">Nous vous appelons avant le lancement. Rien à payer aujourd'hui.</p>
           <p class="err" id="e-p-send" role="alert"></p>
           <p class="preview-note" id="pr-preview" hidden data-i18n="prPreview">Aperçu : ce formulaire n'est pas encore relié à notre serveur. Les envois ne sont pas transmis.</p>
         </div>
         <div class="done" id="pr-done" tabindex="-1" hidden role="status">
           <h3 data-i18n="prDoneT">C'est noté, votre place est réservée</h3>
-          <p data-i18n="prDoneP">Nous vous appelons avant le lancement pour fixer votre date de démarrage. Votre −10 % est lié à ce numéro.</p>
+          <p data-i18n="prDoneP">Nous vous appelons avant le lancement pour fixer votre date de démarrage.</p>
           <p id="pr-done-price" style="font-weight:700"></p>
         </div>
       </form>
@@ -959,7 +1073,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
   <div class="wrap">
     <div class="center-head reveal">
       <h2><span data-i18n="iTitle1">Il vous manque quelque chose ?</span> <em data-i18n="iTitle2">Dites-le-nous.</em></h2>
-      <p class="lede" data-i18n="iLede">Un dentiste, un pédiatre et un centre d'imagerie n'ont pas les mêmes besoins. Indiquez votre spécialité : chaque idée est lue, classée par spécialité, et les plus demandées entrent dans la feuille de route.</p>
+      <p class="lede" data-i18n="iLede">Un généraliste, un orthophoniste et un centre d'imagerie n'ont pas les mêmes besoins. Indiquez votre spécialité et votre type de structure : nous lisons chaque idée, la classons par spécialité, et les plus demandées entrent dans la feuille de route.</p>
     </div>
     <div class="ideas">
       <div class="reveal">
@@ -984,26 +1098,48 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
               <label for="f-specialty"><span data-i18n="lSpec">Votre spécialité</span> <span class="req" aria-hidden="true">*</span></label>
               <select id="f-specialty" name="specialty" required aria-describedby="e-specialty">
                 <option value="" data-i18n="oChoose">Choisir…</option>
-                <optgroup label="Médecine" data-i18n-label="gMed">
-                  <option value="general_practitioner" data-i18n="spGp">Médecin généraliste</option>
-                  <option value="pediatrician" data-i18n="spPed">Pédiatre</option>
-                  <option value="gynecologist" data-i18n="spGyn">Gynécologue</option>
-                  <option value="dermatologist" data-i18n="spDerm">Dermatologue</option>
-                  <option value="cardiologist" data-i18n="spCard">Cardiologue</option>
-                  <option value="ophthalmologist" data-i18n="spOph">Ophtalmologue</option>
-                  <option value="ent" data-i18n="spEnt">ORL</option>
-                  <option value="orthopedist" data-i18n="spOrtho">Orthopédiste</option>
-                  <option value="psychologist" data-i18n="spPsy">Psychologue / psychiatre</option>
+                <optgroup label="Médecine générale, interne et pédiatrie" data-i18n-label="gGen">
+                  <option value="general_practitioner" data-i18n="sp_general_practitioner">Médecin généraliste</option>
+                  <option value="internal_medicine" data-i18n="sp_internal_medicine">Médecine interne</option>
+                  <option value="pediatrician" data-i18n="sp_pediatrician">Pédiatre</option>
                 </optgroup>
-                <optgroup label="Dentaire et rééducation" data-i18n-label="gDent">
-                  <option value="dentist" data-i18n="spDent">Chirurgien-dentiste</option>
-                  <option value="physiotherapist" data-i18n="spPhysio">Kinésithérapeute</option>
+                <optgroup label="Spécialités médicales" data-i18n-label="gMed">
+                  <option value="cardiologist" data-i18n="sp_cardiologist">Cardiologue</option>
+                  <option value="dermatologist" data-i18n="sp_dermatologist">Dermatologue</option>
+                  <option value="aesthetic_medicine" data-i18n="sp_aesthetic_medicine">Médecine esthétique</option>
+                  <option value="endocrinologist" data-i18n="sp_endocrinologist">Endocrinologue / diabétologue</option>
+                  <option value="gastroenterologist" data-i18n="sp_gastroenterologist">Gastro-entérologue</option>
+                  <option value="gynecologist" data-i18n="sp_gynecologist">Gynécologue-obstétricien</option>
+                  <option value="nephrologist" data-i18n="sp_nephrologist">Néphrologue</option>
+                  <option value="neurologist" data-i18n="sp_neurologist">Neurologue</option>
+                  <option value="ophthalmologist" data-i18n="sp_ophthalmologist">Ophtalmologue</option>
+                  <option value="ent" data-i18n="sp_ent">ORL</option>
+                  <option value="pulmonologist" data-i18n="sp_pulmonologist">Pneumologue</option>
+                  <option value="psychiatrist" data-i18n="sp_psychiatrist">Psychiatre</option>
+                  <option value="rheumatologist" data-i18n="sp_rheumatologist">Rhumatologue</option>
+                </optgroup>
+                <optgroup label="Chirurgie" data-i18n-label="gSurg">
+                  <option value="general_surgeon" data-i18n="sp_general_surgeon">Chirurgien généraliste</option>
+                  <option value="orthopedist" data-i18n="sp_orthopedist">Orthopédiste / traumatologue</option>
+                  <option value="urologist" data-i18n="sp_urologist">Urologue</option>
+                </optgroup>
+                <optgroup label="Dentaire" data-i18n-label="gDent">
+                  <option value="dentist" data-i18n="sp_dentist">Chirurgien-dentiste</option>
+                  <option value="orthodontist" data-i18n="sp_orthodontist">Orthodontiste</option>
+                </optgroup>
+                <optgroup label="Rééducation, soins et accompagnement" data-i18n-label="gCare">
+                  <option value="physiotherapist" data-i18n="sp_physiotherapist">Kinésithérapeute</option>
+                  <option value="speech_therapist" data-i18n="sp_speech_therapist">Orthophoniste</option>
+                  <option value="psychologist" data-i18n="sp_psychologist">Psychologue</option>
+                  <option value="midwife" data-i18n="sp_midwife">Sage-femme</option>
+                  <option value="dietitian" data-i18n="sp_dietitian">Diététicien(ne) / nutritionniste</option>
+                  <option value="nursing" data-i18n="sp_nursing">Cabinet de soins infirmiers</option>
                 </optgroup>
                 <optgroup label="Diagnostic" data-i18n-label="gDiag">
-                  <option value="radiology_imaging" data-i18n="spImg">Centre d'imagerie</option>
-                  <option value="laboratory" data-i18n="spLab">Laboratoire d'analyses</option>
+                  <option value="radiology_imaging" data-i18n="sp_radiology_imaging">Centre d'imagerie</option>
+                  <option value="laboratory" data-i18n="sp_laboratory">Laboratoire d'analyses</option>
                 </optgroup>
-                <option value="other" data-i18n="spOther">Autre spécialité</option>
+                <option value="other" data-i18n="sp_other">Autre spécialité</option>
               </select>
               <p class="err" id="e-specialty"></p>
             </div>
@@ -1011,6 +1147,10 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
               <label for="f-specialty-other"><span data-i18n="lSpecOther">Précisez votre spécialité</span> <span class="req" aria-hidden="true">*</span></label>
               <input type="text" id="f-specialty-other" name="specialty_other" maxlength="80" aria-describedby="e-specialty-other">
               <p class="err" id="e-specialty-other"></p>
+            </div>
+            <div class="field">
+              <label for="f-structure" data-i18n="lStruct">Type de structure</label>
+              <select id="f-structure" name="structure"><option value="" data-i18n="oChoose4">Choisir…</option><option value="solo" data-i18n="str_solo">Cabinet individuel</option><option value="group" data-i18n="str_group">Cabinet de groupe</option><option value="clinic" data-i18n="str_clinic">Clinique ou polyclinique</option><option value="imaging" data-i18n="str_imaging">Centre d'imagerie</option><option value="lab" data-i18n="str_lab">Laboratoire d'analyses</option><option value="rehab" data-i18n="str_rehab">Centre de rééducation</option><option value="other" data-i18n="str_other">Autre</option></select>
             </div>
             <div class="field">
               <label for="f-role"><span data-i18n="lRole">Vous êtes</span> <span class="req" aria-hidden="true">*</span></label>
@@ -1034,7 +1174,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
               </select>
               <p class="err" id="e-size"></p>
             </div>
-            <div class="field">
+            <div class="field f-wil">
               <label for="f-wilaya" data-i18n="lWilaya">Wilaya</label>
               <input type="text" id="f-wilaya" name="wilaya" list="wilayas" maxlength="40" autocomplete="address-level1">
               <datalist id="wilayas"></datalist>
@@ -1051,7 +1191,9 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
               <label><input type="radio" id="cat-app" name="category" value="patient_app"><span data-i18n="cApp">App patients</span></label>
               <label><input type="radio" id="cat-reports" name="category" value="reports"><span data-i18n="cRep">Statistiques</span></label>
               <label><input type="radio" id="cat-assistant" name="category" value="assistant"><span data-i18n="cAss">Assistant</span></label>
-              <label><input type="radio" id="cat-billing" name="category" value="billing"><span data-i18n="cBill">Facturation</span></label>
+              <label><input type="radio" id="cat-billing" name="category" value="billing"><span data-i18n="cBill">Caisse et facturation</span></label>
+              <label><input type="radio" id="cat-wa" name="category" value="whatsapp"><span data-i18n="cWa">WhatsApp et messages</span></label>
+              <label><input type="radio" id="cat-spec" name="category" value="specialty_tools"><span data-i18n="cSpecTool">Outil propre à ma spécialité</span></label>
               <label><input type="radio" id="cat-other" name="category" value="other"><span data-i18n="cOther">Autre</span></label>
             </fieldset>
             <p class="err" id="e-category"></p>
@@ -1074,7 +1216,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
           <div>
             <fieldset class="chips-pick" aria-describedby="e-frequency">
               <legend><span data-i18n="lFreq">Vous en auriez besoin</span> <span class="req" aria-hidden="true">*</span></legend>
-              <label><input type="radio" id="fr-daily" name="frequency" value="daily"><span data-i18n="frD">L'essentiel de l'accueil pour un médecin, sans payer. Passez à Solo quand vous voulez la ligne WhatsApp automatique, la réservation en ligne et les tickets à distance.</span></label>
+              <label><input type="radio" id="fr-daily" name="frequency" value="daily"><span data-i18n="frDaily">Chaque jour</span></label>
               <label><input type="radio" id="fr-weekly" name="frequency" value="weekly"><span data-i18n="frW">Chaque semaine</span></label>
               <label><input type="radio" id="fr-some" name="frequency" value="sometimes"><span data-i18n="frS">De temps en temps</span></label>
             </fieldset>
@@ -1127,7 +1269,7 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
       <details><summary data-i18n="q5">Et si internet coupe au cabinet ?</summary><p data-i18n="a5">Le poste d'accueil continue de fonctionner : réservations, arrivées, appels et tickets imprimés. Un bandeau indique l'heure de la dernière synchronisation, et tout se remet à jour au retour de la connexion. Le téléphone du médecin reste souvent connecté en 4G. Bientôt, la box Medica Edge gardera tout le cabinet relié sans internet : accueil, médecin, écran et imprimante.</p></details>
       <details><summary data-i18n="q6">L'assistant envoie-t-il mes données à une IA extérieure ?</summary><p data-i18n="a6">Non. Assistant Medica fonctionne sur nos propres serveurs. Il trouve la bonne tâche et vous la montre avant d'agir. Les noms et numéros de vos patients ne servent jamais à l'entraîner.</p></details>
       <details><summary data-i18n="q7">Puis-je reprendre mes patients actuels ?</summary><p data-i18n="a7">Oui. Importez votre fichier Excel ou CSV : Medica montre un aperçu, repère les doublons et les erreurs, et vous pouvez tout annuler. Pour nos cabinets pilotes, nous faisons l'import avec vous.</p></details>
-      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, puis −10 % s'applique automatiquement à vos 3 premiers mois payants. Vous pouvez annuler à tout moment.</p></details>
+      <details><summary data-i18n="q8">Que se passe-t-il après ma pré-inscription ?</summary><p data-i18n="a8">Nous vous appelons avant le lancement pour fixer une date. Vous ne payez rien d'ici là. Vos 14 jours gratuits démarrent à votre premier vrai rendez-vous, et vous pouvez annuler à tout moment.</p></details>
       <details><summary data-i18n="q9">Où sont hébergées les données de mes patients ?</summary><p data-i18n="a9">En Algérie, avec des sauvegardes chiffrées. Chaque action est inscrite dans un journal scellé que vous pouvez présenter en cas de contrôle. Les messages passent par WhatsApp seulement si le patient choisit ce canal ; il peut préférer le SMS ou le lien.</p></details>
       <details><summary data-i18n="q10">J'utilise déjà un logiciel. Puis-je changer facilement ?</summary><p data-i18n="a10">Oui. Nous importons vos patients et rendez-vous gratuitement, vous gardez l'ancien outil 30 jours en parallèle, et les mois déjà payés ailleurs vous sont offerts chez Medica, jusqu'à 3 mois. Si vous tenez à votre dossier médical actuel, Medica gère l'accueil à côté.</p></details>
     </div>
@@ -1136,22 +1278,22 @@ details p { padding-bottom: 20px; color: var(--muted); max-width: 64ch; }
 
 </main>
 
-<div class="sticky-cta" id="sticky-cta"><span data-i18n="stickyT">−10 % les 3 premiers mois</span><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
+<div class="sticky-cta" id="sticky-cta"><span data-i18n="stickyT">Pré-inscription gratuite, en 30 secondes</span><a class="btn btn-primary" href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a></div>
 
 <footer class="foot" id="contact">
   <img class="foot-bg" src="https://images.unsplash.com/photo-1766685322236-7b47468cccb4?auto=format&fit=crop&w=2000&q=72" alt="" loading="lazy" decoding="async" width="2000" height="1240">
   <div class="wrap foot-in">
     <div class="foot-cta reveal">
       <h2><span data-i18n="finTitle1">Lundi matin, votre salle peut être</span> <em data-i18n="finTitle2">calme.</em></h2>
-      <p data-i18n="finText">Nous choisissons nos 5 à 8 premiers cabinets pilotes. Pré-inscrivez-vous pour −10 % sur vos 3 premiers mois, ou écrivez-nous pour une démonstration de 10 minutes.</p>
+      <p data-i18n="finText">Nous choisissons nos 5 à 8 premiers cabinets pilotes. Pré-inscrivez-vous pour réserver votre place, ou écrivez-nous pour une démonstration de 10 minutes.</p>
       <div class="final-cta">
-        <a class="btn btn-primary btn-split" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire, −10 %</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn-primary btn-split" href="#preinscription"><span data-i18n="heroCta1">Me pré-inscrire</span><span class="btn-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 9h12M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         <div class="contact"><code id="contact-email">ars.tech.app@gmail.com</code><button type="button" class="btn btn-glass" id="copy-email" data-i18n="copy">Copier l'adresse</button></div>
       </div>
     </div>
     <div class="foot-cols">
-      <div><span class="brand" data-i18n="brand">medica</span><p data-i18n="footAbout">Rendez-vous, file d'attente en direct et rappels pour les cabinets médicaux et dentaires en Algérie.</p></div>
-      <div><b data-i18n="fcProduct">Produit</b><a href="#matin" data-i18n="nav1">Le problème</a><a href="#produit" data-i18n="nav3">Produit</a><a href="#demo" data-i18n="nav2">Démo</a><a href="#tarifs" data-i18n="nav4">Tarifs</a></div>
+      <div><span class="brand" data-i18n="brand">medica</span><p data-i18n="footAbout">Rendez-vous, file d'attente en direct et rappels pour les cabinets, centres et cliniques d'Algérie, toutes spécialités.</p></div>
+      <div><b data-i18n="fcProduct">Produit</b><a href="#matin" data-i18n="nav1">Le problème</a><a href="#produit" data-i18n="nav3">Produit</a><a href="#specialites" data-i18n="nav6">Spécialités</a><a href="#demo" data-i18n="nav2">Démo</a><a href="#tarifs" data-i18n="nav4">Tarifs</a></div>
       <div><b data-i18n="fcContact">Contact</b><a href="#preinscription" data-i18n="stickyB">Me pré-inscrire</a><a href="#idees" data-i18n="nav5">Vos idées</a><a href="mailto:ars.tech.app@gmail.com">ars.tech.app@gmail.com</a></div>
     </div>
     <div class="foot-bottom">
@@ -1174,6 +1316,78 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
 (function () {
   var T = {
     ar: {
+      cSpecTool: "أداة خاصة بتخصّصي",
+      cWa: "واتساب والرسائل",
+      str_other: "أخرى",
+      str_rehab: "مركز إعادة التأهيل",
+      str_lab: "مخبر تحاليل",
+      str_imaging: "مركز أشعة",
+      str_clinic: "مصحّة أو عيادة متعدّدة التخصّصات",
+      str_group: "عيادة جماعية",
+      str_solo: "عيادة فردية",
+      sp_laboratory: "مخبر تحاليل",
+      sp_radiology_imaging: "مركز أشعة",
+      sp_nursing: "عيادة تمريض",
+      sp_dietitian: "أخصائي تغذية",
+      sp_midwife: "قابلة",
+      sp_psychologist: "أخصائي نفسي",
+      sp_speech_therapist: "أخصائي أرطوفونيا",
+      sp_physiotherapist: "أخصائي علاج طبيعي",
+      sp_orthodontist: "أخصائي تقويم الأسنان",
+      sp_dentist: "طبيب أسنان",
+      sp_urologist: "طبيب مسالك بولية",
+      sp_orthopedist: "جرّاح عظام",
+      sp_general_surgeon: "جرّاح عام",
+      sp_rheumatologist: "طبيب روماتيزم",
+      sp_psychiatrist: "طبيب نفسي",
+      sp_pulmonologist: "طبيب أمراض صدرية",
+      sp_ent: "طبيب أنف وأذن وحنجرة",
+      sp_ophthalmologist: "طبيب عيون",
+      sp_neurologist: "طبيب أعصاب",
+      sp_nephrologist: "طبيب كلى",
+      sp_gynecologist: "طبيب نساء وتوليد",
+      sp_gastroenterologist: "طبيب جهاز هضمي",
+      sp_endocrinologist: "طبيب غدد وسكري",
+      sp_aesthetic_medicine: "طب تجميلي",
+      sp_dermatologist: "طبيب جلد",
+      sp_cardiologist: "طبيب قلب",
+      sp_pediatrician: "طبيب أطفال",
+      sp_internal_medicine: "طب داخلي",
+      sp_general_practitioner: "طبيب عام",
+      frDaily: "كل يوم",
+      oChoose4: "اختر…",
+      plStruct: "نوع المؤسّسة (اختياري)",
+      lStruct: "نوع المؤسّسة",
+      sp_other: "تخصّص آخر",
+      gCare: "إعادة التأهيل والرعاية والمرافقة",
+      gSurg: "الجراحة",
+      gGen: "الطب العام والداخلي وطب الأطفال",
+      fx_soon10: "تذكيرات التلقيح حسب الرزنامة الوطنية، للأولياء الذين يرغبون في ذلك",
+      faAll: "كل شيء جاهز منذ الإطلاق.",
+      faA6: "الانطلاق",
+      faA5: "الموثوقية والثقة",
+      faA4: "الصندوق والتسيير",
+      faA3: "الأطباء والتخصّصات",
+      faA2: "المرضى والرسائل",
+      faA1: "الاستقبال وطابور الانتظار",
+      ty4p: "طابور للفحوص وتذاكر منذ الإطلاق، فتختفي زحمة السابعة صباحًا. وتأتي حزمة خاصّة لاحقًا.",
+      ty4t: "مراكز الأشعة والمخابر",
+      ty3p: "عدّة مصالح في نفس الموقع. قريبًا، يُبقي صندوق Medica Edge الموقع كلّه متّصلًا دون إنترنت، وتأتي الفروع المتعدّدة لاحقًا.",
+      ty3t: "مصحّة أو عيادة متعدّدة التخصّصات",
+      ty2p: "طابور لكل طبيب، وقاعات، وشاشة نداء مشتركة، وصندوق يحفظ حصّة كل طبيب.",
+      ty2t: "عيادة جماعية، من 2 إلى 5 أطباء",
+      ty1p: "يأخذ مرضاكم تذكرتهم برمز QR أو واتساب، وتنادون على التالي من هاتفكم.",
+      ty1t: "وحدكم، دون سكرتارية",
+      spxTypes: "من العيادة الفردية إلى المصحّة",
+      spxMissing: "تخصّصكم غير موجود في القائمة؟ أخبرونا بما تحتاجون",
+      spxNote: "مدد على سبيل المثال: كل طبيب يضبط مدده، وتقترح ميديكا متوسّطه الحقيقي بعد 20 زيارة.",
+      spxPlan: "مخطّط لكم",
+      spxNow: "منذ الإطلاق",
+      spxMorning: "صباح نموذجي",
+      spxLede: "اختاروا تخصّصكم لتروا صباحًا نموذجيًا: كل زيارة بمدّتها الحقيقية، وما تقوم به ميديكا منذ الإطلاق، وما هو قادم لكم.",
+      spxT2: "وطريقة عملكم.",
+      spxT1: "تخصّصكم،",
+      nav6: "التخصّصات",
       audience: "قياس جمهور مجهول الهوية، دون ملفات تعريف الارتباط.",
       a10: "نعم. نستورد مرضاكم ومواعيدكم مجانًا، وتحتفظون بالأداة القديمة 30 يومًا بالتوازي، ونقدّم لكم مجانًا في ميديكا الأشهر التي دفعتموها لغيرنا، حتى 3 أشهر. وإن أردتم الإبقاء على ملفكم الطبي الحالي، تتولّى ميديكا الاستقبال بجانبه.",
       q10: "أستعمل برنامجًا آخر. هل يمكنني الانتقال بسهولة؟",
@@ -1193,7 +1407,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       swS2t: "تصدّرون بياناتكم ونرشدكم",
       swS1p: "20 دقيقة عبر الهاتف: أداتكم الحالية، بياناتكم، وما يزعجكم.",
       swS1t: "نقيّم وضعكم",
-      swC: "الأشهر التي دفعتموها لبرنامجكم الحالي نقدّمها لكم مجانًا في ميديكا، حتى 3 أشهر. لا تُجمع مع عرض التسجيل المسبق: تحتفظون بالأفضل لكم.",
+      swC: "الأشهر التي دفعتموها لبرنامجكم الحالي نقدّمها لكم مجانًا في ميديكا، حتى 3 أشهر.",
       swL: "استيراد مجاني، ومرافقة في الانطلاق، والأشهر التي دفعتموها لبرنامجكم الحالي نقدّمها لكم مجانًا في ميديكا، حتى 3 أشهر.",
       swT2: "انتقلوا إلى ميديكا في يوم واحد.",
       swT1: "تستعملون برنامجًا آخر؟",
@@ -1222,8 +1436,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fx_soon4: "زرّ نداء للطبيب، دون لمس الشاشة",
       fx_soon3: "Medica Edge: تواصل العيادة كلها العمل دون إنترنت، مع الشاشة والطابعة",
       fx_soon2: "قائمة انتظار: اقتراح المواعيد المُحرَّرة تلقائيًا",
-      fx_soon1: "تذكيرات المتابعة: مراقبة بعد 6 أشهر، تنظيف الجير السنوي",
-      fx_soon0: "حزمة الأسنان: الكراسي، وخطط العلاج على عدّة جلسات، والدفع بالتقسيط، والمخابر",
+      fx_soon1: "تذكيرات المتابعة حسب تخصّصكم: المراقبة السنوية، والفحوص الدورية، والجلسات المتبقّية",
+      fx_soon0: "حزمة الأسنان: الكراسي، ومخطّط الأسنان، والتقديرات، وخطط العلاج على عدّة جلسات، والدفع بالتقسيط، والمخابر",
       fx_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت",
       fx_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات",
       fx_now21: "صفحة العيادة وشعارها وملصق QR للاستقبال",
@@ -1234,7 +1448,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fx_now16: "إذا انقطع الإنترنت، يواصل جهاز الاستقبال العمل ثم يتزامن كل شيء",
       fx_now15: "الصندوق: التعريفات، والتحصيل، والإيصالات، وإغلاق يومي مختوم",
       fx_now14: "تحديد الموعد القادم في نهاية الفحص",
-      fx_now13: "شاشة النداء مع إعلان صوتي بالعربية والفرنسية",
+      fx_now13: "شاشة نداء مع إعلان صوتي بالعربية والفرنسية والإنجليزية",
       fx_now12: "عدّة أطباء: توزيع المرضى والقاعات وشاشة نداء مشتركة",
       fx_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة، مع تتبّع كل رسالة",
       fx_now10: "«الطبيب متأخّر»: إعلام المرضى المعنيين بنقرة واحدة",
@@ -1254,11 +1468,11 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       photosBy: "الصور",
       fcContact: "تواصل",
       fcProduct: "المنتج",
-      footAbout: "مواعيد وطابور انتظار مباشر وتذكيرات للعيادات الطبية وعيادات الأسنان في الجزائر.",
+      footAbout: "مواعيد وطابور انتظار مباشر وتذكيرات للعيادات والمراكز والمصحّات في الجزائر، لكل التخصّصات.",
       estYour: "سعركم",
       pk3: "أكثر من 10 أطباء أو عدة فروع: حسب العرض",
       pk2: "لوحة قيادة لكل طبيب",
-      pk1: "11,000 دج لـ5 أطباء، ثم 1,000 دج لكل طبيب إضافي",
+      pk1: "29,500 دج لـ5 أطباء، ثم 4,900 دج لكل طبيب إضافي",
       plCliFor: "من 6 إلى 10 أطباء",
       plCli: "مصحّة",
       pc3: "صندوق مع حصّة كل طبيب",
@@ -1304,7 +1518,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       k1s: "12 عبر الإنترنت · 6 في العيادة",
       k1: "مرضى اليوم",
       apSearch: "ابحث عن مريض…",
-      apDate: "الثلاثاء · عيادة أسنان · بيانات على سبيل المثال",
+      apDate: "الثلاثاء · عيادة جماعية · بيانات على سبيل المثال",
       apHello: "صباح الخير، د. بن علي",
       apStats: "الإحصائيات",
       apRem: "التذكيرات",
@@ -1312,15 +1526,15 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       apAgenda: "المواعيد",
       apToday: "اليوم",
       heroH1: "قاعة انتظاركم، هادئة أخيرًا.",
-      a8: "نتصل بكم قبل الإطلاق لتحديد موعد. لا تدفعون شيئًا حتى ذلك الحين. تبدأ أيامكم الـ14 المجانية مع أوّل موعد حقيقي، ثم يُطبَّق خصم 10% تلقائيًا على أوّل 3 أشهر مدفوعة. يمكنكم الإلغاء في أي وقت.",
+      a8: "نتصل بكم قبل الإطلاق لتحديد موعد. لا تدفعون شيئًا حتى ذلك الحين. تبدأ أيامكم الـ14 المجانية مع أوّل موعد حقيقي، ويمكنكم الإلغاء في أي وقت.",
       q8: "ماذا يحدث بعد التسجيل المسبق؟",
       stickyB: "سجّلوا مسبقًا",
-      stickyT: "خصم 10% لأوّل 3 أشهر",
-      prDoneP: "نتصل بكم قبل الإطلاق لتحديد موعد البدء. خصم 10% مرتبط بهذا الرقم.",
+      stickyT: "تسجيل مسبق مجاني في 30 ثانية",
+      prDoneP: "نتصل بكم قبل الإطلاق لتحديد موعد البدء.",
       prDoneT: "تمّ التسجيل، مكانكم محجوز",
       prPreview: "معاينة: هذا النموذج غير مرتبط بخادمنا بعد. لا تُرسَل البيانات.",
       prMicro: "نتصل بكم قبل الإطلاق. لا شيء للدفع اليوم.",
-      prSend: "احجزوا خصم 10%",
+      prSend: "احجزوا مكانكم",
       plConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات للتواصل معي بخصوص الإطلاق. وإلى غاية الإطلاق، تُحفظ في فضاء Google الخاص بميديكا.",
       plWilaya: "الولاية (اختياري)",
       plDocs: "عدد الأطباء",
@@ -1329,13 +1543,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       plPhone: "الهاتف",
       plName: "اسم الطبيب أو العيادة",
       prFormT: "تسجيل عيادتي مسبقًا",
-      prPriceL: "أوّل 3 أشهر",
+      prPriceL: "سعركم بعد التجربة",
       prB4: "دون دفع ودون بطاقة ودون التزام",
-      prB3: "أولوية للانضمام إلى عياداتنا التجريبية: إعداد في عين المكان واستيراد مرضاكم",
-      prB2: "أيام التجربة المجانية الـ14، إضافةً إلى ذلك",
-      prB1: "<b>خصم 10%</b> على أوّل 3 أشهر من الاشتراك",
-      prLede: "سجّلوا عيادتكم مسبقًا في 30 ثانية. لا شيء للدفع اليوم: يُطبَّق الخصم تلقائيًا على أوّل 3 أشهر مدفوعة.",
-      prTitle2: "خصم 10% لأوّل 3 أشهر.",
+      prB3: "للعيادات التجريبية: إعداد في عين المكان واستيراد مرضاكم",
+      prB2: "14 يومًا من التجربة المجانية، تبدأ مع أوّل موعد حقيقي",
+      prB1: "<b>أولوية</b> للانضمام إلى عياداتنا التجريبية الـ5 إلى 8",
+      prLede: "سجّلوا عيادتكم مسبقًا في 30 ثانية. نتصل بكم قبل الإطلاق لاختيار موعد البدء، ومن هذه القائمة نختار أولى عياداتنا التجريبية.",
+      prTitle2: "لا شيء للدفع قبل الإطلاق.",
       prTitle1: "احجزوا مكانكم.",
       prEyebrow: "تسجيل مسبق · قبل الإطلاق",
       heroMicro: "مجاني · 30 ثانية · دون التزام",
@@ -1349,13 +1563,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fa_soon6: "اقتراح المواعيد المُلغاة على المرضى المنتظرين",
       fa_soon5: "ملاحظات فحص منظّمة خاصة بالطبيب، تُفعَّل لكل عيادة بعد المصادقة القانونية",
       fa_soon4: "دفع الاشتراك ببطاقة CIB / الذهبية، بعد الاعتماد",
-      brand: "ميديكا", nav1: "المشكلة", nav2: "العرض", nav3: "المنتج", nav4: "الأسعار", nav5: "أفكاركم", navCta: "تسجيل مسبق −10%",
-      heroPillB: "−10%", heroPill: "التسجيل المسبق مفتوح · خصم 10% لأوّل 3 أشهر",
+      brand: "ميديكا", nav1: "المشكلة", nav2: "العرض", nav3: "المنتج", nav4: "الأسعار", nav5: "أفكاركم", navCta: "تسجيل مسبق",
+      heroPill: "التسجيل المسبق مفتوح · من 5 إلى 8 عيادات تجريبية",
       heroTitle: "قاعة انتظارك،",
       heroLede: "المواعيد والمرضى بدون موعد وطابور الانتظار في شاشة واحدة. يحجز مرضاكم عبر رابط أو رمز QR أو واتساب دون أي تطبيق، يتلقّون تذكرتهم ويصلون في الوقت المناسب. ويرتاح الاستقبال.",
-      heroCta1: "سجّلوا مسبقًا بخصم 10%", heroCta2: "جرّبوا العرض",
+      heroCta1: "سجّلوا مسبقًا", heroCta2: "جرّبوا العرض",
       tr1: "أطباء موثَّقون", tr2: "العربية والفرنسية والإنجليزية", tr3: "بدون عمولة على المواعيد",
-      pNowS: "في الفحص الآن", pNow: "التذكرة المنادى عليها", pYours: "تذكرتك", pWhen: "تنظيف الجير · د. مثال", pAhead1: "أمامك:", pWait1: "الانتظار ≈",
+      pNowS: "في الفحص الآن", pNow: "التذكرة المنادى عليها", pYours: "تذكرتك", pWhen: "فحص · د. مثال", pAhead1: "أمامك:", pWait1: "الانتظار ≈",
       mEyebrow: "صباح في العيادة", mTitle1: "هل تعرفون هذا الصباح؟", mTitle2: "يمكن أن يتغيّر من يوم الإثنين.",
       mWithout: "بدون ميديكا", mWith: "مع ميديكا", mHint: "بدّلوا لتروا يومكم مع ميديكا",
       badTag: "اليوم", badTag2: "اليوم", badTag3: "اليوم", badTag4: "اليوم", goodTag: "مع ميديكا", goodTag2: "مع ميديكا", goodTag3: "مع ميديكا", goodTag4: "مع ميديكا",
@@ -1373,8 +1587,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       dSeen: "مرضى تمّ فحصهم", dWalkins: "بدون موعد", dDelay: "التأخّر المُعلَن", dPhone: "هاتف عمر س.", pYours2: "تذكرتك",
       exNote: "عرض توضيحي ببيانات على سبيل المثال.",
       bEyebrow: "ما بداخله", bTitle1: "مصمَّم على طريقة عمل عيادتكم", bTitle2: "الحقيقية.",
-      b1e: "المدّة حسب نوع الزيارة", b1t: "المراقبة ليست كالقلع", b1p: "أنواع زيارات تخصّصكم جاهزة. عدّلوا الدقائق، وتقترح عليكم ميديكا متوسّطكم الحقيقي بعد 20 زيارة.",
-      vt1: "فحص", vt2: "تنظيف الجير", vt3: "علاج تسوّس", vt4: "مراقبة", vtLearn: "متوسّطكم الحقيقي لـ«المراقبة»: <b>12 دقيقة</b>", vtApply: "تطبيق",
+      b1e: "المدّة حسب نوع الزيارة", b1t: "لكل زيارة مدّتها الحقيقية", b1p: "أنواع زيارات تخصّصكم جاهزة. عدّلوا الدقائق، وتقترح عليكم ميديكا متوسّطكم الحقيقي بعد 20 زيارة.",
+      vt1: "فحص", vt2: "تلقيح", vt3: "تصوير بالصدى", vt4: "مراقبة", vtLearn: "متوسّطكم الحقيقي لـ«المراقبة»: <b>12 دقيقة</b>", vtApply: "تطبيق",
       b2e: "التذكيرات", b2t: "ثلاثة تذكيرات، عبر القناة المناسبة", r1: "قبل يوم · 18:00", r2: "−1 سا", r3: "−15 د", r1c: "إشعار · SMS · واتساب", r2c: "إشعار · SMS · واتساب", r3c: "إشعار", b2p: "تُرسَل تلقائيًا دون أي تدخّل. ولا يُذكر سبب الزيارة أبدًا في أي رسالة.",
       b3e: "لكل مريض", b3t: "بتطبيق أو بدونه", b3p: "عبر رابط أو رمز QR أو واتساب، دون تطبيق ودون رسوم. لنفسه أو لطفل أو لأحد الوالدين، ويتابع كلٌّ دوره مباشرة.", b3s: "تطبيق أندرويد بعد المرحلة التجريبية",
       b4b: "هوية مهنية موثَّقة", b4t: "أطباء حقيقيون فقط", b4p: "يُتحقَّق من رقم التسجيل في مجلس أخلاقيات الطب ومن البطاقة المهنية قبل أي نشر. والآراء لا تأتي إلا من مرضى حضروا فعلًا.",
@@ -1382,24 +1596,24 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       b6s: "خيار · قريبًا", b6t: "مساعد ميديكا: مهامكم المتكرّرة بنقرة", b6p: "اكتبوا ما تريدون فعله بكلماتكم. يحضّر المساعد العملية، ويُريكم ما سيتغيّر، وينتظر تأكيدكم.",
       b6a1: "<b>14 موعدًا</b> نُقلت إلى الخميس الموالي", b6a2: "<b>14 مريضًا</b> أُعلِموا بإشعار", b6a3: "<b>0 تعارض</b>", b6ok: "تأكيد",
       priceEyebrow: "الأسعار", priceTitle1: "اشتراك واحد.", priceTitle2: "حسب عدد الأطباء.",
-      priceLede: "ابدؤوا مجانًا. لخط واتساب والحجز عبر الإنترنت والتذاكر عن بُعد: 2,900 دج لطبيب واحد، و2,200 دج لكل طبيب ابتداءً من طبيبين. دون عمولة، ودون أي رسوم على مرضاكم.",
+      priceLede: "ابدؤوا مجانًا. لخط واتساب والحجز عبر الإنترنت والتذاكر عن بُعد: 6,900 دج لطبيب واحد، و5,900 دج لكل طبيب من 2 إلى 5 أطباء. دون عمولة، ودون أي رسوم على مرضاكم.",
       pl1t: "تجربة مجانية", pl1p: "14 يومًا", pl1a: "كل الميزات", pl1b: "حتى 5 أطباء", pl1c: "تبدأ الأيام الـ14 مع أوّل موعد حقيقي", pl1d: "بدون بطاقة، بدون التزام",
       calcTitle: "احسبوا سعركم", calcDocs: "عدد الأطباء", cycM: "شهري", cycY: "سنوي · شهران مجانًا",
       incTitle: "كل شيء مشمول", inc1: "طابور مباشر وتذاكر", inc2: "أنواع زيارات ومدد مخصّصة", inc3: "صفحة، رمز QR وتطبيق للمرضى", inc4: "تذكيرات تلقائية، دون إرسال يدوي", inc5: "شاشة النداء، ورقة اليوم ولوحة القيادة", inc6: "حسابات استقبال مجانية وغير محدودة", inc7: "مساعدة مدمجة «كيف أفعل…؟»",
       addonT: "خيار مساعد ميديكا", addonP: "مهام بنقرة، طلبات مكتوبة ومهام تلقائية. مشمول خلال التجربة.", addonPrice: "+600 دج / شهريًا لكل عيادة",
       priceFine: "يُحتسب الطبيب عندما تكون لديه أوقات حجز خلال الشهر، ويمكن إيقاف طبيب متعاقد مؤقتًا في أي وقت. التذكيرات بالإشعار مشمولة، مع 400 رسالة واتساب تلقائية لكل طبيب شهريًا؛ وما زاد عنها والرسائل القصيرة برصيد مسبق الدفع. بيانات المرضى مستضافة في الجزائر. أكثر من 10 أطباء، فروع متعدّدة أو مراكز أشعة: حسب العرض. الدفع بالتحويل البنكي أو CCP/بريدي موب أو نقدًا مع فاتورة؛ والدفع ببطاقة CIB / الذهبية بعد الاعتماد.",
       iEyebrow: "لنبنِ ميديكا معًا", iTitle1: "ينقصكم شيء؟", iTitle2: "أخبرونا.",
-      iLede: "طبيب الأسنان وطبيب الأطفال ومركز الأشعة لا يحتاجون نفس الأشياء. اختاروا تخصّصكم: كل فكرة تُقرأ وتُصنَّف حسب التخصّص، والأكثر طلبًا تدخل خارطة الطريق.",
+      iLede: "الطبيب العام والأرطوفوني ومركز الأشعة لا يحتاجون نفس الأشياء. اختاروا تخصّصكم ونوع مؤسّستكم: نقرأ كل فكرة ونصنّفها حسب التخصّص، وتدخل الأفكار الأكثر طلبًا في خارطة الطريق.",
       f1t: "تقترحون", f1p: "تخصّصكم، حاجتكم، وكم مرة ستحتاجونها.", f2t: "نقرأ كل أسبوع", f2p: "تُصنَّف كل فكرة حسب التخصّص وتكرار الاستعمال. الاحتياجات اليومية أوّلًا.",
       f3t: "تصوّتون", f3p: "الأفكار المختارة تنضمّ إلى خارطة الطريق العلنية، ويمكن للجميع التصويت.", f4t: "نُطلقها ونُعلمكم", f4p: "إن رغبتم، نراسلكم عندما تصبح فكرتكم متاحة.",
       rmTitle: "خارطة الطريق: صوّتوا", rmHelp: "صوت واحد لكل فكرة",
       fmTitle: "اقتراح ميزة", fmSummary: "تحقّقوا من هذه الحقول:",
-      lSpec: "تخصّصكم", oChoose: "اختر…", oChoose2: "اختر…", oChoose3: "اختر…", gMed: "الطب", gDent: "الأسنان وإعادة التأهيل", gDiag: "التشخيص",
-      spGp: "طبيب عام", spPed: "طبيب أطفال", spGyn: "طبيب نساء", spDerm: "طبيب جلد", spCard: "طبيب قلب", spOph: "طبيب عيون", spEnt: "أنف وأذن وحنجرة", spOrtho: "جرّاح عظام", spPsy: "أخصائي نفسي / طبيب نفسي",
-      spDent: "جرّاح أسنان", spPhysio: "معالج فيزيائي", spImg: "مركز أشعة", spLab: "مخبر تحاليل", spOther: "تخصّص آخر",
+      lSpec: "تخصّصكم", oChoose: "اختر…", oChoose2: "اختر…", oChoose3: "اختر…", gMed: "التخصّصات الطبية", gDent: "طب الأسنان", gDiag: "التشخيص",
+      
+      
       lSpecOther: "حدّدوا تخصّصكم", lRole: "أنتم", roDoc: "طبيب", roOwner: "مالك العيادة", roRec: "سكرتيرة / استقبال", roAss: "مساعد(ة) طبي(ة)", roOther: "آخر",
       lSize: "حجم العيادة", sz1: "طبيب واحد", sz2: "من 2 إلى 5 أطباء", sz3: "6 أطباء أو أكثر", lWilaya: "الولاية",
-      lCat: "يتعلّق الأمر بـ", cAgenda: "جدول المواعيد", cQueue: "طابور الانتظار", cPatients: "ملفات المرضى", cRem: "التذكيرات", cApp: "تطبيق المرضى", cRep: "الإحصائيات", cAss: "المساعد", cBill: "الفوترة", cOther: "آخر",
+      lCat: "يتعلّق الأمر بـ", cAgenda: "جدول المواعيد", cQueue: "طابور الانتظار", cPatients: "ملفات المرضى", cRem: "التذكيرات", cApp: "تطبيق المرضى", cRep: "الإحصائيات", cAss: "المساعد", cBill: "الصندوق والفوترة", cOther: "آخر",
       lTitle: "فكرتكم في جملة", hTitle: "مثال: «طباعة تذكرة المريض في الاستقبال»",
       lDetails: "ما المشكلة التي ستحلّها لكم؟", hDetails: "صفوا كيف تعملون اليوم وما الذي سيوفّر عليكم الوقت. 20 حرفًا على الأقل.",
       lFreq: "ستحتاجونها", frD: "أساسيات الاستقبال لطبيب واحد، مجانًا. انتقلوا إلى «منفرد» عندما تريدون خط واتساب التلقائي والحجز عبر الإنترنت والتذاكر عن بُعد.", frW: "كل أسبوع", frS: "من حين لآخر",
@@ -1407,7 +1621,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lConsent: "أوافق على أن تستعمل ميديكا هذه المعلومات لدراسة طلبي، والتواصل معي إن طلبت ذلك. وإلى غاية الإطلاق، تُحفظ في فضاء Google الخاص بميديكا.",
       fmSend: "أرسل فكرتي", fmPreview: "معاينة: هذا النموذج غير مربوط بخادمنا بعد. لا تُرسَل المعلومات.",
       fmDoneT: "شكرًا، وصلتنا فكرتكم", fmDoneP: "نقرؤها هذا الأسبوع ونصنّفها مع أفكار تخصّصكم. صوّتوا أيضًا على أفكار خارطة الطريق.", fmAgain: "اقتراح فكرة أخرى",
-      faTitle: "كل ما خطّطنا له، في لمحة", faLede: "ما يصل عند الإطلاق، وما يليه مباشرة، وما يأتي بعد ذلك.", faNow: "عند الإطلاق", faSoon: "قريبًا", faLater: "لاحقًا", themeDark: "الوضع الداكن", themeLight: "الوضع الفاتح", fa_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور", fa_now1: "تذكرة ووقت مرور لكل مريض", fa_now2: "الدور مباشرة على هاتف المريض", fa_now3: "شاشة النداء لقاعة الانتظار", fa_now4: "الحجز عبر رابط أو رمز QR أو صفحة ويب قابلة للتثبيت، بدون كلمة سر", fa_now5: "الحجز لطفل أو لأحد الوالدين", fa_now6: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال", fa_now7: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب", fa_now8: "لا حجز مزدوج أبدًا", fa_now9: "إضافة مريض بدون موعد في 3 نقرات", fa_now10: "«الطبيب متأخّر»: إعلام المرضى تلقائيًا", fa_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة: إشعار أو SMS أو واتساب، مع تتبّع كل رسالة", fa_now12: "استيراد مرضاكم ومواعيدكم من Excel أو CSV، مع معاينة وإمكانية التراجع", fa_now13: "تحديد الموعد القادم في نهاية الفحص", fa_now14: "متابعة الغيابات مريضًا بمريض", fa_now15: "ورقة اليوم للطباعة، والتذكرة متاحة دون اتصال", fa_now16: "إذا انقطع الإنترنت: تنبيه واضح، ووقت آخر مزامنة، واستدراك موجَّه", fa_now17: "أطباء موثَّقون برقم التسجيل في مجلس أخلاقيات الطب", fa_now18: "العربية والفرنسية والإنجليزية", fa_now19: "صفحة العيادة وشعارها وملصق QR للاستقبال", fa_now20: "لوحة القيادة: المرضى، الغيابات، الحجوزات عبر الإنترنت", fa_now21: "شاشة «اليوم» للاستقبال، وتطبيق أندرويد للطبيب", fa_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات", fa_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت", fa_soon0: "تطبيق المرضى على أندرويد، إذا طلبته عياداتنا الأولى", fa_soon1: "آراء موثَّقة بعد زيارة حقيقية", fa_soon2: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»", fa_soon3: "«وتيرتكم»: اقتراح مددكم الحقيقية", fa_later0: "مهام تلقائية يقترحها المساعد", fa_later1: "تطبيقات iOS", fa_later2: "عيادات متعدّدة الفروع", fa_later3: "البحث عن الأطباء في تطبيق المرضى",
+      faTitle: "كل ما خطّطنا له، في لمحة", faLede: "ستّة مجالات وثلاث مراحل: ما هو جاهز عند الإطلاق، وما يليه مباشرة، وما يأتي بعد ذلك. لكل التخصّصات.", faNow: "عند الإطلاق", faSoon: "قريبًا", faLater: "لاحقًا", themeDark: "الوضع الداكن", themeLight: "الوضع الفاتح", fa_now0: "طابور انتظار مباشر: المواعيد والمرضى بدون موعد في نفس الطابور", fa_now1: "تذكرة ووقت مرور لكل مريض", fa_now2: "الدور مباشرة على هاتف المريض", fa_now3: "شاشة النداء لقاعة الانتظار", fa_now4: "الحجز عبر رابط أو رمز QR أو صفحة ويب قابلة للتثبيت، بدون كلمة سر", fa_now5: "الحجز لطفل أو لأحد الوالدين", fa_now6: "«مواعيدي»: الإلغاء أو التأجيل دون اتصال", fa_now7: "أنواع زيارات حسب التخصّص، ومدد يضبطها كل طبيب", fa_now8: "لا حجز مزدوج أبدًا", fa_now9: "إضافة مريض بدون موعد في 3 نقرات", fa_now10: "«الطبيب متأخّر»: إعلام المرضى تلقائيًا", fa_now11: "تذكيرات تلقائية قبل يوم، وقبل ساعة، وقبل 15 دقيقة: إشعار أو SMS أو واتساب، مع تتبّع كل رسالة", fa_now12: "استيراد مرضاكم ومواعيدكم من Excel أو CSV، مع معاينة وإمكانية التراجع", fa_now13: "تحديد الموعد القادم في نهاية الفحص", fa_now14: "متابعة الغيابات مريضًا بمريض", fa_now15: "ورقة اليوم للطباعة، والتذكرة متاحة دون اتصال", fa_now16: "إذا انقطع الإنترنت: تنبيه واضح، ووقت آخر مزامنة، واستدراك موجَّه", fa_now17: "أطباء موثَّقون برقم التسجيل في مجلس أخلاقيات الطب", fa_now18: "العربية والفرنسية والإنجليزية", fa_now19: "صفحة العيادة وشعارها وملصق QR للاستقبال", fa_now20: "لوحة القيادة: المرضى، الغيابات، الحجوزات عبر الإنترنت", fa_now21: "شاشة «اليوم» للاستقبال، وتطبيق أندرويد للطبيب", fa_now22: "حسابات استقبال مجانية، أدوار وسجلّ للتغييرات", fa_now23: "مرضاكم ومواعيدكم قابلة للتصدير في أي وقت", fa_soon0: "تطبيق المرضى على أندرويد، إذا طلبته عياداتنا الأولى", fa_soon1: "آراء موثَّقة بعد زيارة حقيقية", fa_soon2: "مساعد ميديكا (خيار) ومساعدة «كيف أفعل…؟»", fa_soon3: "«وتيرتكم»: اقتراح مددكم الحقيقية", fa_later0: "مهام تلقائية يقترحها المساعد", fa_later1: "تطبيقات iOS", fa_later2: "عيادات متعدّدة الفروع", fa_later3: "البحث عن الأطباء في تطبيق المرضى",
       roomBad: "11 شخصًا لـ6 كراسٍ. الهاتف يرنّ، والأسئلة لا تتوقّف.", roomGood: "التذكرة 05 في الفحص. 3 مرضى ينتظرون، والآخرون يصلون في وقتهم.",
       faqEyebrow: "أسئلة شائعة", faqTitle: "ما يسألنا عنه الأطباء.",
       q1: "هل يجب على مرضاي تثبيت تطبيق؟", a1: "لا. يحجزون ويتابعون دورهم عبر واتساب أو رابط أو رمز QR، دون تثبيت أي شيء ودون دفع أي شيء. ومن يرغب يضيف صفحة ميديكا إلى شاشته الرئيسية.",
@@ -1417,10 +1631,82 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       q5: "وإذا انقطع الإنترنت في العيادة؟", a5: "يواصل جهاز الاستقبال العمل: الحجوزات، والوصول، والنداء، والتذاكر المطبوعة. يُظهر شريط وقت آخر مزامنة، ويتحدّث كل شيء عند عودة الاتصال. وغالبًا ما يبقى هاتف الطبيب متصلًا عبر 4G. وقريبًا، سيُبقي جهاز Medica Edge العيادة كلها مترابطة دون إنترنت: الاستقبال والطبيب والشاشة والطابعة.",
       q6: "هل يرسل المساعد بياناتي إلى ذكاء اصطناعي خارجي؟", a6: "لا. يعمل مساعد ميديكا على خوادمنا الخاصة. يجد المهمة المناسبة ويعرضها عليكم قبل التنفيذ. لا تُستعمل أسماء مرضاكم وأرقامهم أبدًا في تدريبه.",
       finEyebrow: "الجزائر العاصمة · وهران · قسنطينة · عنابة", finTitle1: "صباح الإثنين، يمكن لقاعتكم أن تكون", finTitle2: "هادئة.",
-      finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. سجّلوا مسبقًا لخصم 10% على أوّل 3 أشهر، أو راسلونا لعرض توضيحي مدّته 10 دقائق.",
+      finText: "نختار أوّل 5 إلى 8 عيادات تجريبية. سجّلوا مسبقًا لحجز مكانكم، أو راسلونا لعرض توضيحي مدّته 10 دقائق.",
       copy: "نسخ العنوان", footer: "صُنع في الجزائر · العربية · Français · English"
     },
     en: {
+      cSpecTool: "A tool for my specialty",
+      cWa: "WhatsApp and messages",
+      str_other: "Other",
+      str_rehab: "Rehabilitation centre",
+      str_lab: "Medical laboratory",
+      str_imaging: "Imaging centre",
+      str_clinic: "Clinic or polyclinic",
+      str_group: "Group practice",
+      str_solo: "Single-doctor practice",
+      sp_laboratory: "Medical laboratory",
+      sp_radiology_imaging: "Imaging centre",
+      sp_nursing: "Nursing practice",
+      sp_dietitian: "Dietitian / nutritionist",
+      sp_midwife: "Midwife",
+      sp_psychologist: "Psychologist",
+      sp_speech_therapist: "Speech therapist",
+      sp_physiotherapist: "Physiotherapist",
+      sp_orthodontist: "Orthodontist",
+      sp_dentist: "Dentist",
+      sp_urologist: "Urologist",
+      sp_orthopedist: "Orthopaedic surgeon",
+      sp_general_surgeon: "General surgeon",
+      sp_rheumatologist: "Rheumatologist",
+      sp_psychiatrist: "Psychiatrist",
+      sp_pulmonologist: "Pulmonologist",
+      sp_ent: "ENT specialist",
+      sp_ophthalmologist: "Ophthalmologist",
+      sp_neurologist: "Neurologist",
+      sp_nephrologist: "Nephrologist",
+      sp_gynecologist: "Obstetrician-gynaecologist",
+      sp_gastroenterologist: "Gastroenterologist",
+      sp_endocrinologist: "Endocrinologist / diabetologist",
+      sp_aesthetic_medicine: "Aesthetic medicine",
+      sp_dermatologist: "Dermatologist",
+      sp_cardiologist: "Cardiologist",
+      sp_pediatrician: "Pediatrician",
+      sp_internal_medicine: "Internal medicine",
+      sp_general_practitioner: "General practitioner",
+      frDaily: "Every day",
+      oChoose4: "Choose…",
+      plStruct: "Type of practice (optional)",
+      lStruct: "Type of practice",
+      sp_other: "Other specialty",
+      gCare: "Rehabilitation, care and support",
+      gSurg: "Surgery",
+      gGen: "General, internal and child medicine",
+      fx_soon10: "Vaccination reminders following the national calendar, for parents who opt in",
+      faAll: "All in place from launch.",
+      faA6: "Getting started",
+      faA5: "Reliability and trust",
+      faA4: "Cash desk and management",
+      faA3: "Doctors and specialties",
+      faA2: "Patients and messages",
+      faA1: "Front desk and queue",
+      ty4p: "An exam queue and tickets from launch, so the 7 a.m. crowd is gone. A dedicated pack comes later.",
+      ty4t: "Imaging centres and laboratories",
+      ty3p: "Several departments on one site. Soon the Medica Edge box keeps the whole site connected without internet; multi-site comes later.",
+      ty3t: "Clinic or polyclinic",
+      ty2p: "A queue per doctor, rooms, one shared call screen, and a cash desk that keeps each doctor's share.",
+      ty2t: "Group practice, 2 to 5 doctors",
+      ty1p: "Patients take their ticket by QR code or WhatsApp, and you call the next one from your phone.",
+      ty1t: "On your own, no secretary",
+      spxTypes: "From a solo practice to a polyclinic",
+      spxMissing: "Your specialty isn't listed? Tell us what you need",
+      spxNote: "Sample durations: each doctor sets their own, and Medica suggests the real average after 20 visits.",
+      spxPlan: "Planned for you",
+      spxNow: "From launch",
+      spxMorning: "A typical morning",
+      spxLede: "Pick your specialty to see a typical morning: each visit at its real length, what Medica does from launch, and what's coming for you.",
+      spxT2: "your way of working.",
+      spxT1: "Your specialty,",
+      nav6: "Specialties",
       audience: "Anonymous audience counts, no cookies.",
       a10: "Yes. We import your patients and appointments for free, you keep the old tool for 30 days side by side, and the months you've already paid elsewhere are free at Medica, up to 3 months. If you want to keep your current medical records, Medica runs the front desk alongside them.",
       q10: "I already use software. Can I switch easily?",
@@ -1440,7 +1726,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       swS2t: "You export, we guide you",
       swS1p: "20 minutes on the phone: your current tool, your data, what bothers you.",
       swS1t: "We take stock",
-      swC: "The months you've already paid for your current software are free at Medica, up to 3 months. Not combined with the pre-registration offer: you keep whichever is better.",
+      swC: "The months you've already paid for your current software are free at Medica, up to 3 months.",
       swL: "Free import, a guided start, and the months you've already paid elsewhere given free at Medica, up to 3 months.",
       swT2: "Move to Medica in a day.",
       swT1: "Already using software?",
@@ -1469,8 +1755,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fx_soon4: "A call button for the doctor, no screen to touch",
       fx_soon3: "Medica Edge: the whole practice keeps working without internet, screen and printer included",
       fx_soon2: "Waitlist: freed slots offered automatically",
-      fx_soon1: "Recall reminders: 6-month check-up, yearly scaling",
-      fx_soon0: "Dental pack: chairs, multi-session treatment plans, instalments, labs",
+      fx_soon1: "Follow-up reminders for your specialty: yearly check-up, assessment, sessions to resume",
+      fx_soon0: "Dental pack: chairs, tooth chart, estimates, multi-session treatment plans, instalments, labs",
       fx_now23: "Export your patients and appointments any time",
       fx_now22: "Free reception accounts, roles and change history",
       fx_now21: "Practice page, logo and QR poster for the desk",
@@ -1481,7 +1767,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fx_now16: "If the internet drops, the front desk keeps working, then everything resyncs",
       fx_now15: "Cash desk: fees, payments, receipts and a sealed daily close",
       fx_now14: "Next appointment set at the end of each visit",
-      fx_now13: "Call screen with voice announcements in Arabic and French",
+      fx_now13: "Call screen with voice announcements in Arabic, French and English",
       fx_now12: "Several doctors: patient dispatch, rooms and one shared call screen",
       fx_now11: "Automatic reminders the day before, 1 hour and 15 minutes before, each one tracked",
       fx_now10: "\"Doctor running late\": the right patients told in one tap",
@@ -1501,11 +1787,11 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       photosBy: "Photos",
       fcContact: "Contact",
       fcProduct: "Product",
-      footAbout: "Appointments, live queue and reminders for medical and dental practices in Algeria.",
+      footAbout: "Appointments, live queue and reminders for practices, centres and clinics in Algeria, in all specialties.",
       estYour: "Your price",
       pk3: "More than 10 doctors or several sites: on quote",
       pk2: "A dashboard per doctor",
-      pk1: "11,000 DZD for 5 doctors, then 1,000 DZD per extra doctor",
+      pk1: "29,500 DZD for 5 doctors, then 4,900 DZD per extra doctor",
       plCliFor: "6 to 10 doctors",
       plCli: "Clinic",
       pc3: "Cash desk with each doctor's share",
@@ -1551,7 +1837,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       k1s: "12 online · 6 walk-in",
       k1: "Patients today",
       apSearch: "Search a patient…",
-      apDate: "Tuesday · dental practice · sample data",
+      apDate: "Tuesday · group practice · sample data",
       apHello: "Good morning, Dr Benali",
       apStats: "Statistics",
       apRem: "Reminders",
@@ -1559,15 +1845,15 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       apAgenda: "Calendar",
       apToday: "Today",
       heroH1: "Your waiting room, calm at last.",
-      a8: "We call you before launch to set a date. You pay nothing until then. Your 14 free days start at your first real appointment, then 10% off applies automatically to your first 3 paid months. You can cancel any time.",
+      a8: "We call you before launch to set a date. You pay nothing until then. Your 14 free days start at your first real appointment, and you can cancel any time.",
       q8: "What happens after I pre-register?",
       stickyB: "Pre-register",
-      stickyT: "10% off your first 3 months",
-      prDoneP: "We'll call you before launch to set your start date. Your 10% off is linked to this number.",
+      stickyT: "Free pre-registration, 30 seconds",
+      prDoneP: "We'll call you before launch to set your start date.",
       prDoneT: "Done, your place is saved",
       prPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
       prMicro: "We'll call you before launch. Nothing to pay today.",
-      prSend: "Claim my 10% off",
+      prSend: "Save my place",
       plConsent: "I agree that Medica may use this information to contact me about the launch. Until launch, it is kept in Medica's Google workspace.",
       plWilaya: "Wilaya (optional)",
       plDocs: "Number of doctors",
@@ -1576,13 +1862,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       plPhone: "Phone",
       plName: "Doctor or practice name",
       prFormT: "Pre-register my practice",
-      prPriceL: "Your first 3 months",
+      prPriceL: "Your price after the trial",
       prB4: "No payment, no card, no commitment",
-      prB3: "Priority for our pilot programme: on-site setup and your patients imported for you",
-      prB2: "The 14-day free trial on top",
-      prB1: "<b>10% off</b> your first 3 months of subscription",
-      prLede: "Pre-register your practice in 30 seconds. Nothing to pay today: the discount applies automatically to your first 3 paid months.",
-      prTitle2: "10% off your first 3 months.",
+      prB3: "For pilot practices: on-site setup and your patients imported for you",
+      prB2: "A 14-day free trial, starting at your first real appointment",
+      prB1: "<b>Priority</b> for our 5 to 8 pilot practices",
+      prLede: "Pre-register your practice in 30 seconds. We call you before launch to pick your start date, and our first pilot practices come from this list.",
+      prTitle2: "Nothing to pay before launch.",
       prTitle1: "Save your place.",
       prEyebrow: "Pre-registration · before launch",
       heroMicro: "Free · 30 seconds · no commitment",
@@ -1596,13 +1882,13 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       fa_soon6: "Freed-up slots offered to patients who are waiting",
       fa_soon5: "Structured consultation notes, doctor-only, switched on per practice after legal approval",
       fa_soon4: "Subscription paid by CIB / Edahabia card, after certification",
-      brand: "medica", nav1: "The problem", nav2: "Demo", nav3: "Product", nav4: "Pricing", nav5: "Your ideas", navCta: "Pre-register −10%",
-      heroPillB: "−10%", heroPill: "Pre-registration open · 10% off your first 3 months",
+      brand: "medica", nav1: "The problem", nav2: "Demo", nav3: "Product", nav4: "Pricing", nav5: "Your ideas", navCta: "Pre-register",
+      heroPill: "Pre-registration open · 5 to 8 pilot practices",
       heroTitle: "Your waiting room, finally",
       heroLede: "Appointments, walk-ins and the queue on one screen. Patients book by link, QR code or WhatsApp, with no app, get their ticket and arrive at the right time. Your front desk can breathe.",
-      heroCta1: "Pre-register, save 10%", heroCta2: "Try the demo",
+      heroCta1: "Pre-register", heroCta2: "Try the demo",
       tr1: "Verified doctors", tr2: "Arabic, French, English", tr3: "No commission per appointment",
-      pNowS: "In consultation", pNow: "Ticket called", pYours: "Your ticket", pWhen: "Scaling · Dr. Example", pAhead1: "Ahead of you:", pWait1: "Wait ≈",
+      pNowS: "In consultation", pNow: "Ticket called", pYours: "Your ticket", pWhen: "Consultation · Dr. Example", pAhead1: "Ahead of you:", pWait1: "Wait ≈",
       mEyebrow: "A morning at the practice", mTitle1: "Recognise this morning?", mTitle2: "It can change by Monday.",
       mWithout: "Without Medica", mWith: "With Medica", mHint: "Switch to see your day with Medica",
       badTag: "Today", badTag2: "Today", badTag3: "Today", badTag4: "Today", goodTag: "With Medica", goodTag2: "With Medica", goodTag3: "With Medica", goodTag4: "With Medica",
@@ -1620,8 +1906,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       dSeen: "Patients seen", dWalkins: "Walk-ins", dDelay: "Announced delay", dPhone: "Omar S.'s phone", pYours2: "Your ticket",
       exNote: "Demo with example data.",
       bEyebrow: "What's inside", bTitle1: "Built for the way your practice", bTitle2: "really works.",
-      b1e: "Durations by visit type", b1t: "A check-up is not an extraction", b1p: "Your specialty's visit types are ready. Adjust the minutes, and after 20 visits Medica suggests your real average.",
-      vt1: "Consultation", vt2: "Scaling", vt3: "Cavity filling", vt4: "Check-up", vtLearn: "Your real average for \"Check-up\": <b>12 min</b>", vtApply: "Apply",
+      b1e: "Durations by visit type", b1t: "Every visit at its real length", b1p: "Your specialty's visit types are ready. Adjust the minutes, and after 20 visits Medica suggests your real average.",
+      vt1: "Consultation", vt2: "Vaccination", vt3: "Ultrasound", vt4: "Check-up", vtLearn: "Your real average for \"Check-up\": <b>12 min</b>", vtApply: "Apply",
       b2e: "Reminders", b2t: "Three reminders, through the right channel", r1: "D-1 · 18:00", r2: "−1 h", r3: "−15 min", r1c: "Push · SMS · WhatsApp", r2c: "Push · SMS · WhatsApp", r3c: "Push", b2p: "Sent automatically, nothing to do. Never the reason for the visit in a message.",
       b3e: "For every patient", b3t: "With or without the app", b3p: "By link, QR code or WhatsApp, with no app and no fees. For yourself, a child or a parent, and everyone follows their turn live.", b3s: "Android app after the pilot",
       b4b: "Professional identity verified", b4t: "Real doctors only", b4p: "Medical Council registration number and professional card checked before anything goes public. Reviews only come from patients who actually came.",
@@ -1629,24 +1915,24 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       b6s: "Add-on · coming soon", b6t: "Assistant Medica: your repetitive tasks in one tap", b6p: "Write what you want to do, in your own words. The assistant prepares the action, shows you what will change and waits for your confirmation.",
       b6a1: "<b>14 appointments</b> moved to next Thursday", b6a2: "<b>14 patients</b> notified", b6a3: "<b>0 conflicts</b>", b6ok: "Confirm",
       priceEyebrow: "Pricing", priceTitle1: "One subscription.", priceTitle2: "Priced by doctors.",
-      priceLede: "Start free. For the WhatsApp line, online booking and remote tickets: 2,900 DZD for one doctor, 2,200 DZD per doctor from two. No commission, and nothing for your patients to pay.",
+      priceLede: "Start free. For the WhatsApp line, online booking and remote tickets: 6,900 DZD for one doctor, 5,900 DZD per doctor for 2 to 5. No commission, and nothing for your patients to pay.",
       pl1t: "Free trial", pl1p: "14 days", pl1a: "Every feature", pl1b: "Up to 5 doctors", pl1c: "The 14 days start at your first real appointment", pl1d: "No card, no commitment",
       calcTitle: "Work out your price", calcDocs: "Number of doctors", cycM: "Monthly", cycY: "Yearly · 2 months free",
       incTitle: "Everything included", inc1: "Live queue and tickets", inc2: "Custom visit types and durations", inc3: "Page, QR code and patient app", inc4: "Automatic reminders, nothing to send by hand", inc5: "Call screen, day sheet and dashboard", inc6: "Free, unlimited reception accounts", inc7: "Built-in \"How do I…?\" help",
       addonT: "Assistant Medica add-on", addonP: "One-tap tasks, typed requests and automations. Included during the trial.", addonPrice: "+600 DZD / month per practice",
       priceFine: "A doctor counts when they have bookable hours in the month; pause a visiting doctor any time. Push reminders included, plus 400 automatic WhatsApp messages per doctor per month; beyond that, and for SMS, prepaid credits. Patient data hosted in Algeria. More than 10 doctors, multiple sites or imaging centres: on quote. Pay by bank transfer, CCP/BaridiMob or cash with an invoice; CIB / Edahabia card payment follows after certification.",
       iEyebrow: "Let's build Medica together", iTitle1: "Missing something?", iTitle2: "Tell us.",
-      iLede: "A dentist, a pediatrician and an imaging centre don't need the same things. Tell us your specialty: every idea is read, sorted by specialty, and the most requested ones join the roadmap.",
+      iLede: "A GP, a speech therapist and an imaging centre don't need the same things. Tell us your specialty and type of practice: we read every idea, sort it by specialty, and the most requested ones join the roadmap.",
       f1t: "You suggest", f1p: "Your specialty, your need, and how often you'd use it.", f2t: "We read every week", f2p: "Each idea is sorted by specialty and how often it's needed. Daily needs come first.",
       f3t: "You vote", f3p: "Accepted ideas join the public roadmap, and everyone can vote.", f4t: "We ship and tell you", f4p: "If you'd like, we write to you when your idea is available.",
       rmTitle: "Roadmap: vote", rmHelp: "One vote per idea",
       fmTitle: "Suggest a feature", fmSummary: "Please check these fields:",
-      lSpec: "Your specialty", oChoose: "Choose…", oChoose2: "Choose…", oChoose3: "Choose…", gMed: "Medicine", gDent: "Dental and rehabilitation", gDiag: "Diagnostics",
-      spGp: "General practitioner", spPed: "Pediatrician", spGyn: "Gynecologist", spDerm: "Dermatologist", spCard: "Cardiologist", spOph: "Ophthalmologist", spEnt: "ENT", spOrtho: "Orthopedist", spPsy: "Psychologist / psychiatrist",
-      spDent: "Dental surgeon", spPhysio: "Physiotherapist", spImg: "Imaging centre", spLab: "Medical laboratory", spOther: "Other specialty",
+      lSpec: "Your specialty", oChoose: "Choose…", oChoose2: "Choose…", oChoose3: "Choose…", gMed: "Medical specialties", gDent: "Dental", gDiag: "Diagnostics",
+      
+      
       lSpecOther: "Tell us your specialty", lRole: "You are", roDoc: "Doctor", roOwner: "Practice owner", roRec: "Receptionist", roAss: "Medical assistant", roOther: "Other",
       lSize: "Practice size", sz1: "1 doctor", sz2: "2 to 5 doctors", sz3: "6 doctors or more", lWilaya: "Wilaya",
-      lCat: "It's about", cAgenda: "Agenda", cQueue: "Queue", cPatients: "Patient records", cRem: "Reminders", cApp: "Patient app", cRep: "Statistics", cAss: "Assistant", cBill: "Billing", cOther: "Other",
+      lCat: "It's about", cAgenda: "Agenda", cQueue: "Queue", cPatients: "Patient records", cRem: "Reminders", cApp: "Patient app", cRep: "Statistics", cAss: "Assistant", cBill: "Cash desk and billing", cOther: "Other",
       lTitle: "Your idea in one sentence", hTitle: "Example: \"Print the patient's ticket at the desk\"",
       lDetails: "What problem would it solve for you?", hDetails: "Describe how you do it today and what would save you time. 20 characters minimum.",
       lFreq: "You'd need it", frD: "The front-desk essentials for one doctor, free. Move to Solo when you want the automatic WhatsApp line, online booking and remote tickets.", frW: "Every week", frS: "Now and then",
@@ -1654,7 +1940,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       lConsent: "I agree that Medica may use this information to study my request and, if I asked, to contact me. Until launch, it is kept in Medica's Google workspace.",
       fmSend: "Send my idea", fmPreview: "Preview: this form isn't connected to our server yet. Submissions are not sent.",
       fmDoneT: "Thank you, your idea is in", fmDoneP: "We'll read it this week and sort it with others from your specialty. Vote for roadmap ideas too.", fmAgain: "Suggest another idea",
-      faTitle: "Everything we have planned, at a glance", faLede: "What arrives at launch, what follows right after, and what comes next.", faNow: "At launch", faSoon: "Coming soon", faLater: "Next", themeDark: "Dark theme", themeLight: "Light theme", fa_now0: "Live queue: appointments and walk-ins in the same line", fa_now1: "A ticket and a visit time for every patient", fa_now2: "Live position on the patient's phone", fa_now3: "Call screen for the waiting room", fa_now4: "Booking by link, QR code or installable web page, no password", fa_now5: "Book for a child or a parent", fa_now6: "\"My appointments\": cancel or move without calling", fa_now7: "Visit types by specialty, durations set by each doctor", fa_now8: "No double booking, ever", fa_now9: "Walk-ins added in 3 taps", fa_now10: "\"Doctor running late\": patients told automatically", fa_now11: "Automatic reminders the day before, 1 hour and 15 minutes before: push, SMS or WhatsApp, each one tracked", fa_now12: "Import your patients and appointments from Excel or CSV, with preview and undo", fa_now13: "Next appointment set at the end of each visit", fa_now14: "No-show tracking, patient by patient", fa_now15: "Printable day sheet, ticket available offline", fa_now16: "If the internet drops: a clear banner, last-sync time and a guided catch-up", fa_now17: "Doctors verified by their Medical Council number", fa_now18: "Arabic, French and English", fa_now19: "Practice page, logo and QR poster for the desk", fa_now20: "Dashboard: patients seen, no-shows, online bookings", fa_now21: "\"Today\" screen for reception, Android app for the doctor", fa_now22: "Free reception accounts, roles and change history", fa_now23: "Export your patients and appointments any time", fa_soon0: "Patient Android app, if our first practices ask for it", fa_soon1: "Verified reviews after a real visit", fa_soon2: "Assistant Medica (add-on) and \"How do I…?\" help", fa_soon3: "\"Your pace\": your real durations suggested", fa_later0: "Automations suggested by the assistant", fa_later1: "iOS apps", fa_later2: "Multi-site clinics", fa_later3: "Doctor search in the patient app",
+      faTitle: "Everything we have planned, at a glance", faLede: "Six areas, three stages: what's ready at launch, what follows right after, and what comes next. For all specialties.", faNow: "At launch", faSoon: "Coming soon", faLater: "Next", themeDark: "Dark theme", themeLight: "Light theme", fa_now0: "Live queue: appointments and walk-ins in the same line", fa_now1: "A ticket and a visit time for every patient", fa_now2: "Live position on the patient's phone", fa_now3: "Call screen for the waiting room", fa_now4: "Booking by link, QR code or installable web page, no password", fa_now5: "Book for a child or a parent", fa_now6: "\"My appointments\": cancel or move without calling", fa_now7: "Visit types by specialty, durations set by each doctor", fa_now8: "No double booking, ever", fa_now9: "Walk-ins added in 3 taps", fa_now10: "\"Doctor running late\": patients told automatically", fa_now11: "Automatic reminders the day before, 1 hour and 15 minutes before: push, SMS or WhatsApp, each one tracked", fa_now12: "Import your patients and appointments from Excel or CSV, with preview and undo", fa_now13: "Next appointment set at the end of each visit", fa_now14: "No-show tracking, patient by patient", fa_now15: "Printable day sheet, ticket available offline", fa_now16: "If the internet drops: a clear banner, last-sync time and a guided catch-up", fa_now17: "Doctors verified by their Medical Council number", fa_now18: "Arabic, French and English", fa_now19: "Practice page, logo and QR poster for the desk", fa_now20: "Dashboard: patients seen, no-shows, online bookings", fa_now21: "\"Today\" screen for reception, Android app for the doctor", fa_now22: "Free reception accounts, roles and change history", fa_now23: "Export your patients and appointments any time", fa_soon0: "Patient Android app, if our first practices ask for it", fa_soon1: "Verified reviews after a real visit", fa_soon2: "Assistant Medica (add-on) and \"How do I…?\" help", fa_soon3: "\"Your pace\": your real durations suggested", fa_later0: "Automations suggested by the assistant", fa_later1: "iOS apps", fa_later2: "Multi-site clinics", fa_later3: "Doctor search in the patient app",
       roomBad: "11 people for 6 chairs. The phone rings, the questions keep coming.", roomGood: "Ticket 05 in consultation. 3 patients waiting, the others arrive on time.",
       faqEyebrow: "FAQ", faqTitle: "What doctors ask us.",
       q1: "Do my patients have to install an app?", a1: "No. They book and follow their turn on WhatsApp, by link or QR code, with nothing to install and nothing to pay. Those who want can add the Medica page to their home screen.",
@@ -1664,29 +1950,29 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       q5: "What if the internet goes down?", a5: "The front-desk computer keeps working: bookings, arrivals, calls and printed tickets. A banner shows the last sync time, and everything catches up when the connection returns. The doctor's phone often stays online over 4G. Soon, the Medica Edge box will keep the whole practice connected without internet: desk, doctor, screen and printer.",
       q6: "Does the assistant send my data to an outside AI?", a6: "No. Assistant Medica runs on our own servers. It finds the right task and shows it to you before acting. Your patients' names and numbers are never used to train it.",
       finEyebrow: "Algiers · Oran · Constantine · Annaba", finTitle1: "On Monday morning, your waiting room can be", finTitle2: "calm.",
-      finText: "We're choosing our first 5 to 8 pilot practices. Pre-register for 10% off your first 3 months, or write to us for a 10-minute demo.",
+      finText: "We're choosing our first 5 to 8 pilot practices. Pre-register to save your place, or write to us for a 10-minute demo.",
       copy: "Copy address", footer: "Made in Algeria · العربية · Français · English"
     }
   };
   var EXTRA = {
     fr: { rot: ["organisée.", "calme.", "à l'heure."], copied: "Adresse copiée", phone: function (a) { return "Ticket 07, " + a + " patients avant vous"; },
           errEmail: "Cette adresse e-mail ne semble pas valide.",
-          stNow: "En consultation", stArr: "Arrivé", stRoute: "En route", prThen: function (p) { return "puis " + p + " / mois"; },
-          errPhone: "Entrez un numéro algérien valide, par exemple 0551 23 45 67.", errName: "Écrivez au moins 2 caractères.", prDup: "Ce numéro est déjà pré-inscrit : votre −10 % est bien réservé.", prQuote: "Sur devis, −10 %", prPer: function (n) { return "/ mois · " + (n > 10 ? "plus de 10 médecins" : n + (n === 1 ? " médecin" : " médecins")); }, calcPre: function (p) { return "Pré-inscrit : " + p + " / mois les 3 premiers mois →"; }, prYour: function (p) { return "Vos 3 premiers mois : " + p; },
+          stNow: "En consultation", stArr: "Arrivé", stRoute: "En route", prThen: function (p) { return "ou " + p + " / an, 2 mois offerts"; },
+          errPhone: "Entrez un numéro algérien valide, par exemple 0551 23 45 67.", errName: "Écrivez au moins 2 caractères.", prDup: "Ce numéro est déjà pré-inscrit : votre place est bien réservée.", prQuote: "Sur devis", prPer: function (n) { return "/ mois · " + (n > 10 ? "plus de 10 médecins" : n + (n === 1 ? " médecin" : " médecins")); }, calcPre: "Me pré-inscrire : rien à payer avant le lancement →", prYour: function (p) { return "Votre tarif après l'essai : " + p; },
           typed: ["Déplace les patients de jeudi du Dr. B à la semaine prochaine", "Prépare chaque soir la liste des absents", "Bloque le Dr. A de 12 h à 14 h tous les mardis"],
           errReq: "Ce champ est obligatoire.", errSpecOther: "Précisez votre spécialité.", errTitle: "Écrivez au moins 5 caractères.", errDetails: "Décrivez votre besoin en 20 caractères minimum.", errCat: "Choisissez ce que cela concerne.", errFreq: "Choisissez une fréquence.", errConsent: "Votre accord est nécessaire pour envoyer.", errContact: "Entrez un e-mail ou un numéro valide.", errSend: "L'envoi a échoué. Réessayez dans un instant.", sending: "Envoi…",
           vote: "Voter", voted: "Voté", st: { considering: "À l'étude", planned: "Prévu", in_progress: "En cours", shipped: "Disponible" } },
     ar: { rot: ["منظّمة أخيرًا.", "هادئة أخيرًا.", "في الموعد أخيرًا."], copied: "تمّ النسخ", phone: function (a) { return "التذكرة 07، أمامك " + a + " مرضى"; },
           errEmail: "يبدو أن هذا البريد الإلكتروني غير صحيح.",
-          stNow: "في الفحص", stArr: "وصل", stRoute: "في الطريق", prThen: function (p) { return "ثم " + p + " شهريًا"; },
-          errPhone: "أدخلوا رقمًا جزائريًا صحيحًا، مثل 0551 23 45 67.", errName: "اكتبوا حرفين على الأقل.", prDup: "هذا الرقم مسجّل مسبقًا: خصم 10% محجوز لكم.", prQuote: "حسب العرض، مع خصم 10%", prPer: function (n) { return "/ شهريًا · " + (n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"); }, calcPre: function (p) { return "مع التسجيل المسبق: " + p + " شهريًا لأوّل 3 أشهر ←"; }, prYour: function (p) { return "أوّل 3 أشهر: " + p; },
+          stNow: "في الفحص", stArr: "وصل", stRoute: "في الطريق", prThen: function (p) { return "أو " + p + " سنويًا، مع شهرين مجانًا"; },
+          errPhone: "أدخلوا رقمًا جزائريًا صحيحًا، مثل 0551 23 45 67.", errName: "اكتبوا حرفين على الأقل.", prDup: "هذا الرقم مسجّل مسبقًا: مكانكم محجوز.", prQuote: "حسب العرض", prPer: function (n) { return "/ شهريًا · " + (n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"); }, calcPre: "سجّلوا مسبقًا: لا شيء للدفع قبل الإطلاق ←", prYour: function (p) { return "سعركم بعد التجربة: " + p; },
           typed: ["انقل مرضى الخميس للدكتور ب إلى الأسبوع القادم", "حضّر كل مساء قائمة الغائبين", "احجب الدكتور أ من 12 إلى 14 كل ثلاثاء"],
           errReq: "هذا الحقل إلزامي.", errSpecOther: "حدّدوا تخصّصكم.", errTitle: "اكتبوا 5 أحرف على الأقل.", errDetails: "صفوا حاجتكم في 20 حرفًا على الأقل.", errCat: "اختاروا ما يتعلّق به الأمر.", errFreq: "اختاروا التكرار.", errConsent: "موافقتكم ضرورية للإرسال.", errContact: "أدخلوا بريدًا أو رقمًا صحيحًا.", errSend: "فشل الإرسال. أعيدوا المحاولة بعد قليل.", sending: "جارٍ الإرسال…",
           vote: "صوّت", voted: "تمّ التصويت", st: { considering: "قيد الدراسة", planned: "مُبرمَج", in_progress: "قيد الإنجاز", shipped: "متاح" } },
     en: { rot: ["organised.", "calm.", "on time."], copied: "Address copied", phone: function (a) { return "Ticket 07, " + a + " patients ahead"; },
           errEmail: "This email address doesn't look right.",
-          stNow: "In consultation", stArr: "Arrived", stRoute: "On the way", prThen: function (p) { return "then " + p + " / month"; },
-          errPhone: "Enter a valid Algerian number, e.g. 0551 23 45 67.", errName: "Write at least 2 characters.", prDup: "This number is already pre-registered: your 10% off is saved.", prQuote: "On quote, 10% off", prPer: function (n) { return "/ month · " + (n > 10 ? "more than 10 doctors" : n + (n === 1 ? " doctor" : " doctors")); }, calcPre: function (p) { return "Pre-registered: " + p + " / month for your first 3 months →"; }, prYour: function (p) { return "Your first 3 months: " + p; },
+          stNow: "In consultation", stArr: "Arrived", stRoute: "On the way", prThen: function (p) { return "or " + p + " / year, 2 months free"; },
+          errPhone: "Enter a valid Algerian number, e.g. 0551 23 45 67.", errName: "Write at least 2 characters.", prDup: "This number is already pre-registered: your place is saved.", prQuote: "On quote", prPer: function (n) { return "/ month · " + (n > 10 ? "more than 10 doctors" : n + (n === 1 ? " doctor" : " doctors")); }, calcPre: "Pre-register: nothing to pay before launch →", prYour: function (p) { return "Your price after the trial: " + p; },
           typed: ["Move Dr. B's Thursday patients to next week", "Prepare the no-show list every evening", "Block Dr. A from 12:00 to 14:00 every Tuesday"],
           errReq: "This field is required.", errSpecOther: "Tell us your specialty.", errTitle: "Write at least 5 characters.", errDetails: "Describe your need in at least 20 characters.", errCat: "Choose what it's about.", errFreq: "Choose how often.", errConsent: "Your agreement is needed to send.", errContact: "Enter a valid email or phone number.", errSend: "Sending failed. Please try again in a moment.", sending: "Sending…",
           vote: "Vote", voted: "Voted", st: { considering: "Considering", planned: "Planned", in_progress: "In progress", shipped: "Available" } }
@@ -1711,6 +1997,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   var root = document.documentElement;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.getElementById("p-specialty").innerHTML = document.getElementById("f-specialty").innerHTML;
+  document.getElementById("p-structure").innerHTML = document.getElementById("f-structure").innerHTML;
   var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   var labelNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n-label]"));
   var fr = {};
@@ -1876,14 +2163,14 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     ar: { cur: function (v) { return new Intl.NumberFormat("en-US").format(v) + " دج"; }, m: "/ شهريًا", y: "/ سنويًا", perDocM: "/ طبيب / شهريًا", perDocY: "/ طبيب / سنويًا", from: "ابتداءً من ", one: "لطبيب واحد، مع حسابات استقبال غير محدودة.", per: function (d, n) { return "أي " + d + " لكل طبيب شهريًا، لـ" + n + " أطباء."; }, save: function (s) { return " توفّرون " + s + " في السنة."; }, quote: "حسب العرض", quoteNote: "أكثر من 10 أطباء، فروع متعدّدة أو مركز أشعة: تواصلوا معنا.", docs: function (n) { return n > 10 ? "أكثر من 10 أطباء" : n === 1 ? "طبيب واحد" : n + " أطباء"; } },
     en: { cur: function (v) { return new Intl.NumberFormat("en-US").format(v) + " DZD"; }, m: "/ month", y: "/ year", perDocM: "/ doctor / month", perDocY: "/ doctor / year", from: "from ", one: "For one doctor, with unlimited reception accounts.", per: function (d, n) { return "That's " + d + " per doctor per month, for " + n + " doctors."; }, save: function (s) { return " You save " + s + " a year."; }, quote: "On quote", quoteNote: "More than 10 doctors, multiple sites or an imaging centre: get in touch.", docs: function (n) { return n > 10 ? "10+ doctors" : n + (n === 1 ? " doctor" : " doctors"); } }
   };
-  function monthly(n) { return n === 1 ? 2900 : n <= 5 ? 2200 * n : 11000 + 1000 * (n - 5); }
+  function monthly(n) { return n === 1 ? 6900 : n <= 5 ? 5900 * n : 29500 + 4900 * (n - 5); }
   var docs = 1, cycle = "m";
   var range = document.getElementById("doc-range"), countEl = document.getElementById("doc-count"), priceEl = document.getElementById("calc-price"), noteEl = document.getElementById("calc-note");
   function planPrices() {
     var c = C[current], y = cycle === "y";
-    document.getElementById("pp1").textContent = c.cur(y ? 29000 : 2900); document.getElementById("pp1u").textContent = y ? c.y : c.m;
-    document.getElementById("pp2").textContent = c.cur(y ? 22000 : 2200); document.getElementById("pp2u").textContent = y ? c.perDocY : c.perDocM;
-    document.getElementById("pp3").textContent = c.from + c.cur(y ? 120000 : 12000); document.getElementById("pp3u").textContent = y ? c.y : c.m;
+    document.getElementById("pp1").textContent = c.cur(y ? 10 * monthly(1) : monthly(1)); document.getElementById("pp1u").textContent = y ? c.y : c.m;
+    document.getElementById("pp2").textContent = c.cur(y ? 10 * monthly(2) / 2 : monthly(2) / 2); document.getElementById("pp2u").textContent = y ? c.perDocY : c.perDocM;
+    document.getElementById("pp3").textContent = c.from + c.cur(y ? 10 * monthly(6) : monthly(6)); document.getElementById("pp3u").textContent = y ? c.y : c.m;
   }
   function renderCalc() {
     var c = C[current], n = Math.min(docs, 11);
@@ -1897,7 +2184,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       if (cycle === "y") note += c.save(c.cur(m * 2));
       noteEl.textContent = note;
     }
-    document.getElementById("calc-pre").textContent = docs > 10 ? x().prQuote : x().calcPre(c.cur(Math.round(monthly(docs) * 0.9)));
+    document.getElementById("calc-pre").textContent = x().calcPre;
     var pd = document.getElementById("p-docs"); if (pd) { pd.value = String(n); renderPrereg(); }
     document.getElementById("cyc-m").setAttribute("aria-pressed", String(cycle === "m"));
     document.getElementById("cyc-y").setAttribute("aria-pressed", String(cycle === "y"));
@@ -2048,6 +2335,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
       specialty_other: spec.value === "other" ? document.getElementById("f-specialty-other").value.trim() : null,
       role: document.getElementById("f-role").value,
       practice_size: document.getElementById("f-size").value,
+      structure: document.getElementById("f-structure").value || null,
       wilaya: document.getElementById("f-wilaya").value.trim() || null,
       category: radioVal("category"),
       title: document.getElementById("f-title").value.trim(),
@@ -2079,18 +2367,17 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
 
 
 
-  /* Pre-registration (10% off the first 3 paid months) */
+  /* Pre-registration: save a place before launch, nothing to pay */
   var pForm = document.getElementById("prereg-form"), pBody = document.getElementById("pr-body"), pDone = document.getElementById("pr-done");
   var pDocs = document.getElementById("p-docs"), pSpec = document.getElementById("p-specialty"), pPhone = document.getElementById("p-phone"), pName = document.getElementById("p-name"), pConsent = document.getElementById("p-consent");
   if (!live) document.getElementById("pr-preview").hidden = false;
-  function prPrice() { var n = Number(document.getElementById("p-docs").value) || 1; return n > 10 ? null : Math.round(monthly(n) * 0.9); }
+  function prPrice() { var n = Number(document.getElementById("p-docs").value) || 1; return n > 10 ? null : monthly(n); }
   function renderPrereg() {
     var pDocs = document.getElementById("p-docs");
     var n = Number(pDocs.value) || 1, c = C[current], v = prPrice();
     document.getElementById("pr-price").textContent = v == null ? c.quote : c.cur(v);
-    var was = document.getElementById("pr-was"); was.hidden = v == null; was.textContent = v == null ? "" : c.cur(monthly(n));
     document.getElementById("pr-per").textContent = x().prPer(n);
-    document.getElementById("pr-then").textContent = v == null ? "" : x().prThen(c.cur(monthly(n)));
+    document.getElementById("pr-then").textContent = v == null ? "" : x().prThen(c.cur(10 * v));
   }
   pDocs.addEventListener("change", function () { docs = Number(pDocs.value) || 1; renderCalc(); });
   function normPhone(v) { return v.replace(/[\s.\-()]/g, "").replace(/^00213/, "+213").replace(/^\+213/, "0"); }
@@ -2114,8 +2401,8 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     var bad = pValidate(); if (bad) { bad.focus(); return; }
     if (document.getElementById("p-website").value) return;
     var v = prPrice();
-    var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), email: document.getElementById("p-email").value.trim() || null, specialty: pSpec.value, doctors: Number(pDocs.value) || 1,
-      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, offer: "prereg-10pct-3m", lang: current, src: visitSource };
+    var payload = { full_name: pName.value.trim(), phone: normPhone(pPhone.value), email: document.getElementById("p-email").value.trim() || null, specialty: pSpec.value, doctors: Number(pDocs.value) || 1, structure: document.getElementById("p-structure").value || null,
+      wilaya: document.getElementById("p-wilaya").value.trim() || null, consent: true, lang: current, src: visitSource };
     var btn = document.getElementById("p-submit"), label = document.getElementById("p-submit-label");
     function done(dup) {
       pBody.hidden = true; pDone.hidden = false;
@@ -2155,6 +2442,138 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
   });
 
 
+  /* Specialties explorer: a typical morning per specialty, what works at launch, what is planned */
+  var LI = { fr: 0, ar: 1, en: 2 };
+  var SPX = [
+    { id: "gp", k: "general_practitioner", n: ["Médecine générale", "الطب العام", "General practice"],
+      v: [["Consultation", "فحص", "Consultation", 15], ["Contrôle", "مراقبة", "Check-up", 10], ["Certificat médical", "شهادة طبية", "Medical certificate", 10]],
+      now: [["Rendez-vous et patients sans rendez-vous dans la même file, chacun avec son ticket", "المواعيد والمرضى دون موعد في نفس الطابور، ولكلٍّ تذكرته", "Appointments and walk-ins in the same queue, each with a ticket"],
+             ["Le prochain contrôle fixé avant que le patient ne parte", "موعد المراقبة القادمة يُحدَّد قبل أن يغادر المريض", "The next check-up booked before the patient leaves"]],
+      plan: ["later", "Ordonnances et certificats, après autorisation de l'ANPDP", "الوصفات والشهادات، بعد ترخيص ANPDP", "Prescriptions and certificates, after ANPDP authorisation"] },
+    { id: "ped", k: "pediatrician", n: ["Pédiatrie", "طب الأطفال", "Pediatrics"],
+      v: [["Consultation", "فحص", "Consultation", 20], ["Vaccination", "تلقيح", "Vaccination", 10], ["Contrôle", "مراقبة", "Check-up", 15]],
+      now: [["Les parents réservent pour chaque enfant depuis un seul numéro", "يحجز الأولياء لكل طفل من رقم هاتف واحد", "Parents book for each child from one phone number"],
+             ["Ils suivent leur tour sur le téléphone et arrivent au bon moment", "يتابعون دورهم على الهاتف ويصلون في الوقت المناسب", "They follow their turn on the phone and arrive at the right time"]],
+      plan: ["soon", "Rappels de vaccination selon le calendrier national, pour les parents qui le souhaitent", "تذكيرات التلقيح حسب الرزنامة الوطنية، للأولياء الذين يرغبون في ذلك", "Vaccination reminders following the national calendar, for parents who opt in"] },
+    { id: "gyn", k: "gynecologist", n: ["Gynécologie-obstétrique", "أمراض النساء والتوليد", "Gynecology and obstetrics"],
+      v: [["Consultation", "فحص", "Consultation", 20], ["Échographie", "تصوير بالصدى", "Ultrasound", 30], ["Suivi de grossesse", "متابعة الحمل", "Pregnancy follow-up", 20]],
+      now: [["Chaque visite à sa durée : une échographie ne retarde pas la consultation suivante", "لكل زيارة مدّتها: التصوير بالصدى لا يؤخّر الفحص التالي", "Each visit at its own length: an ultrasound doesn't hold up the next consultation"],
+             ["Le suivi fixé en fin de visite, avec un rappel la veille", "موعد المتابعة يُحدَّد في نهاية الزيارة، مع تذكير في اليوم السابق", "The follow-up booked at the end of the visit, with a reminder the day before"]],
+      plan: ["later", "Notes de consultation chiffrées avec vos propres clés", "ملاحظات الفحص مشفّرة بمفاتيحكم الخاصة", "Consultation notes encrypted with your own keys"] },
+    { id: "dent", k: "dentist", n: ["Médecine dentaire", "طب الأسنان", "Dentistry"],
+      v: [["Consultation", "فحص", "Consultation", 20], ["Détartrage", "إزالة الجير", "Scaling", 30], ["Soin", "علاج", "Treatment", 45]],
+      now: [["Les séances suivantes fixées en fin de soin", "الجلسات التالية تُحدَّد في نهاية العلاج", "Next sessions booked at the end of treatment"],
+             ["Caisse : tarifs, encaissements et reçus", "الصندوق: الأسعار والمداخيل والوصولات", "Cash desk: prices, payments and receipts"]],
+      plan: ["soon", "Pack dentaire : schéma dentaire, devis, plans de traitement et paiements échelonnés", "حزمة الأسنان: مخطّط الأسنان، والتقديرات، وخطط العلاج، والدفع بالتقسيط", "Dental pack: tooth chart, estimates, treatment plans and instalments"] },
+    { id: "cardio", k: "cardiologist", n: ["Cardiologie", "أمراض القلب", "Cardiology"],
+      v: [["Consultation", "فحص", "Consultation", 20], ["ECG", "تخطيط القلب", "ECG", 15], ["Échocardiographie", "تصوير القلب بالصدى", "Echocardiogram", 30]],
+      now: [["Plusieurs salles et un seul écran d'appel", "عدّة قاعات وشاشة نداء واحدة", "Several rooms, one call screen"],
+             ["« Le docteur a du retard » : les bons patients prévenus en un geste", "«الطبيب متأخّر»: يُعلَم المرضى المعنيّون بلمسة واحدة", "\"The doctor is running late\": the right patients told in one tap"]],
+      plan: ["later", "Courriers et certificats, après autorisation de l'ANPDP", "الرسائل والشهادات، بعد ترخيص ANPDP", "Letters and certificates, after ANPDP authorisation"] },
+    { id: "derm", k: "dermatologist", n: ["Dermatologie et esthétique", "الأمراض الجلدية والتجميل", "Dermatology and aesthetics"],
+      v: [["Consultation", "فحص", "Consultation", 20], ["Séance laser", "جلسة ليزر", "Laser session", 30], ["Contrôle", "مراقبة", "Check-up", 15]],
+      now: [["Rappels la veille, 1 h et 15 min avant chaque séance", "تذكيرات في اليوم السابق، ثم قبل ساعة وقبل 15 دقيقة من كل جلسة", "Reminders the day before, then 1 h and 15 min before each session"],
+             ["Réservation en ligne par lien, QR code ou WhatsApp", "حجز عبر رابط أو رمز QR أو واتساب", "Online booking by link, QR code or WhatsApp"]],
+      plan: ["soon", "Liste d'attente : les séances annulées reproposées automatiquement", "قائمة انتظار: الجلسات الملغاة تُقترح تلقائيًا على مرضى آخرين", "Waitlist: cancelled sessions offered again automatically"] },
+    { id: "oph", k: "ophthalmologist", n: ["Ophtalmologie", "طب العيون", "Ophthalmology"],
+      v: [["Consultation", "فحص", "Consultation", 20], ["Fond d'œil", "فحص قاع العين", "Fundus exam", 15], ["Contrôle", "مراقبة", "Check-up", 10]],
+      now: [["Patient sans rendez-vous ajouté en 3 gestes", "إضافة مريض دون موعد في 3 خطوات", "A walk-in added in 3 taps"],
+             ["Écran d'appel avec annonce vocale en arabe, en français et en anglais", "شاشة نداء مع إعلان صوتي بالعربية والفرنسية والإنجليزية", "Call screen with voice announcements in Arabic, French and English"]],
+      plan: ["soon", "Statistiques : attente réelle et absences, par médecin", "إحصائيات: الانتظار الفعلي والغيابات، لكل طبيب", "Statistics: real wait times and no-shows, per doctor"] },
+    { id: "ent", k: "ent", n: ["ORL", "أنف وأذن وحنجرة", "ENT"],
+      v: [["Consultation", "فحص", "Consultation", 15], ["Audiogramme", "تخطيط السمع", "Hearing test", 20], ["Contrôle", "مراقبة", "Check-up", 10]],
+      now: [["Rendez-vous et sans rendez-vous dans la même file", "المواعيد والمرضى دون موعد في نفس الطابور", "Appointments and walk-ins in one queue"],
+             ["La position en direct sur le téléphone du patient, sans application", "موقع المريض في الطابور مباشرة على هاتفه، دون تطبيق", "Live position on the patient's phone, no app needed"]],
+      plan: ["soon", "Bouton d'appel pour le médecin, sans toucher d'écran", "زرّ نداء للطبيب، دون لمس الشاشة", "A call button for the doctor, no screen to touch"] },
+    { id: "psy", k: "psychiatrist", n: ["Psychiatrie et psychologie", "الطب النفسي وعلم النفس", "Psychiatry and psychology"],
+      v: [["Première séance", "الجلسة الأولى", "First session", 60], ["Séance", "جلسة", "Session", 45], ["Suivi", "متابعة", "Follow-up", 30]],
+      now: [["Jamais le motif de la visite dans un rappel", "لا يُذكر سبب الزيارة أبدًا في التذكير", "Reminders never mention the reason for the visit"],
+             ["Les séances suivantes fixées en fin de séance", "الجلسات التالية تُحدَّد في نهاية الجلسة", "Next sessions booked at the end of each session"]],
+      plan: ["later", "Notes de séance chiffrées avec vos propres clés", "ملاحظات الجلسات مشفّرة بمفاتيحكم الخاصة", "Session notes encrypted with your own keys"] },
+    { id: "rehab", k: "physiotherapist", n: ["Kinésithérapie et orthophonie", "العلاج الفيزيائي والأرطوفونيا", "Physiotherapy and speech therapy"],
+      v: [["Bilan", "تقييم", "Assessment", 45], ["Séance de kiné", "جلسة علاج فيزيائي", "Physio session", 30], ["Séance d'orthophonie", "جلسة أرطوفونيا", "Speech session", 30]],
+      now: [["La séance suivante fixée avant que le patient ne parte", "الجلسة التالية تُحدَّد قبل أن يغادر المريض", "The next session booked before the patient leaves"],
+             ["Rappels automatiques avant chaque séance", "تذكيرات تلقائية قبل كل جلسة", "Automatic reminders before each session"]],
+      plan: ["soon", "Rappels de suivi pour les séances à reprendre", "تذكيرات متابعة للجلسات التي يجب استئنافها", "Follow-up reminders for sessions to resume"] },
+    { id: "img", k: "radiology_imaging", n: ["Imagerie médicale", "التصوير الطبي", "Medical imaging"],
+      v: [["Radiographie", "أشعة سينية", "X-ray", 10], ["Échographie", "تصوير بالصدى", "Ultrasound", 20], ["Scanner", "سكانير", "CT scan", 30]],
+      now: [["Une file d'examens avec un ticket pour chaque patient", "طابور للفحوص مع تذكرة لكل مريض", "An exam queue with a ticket for each patient"],
+             ["Une durée par examen, réglée par vous", "مدّة لكل فحص، تضبطونها بأنفسكم", "A length for each exam, set by you"]],
+      plan: ["later", "Un pack pour les centres d'imagerie et les laboratoires", "حزمة لمراكز الأشعة والمخابر", "A pack for imaging centres and laboratories"] },
+    { id: "lab", k: "laboratory", n: ["Laboratoire d'analyses", "مخبر التحاليل", "Medical laboratory"],
+      v: [["Prise de sang", "سحب الدم", "Blood draw", 5], ["Prélèvement", "أخذ عيّنة", "Sample collection", 10], ["Retrait des résultats", "استلام النتائج", "Results pickup", 5]],
+      now: [["Des tickets dès l'ouverture : plus de foule à 7 h", "تذاكر منذ الافتتاح: لا زحمة في السابعة صباحًا", "Tickets from opening time: no crowd at 7 a.m."],
+             ["Les patients suivent leur tour sur leur téléphone", "يتابع المرضى دورهم على هواتفهم", "Patients follow their turn on their phone"]],
+      plan: ["later", "Un pack pour les centres d'imagerie et les laboratoires", "حزمة لمراكز الأشعة والمخابر", "A pack for imaging centres and laboratories"] }
+  ];
+  var SPX_PAT = [0, 1, 2, 0, 1, 0, 2, 1], SPX_LBL = { fr: "Spécialités", ar: "التخصّصات", en: "Specialties" };
+  var spxSel = 0, spxTabs = document.getElementById("spx-tabs"), spxPanel = document.getElementById("spx-panel");
+  SPX.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "spx-tab"; b.id = "spx-tab-" + s.id;
+    b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "spx-panel");
+    b.addEventListener("click", function () { spxPick(i); });
+    spxTabs.appendChild(b);
+  });
+  var spxBtns = Array.prototype.slice.call(spxTabs.children);
+  var spxMq = window.matchMedia("(max-width: 900px)");
+  function spxOrient() { spxTabs.setAttribute("aria-orientation", spxMq.matches ? "horizontal" : "vertical"); }
+  spxOrient(); if (spxMq.addEventListener) spxMq.addEventListener("change", spxOrient);
+  spxTabs.addEventListener("keydown", function (e) {
+    var n = SPX.length, i = spxSel, rtl = root.dir === "rtl";
+    if (e.key === "ArrowDown" || e.key === (rtl ? "ArrowLeft" : "ArrowRight")) i = (i + 1) % n;
+    else if (e.key === "ArrowUp" || e.key === (rtl ? "ArrowRight" : "ArrowLeft")) i = (i - 1 + n) % n;
+    else if (e.key === "Home") i = 0; else if (e.key === "End") i = n - 1; else return;
+    e.preventDefault(); spxPick(i); spxBtns[i].focus();
+  });
+  function spxCenter(smooth) {
+    /* Phones: keep the chosen chip in the middle of the scrolling row (physical delta, so RTL works too) */
+    if (spxTabs.scrollWidth <= spxTabs.clientWidth) return;
+    var r = spxTabs.getBoundingClientRect(), b = spxBtns[spxSel].getBoundingClientRect();
+    spxTabs.scrollBy({ left: (b.left + b.width / 2) - (r.left + r.width / 2), behavior: smooth && !reduce ? "smooth" : "auto" });
+  }
+  function spxPick(i) { spxSel = i; spxRender(true); spxCenter(true); }
+  function spxRender(anim) {
+    var l = LI[current], s = SPX[spxSel], go = !!anim && !reduce;
+    spxTabs.setAttribute("aria-label", SPX_LBL[current]);
+    spxBtns.forEach(function (b, j) { b.textContent = SPX[j].n[l]; b.setAttribute("aria-selected", String(j === spxSel)); b.tabIndex = j === spxSel ? 0 : -1; });
+    spxPanel.setAttribute("aria-labelledby", spxBtns[spxSel].id);
+    document.getElementById("spx-name").textContent = s.n[l];
+    var track = document.getElementById("spx-track"), used = 0, k = 0;
+    track.innerHTML = ""; track.classList.toggle("go", go);
+    while (used < 240) {
+      var vi = SPX_PAT[k % SPX_PAT.length], m = Math.min(s.v[vi][3], 240 - used), blk = document.createElement("i");
+      blk.className = "v" + vi; blk.style.flexGrow = m; if (go) blk.style.animationDelay = Math.min(k * 24, 700) + "ms";
+      track.appendChild(blk); used += m; k++;
+    }
+    var ul = document.getElementById("spx-visits"); ul.innerHTML = "";
+    s.v.forEach(function (v, j) {
+      var li = document.createElement("li"); li.className = "v" + j;
+      li.innerHTML = '<span class="sw" aria-hidden="true"></span><span></span><span class="mono"></span>';
+      li.children[1].textContent = v[l]; li.children[2].textContent = v[3] + (current === "ar" ? " د" : " min");
+      ul.appendChild(li);
+    });
+    var now = document.getElementById("spx-now"); now.innerHTML = "";
+    s.now.forEach(function (p) { var li = document.createElement("li"); li.textContent = p[l]; now.appendChild(li); });
+    var plan = document.getElementById("spx-plan"), pli = document.createElement("li"), ph = document.createElement("span");
+    plan.innerHTML = ""; ph.className = "ph"; ph.textContent = s.plan[0] === "soon" ? T[current].faSoon : T[current].faLater;
+    pli.appendChild(ph); pli.appendChild(document.createTextNode(s.plan[1 + l])); plan.appendChild(pli);
+    if (go) { spxPanel.classList.remove("swap"); void spxPanel.offsetWidth; spxPanel.classList.add("swap"); }
+  }
+  document.getElementById("spx-cta").addEventListener("click", function () {
+    pSpec.value = SPX[spxSel].k;
+    if (pForm.dataset.tried) pValidate();
+  });
+
+  /* What's inside: phase counts come from the list itself, so they never drift */
+  var CNT = { fr: function (n) { return n + " fonctions"; }, ar: function (n) { return n + (n >= 3 && n <= 10 ? " ميزات" : " ميزة"); }, en: function (n) { return n + " features"; } };
+  function fmxCounts() {
+    ["now", "soon", "later"].forEach(function (p) {
+      var n = document.querySelectorAll('#fmx .fmx-cell[data-phase="' + p + '"] li').length;
+      document.querySelector('#fmx [data-count="' + p + '"]').textContent = CNT[current](n);
+    });
+  }
+
   /* Language */
   var ARROW_LBL = { fr: ["Précédent", "Suivant"], ar: ["السابق", "التالي"], en: ["Previous", "Next"] };
   function setLang(l) {
@@ -2168,7 +2587,7 @@ var MEDICA_BACKEND = { url: "", anonKey: "" };
     document.getElementById("st-prev").setAttribute("aria-label", ARROW_LBL[l][0]);
     document.getElementById("st-next").setAttribute("aria-label", ARROW_LBL[l][1]);
     setStore("medica-lang", l);
-    aqRender(); tkRender(); demoRender(); renderCalc(); renderPrereg(); renderRoadmap(); typeLoop();
+    aqRender(); tkRender(); demoRender(); renderCalc(); renderPrereg(); renderRoadmap(); typeLoop(); spxRender(false); spxCenter(false); fmxCounts();
     if (pForm.dataset.tried) pValidate();
     applyTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
     if (form.dataset.tried) validate(false);
